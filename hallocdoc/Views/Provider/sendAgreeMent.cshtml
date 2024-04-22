@@ -33,10 +33,12 @@
                     <div class="form-floating text-light mb-3 w-100">
                         <input type="tel" id="phoneForAgree" class="form-control" asp-for="phonenumber" />
                         <label for="floatingInput" class="ms-2 text-muted">Phone Number</label>
+                        <div> <span asp-validation-for="phonenumber" class="text-danger"></span></div>
                     </div>
                     <div class="form-floating text-light mb-3 w-100">
                         <input type="text" id="emailForAgree" class="form-control" asp-for="email" />
                         <label for="floatingInput" class="ms-2 text-muted">Email</label>
+                        <div> <span asp-validation-for="email" class="text-danger"></span></div>
                     </div>
 
                     <div class="text-end mb-3 me-3 mt-3">
@@ -51,3 +53,5 @@
         </div>
     </div>
 </div>
+<script src="~/lib/jquery-validation/dist/jquery.validate.min.js"></script>
+<script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"></script>

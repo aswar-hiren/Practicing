@@ -3,7 +3,7 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 <div id="viewdoc" class="m-0 p-0">
-    <Partial name="_navbar" />
+    <Partial name="_ProviderHeader" />
     <Partial name="_Notification" />
     <div class="create-patient-main mx-auto w-75">
         <div class="row mt-5 mb-3">
@@ -36,7 +36,7 @@
 
 
 
-            <form asp-action="DownLoadAll" asp-route-requestid="@Model.reqid" asp-route-reqclientid="@Model.reqclientid">
+            <form asp-action="DownLoadAllProvider" asp-controller="Provider" asp-route-requestid="@Model.reqid" asp-route-reqclientid="@Model.reqclientid">
                 <div class="d-flex justify-content-between ps-3 mb-4">
                     <h4 class="">Documents</h4>
                     <div class="d-flex ">

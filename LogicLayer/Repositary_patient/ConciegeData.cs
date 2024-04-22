@@ -105,6 +105,10 @@ namespace LogicLayer.Repositary_patient
                 City = model.City,
                 Street = model.Street,
                 Request = request,
+                Phonenumber = model.PhoneNumber,
+                BirthDate = model.date,
+
+                Notes = model.details
             };
             _context.Requestclients.Add(requestclient);
             _context.SaveChanges();

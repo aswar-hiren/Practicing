@@ -189,7 +189,7 @@ namespace hallocdoc.Controllers
             var filepath = Path.Combine(_hostingEnvironment.WebRootPath, "uploads", filename.Filename);
             return File(System.IO.File.ReadAllBytes(filepath), "multipart/form-data", System.IO.Path.GetFileName(filepath));
         }
-        public FileResult DownLoadAll(viewdocumentmodel model, int requestid, int reqclientid)
+        public IActionResult DownLoadAllProvider(viewdocumentmodel model, int requestid, int reqclientid)
         {
 
             HttpContext.Session.SetInt32("reqid", requestid);
@@ -203,6 +203,11 @@ namespace hallocdoc.Controllers
                 {
                     //QUery the Products table and get all image content  
                     List<Requestwisefile> reqfiles = new List<Requestwisefile>();
+                    if (model.allfile == null)
+                    {
+                        TempData["error"] = "Select Any One File";
+                        return RedirectToAction("ViewUploads");
+                    }
                     foreach (var item in model.allfile)
                     {
                         Requestwisefile file = _adminrequest.GetFile(item);

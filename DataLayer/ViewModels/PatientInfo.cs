@@ -24,7 +24,11 @@ public partial class PatientInfo
     [Required]
     public string? City { get; set; }
     [Required]
+    public int  room { get; set; }
+    [Required]
     public string? State { get; set; }
+    [Required]
+    public string? notes { get; set; }
     [Required]
     public string? Zipcode { get; set; }
    

@@ -15,9 +15,9 @@ namespace DataLayer.ViewModels
         public string TransNotes { get; set; }
 
         public string Patientname { get; set; }
-
+        [Required]
         public string email { get; set; }
-
+        [Required]
         public string phonenumber { get; set; } 
         public int status { get; set; }
     }

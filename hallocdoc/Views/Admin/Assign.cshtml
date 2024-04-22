@@ -1,5 +1,4 @@
-﻿
-@model DataLayer.ViewModels.AssignModel;
+﻿@model DataLayer.ViewModels.AssignModel;
 <div class="modal fade" id="AssignPopUp" tabindex="-1" aria-labelledby="AssignCase" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content" style="font-weight:600">
@@ -17,16 +16,16 @@
                 <div class="mb-4 border w-100">
 
 
-<<<<<<< HEAD
-                    <select id="RegionTable" name="cars" class="w-100 border-none p-2" onchange="GetPhyByRegion()" required>
-=======
+
+
+
                     <select id="RegionTable" name="cars" class="w-100 border-none p-2" onchange="GetPhyByRegion()">
->>>>>>> a7d636f3ea8b91980d7206e593c9e656cfc1182e
+
                         <option disabled selected>Select Region</option>
                         @{
                             foreach (var listobj in Model.Regions)
                             {
-                                                    <option value=@listobj.Regionid>@listobj.Name</option>
+                                <option value=@listobj.Regionid>@listobj.Name</option>
 
                             }
                         }
@@ -35,20 +34,20 @@
                 <div class="mb-4 border w-100">
 
 
-<<<<<<< HEAD
-                    <select name="cars" id="Physiciantable" class="w-100 border-none p-2" required >
-=======
-                    <select name="cars" id="Physiciantable" class="w-100 border-none p-2" >
->>>>>>> a7d636f3ea8b91980d7206e593c9e656cfc1182e
+
+
+
+                    <select name="cars" id="Physiciantable" class="w-100 border-none p-2">
+
                         <option disabled selected>Select Physician</option>
                     </select>
                 </div>
 
-<<<<<<< HEAD
-                <textarea  id="TransNotes" rows="5" class="col-12 form-control p-1" placeholder="Description" style="font-size:medium" required></textarea>
-=======
-                <textarea  id="TransNotes" rows="5" class="col-12 form-control p-1" placeholder="Description" style="font-size:medium"></textarea>
->>>>>>> a7d636f3ea8b91980d7206e593c9e656cfc1182e
+
+               
+
+                <textarea id="TransNotes" rows="5" class="col-12 form-control p-1" placeholder="Description" style="font-size:medium"></textarea>
+
 
             </div>
             <div class="modal-footer">
@@ -73,8 +72,8 @@
                 console.log("Function Success");
                 console.log(data);
                 $('#Physiciantable').html(data);
-               
-    
+
+
 
             },
             error: function (err) {
@@ -94,12 +93,12 @@
             success: function (response) {
                 console.log(response);
                 if (response) {
-                    toastr.success("Assign Succesfully");
+  
                     $(".mainDivboard").html(response);
 
                 }
-                else{
-                    toastr.error("Not Assign Check Some Error");
+                else {
+        
                 }
             },
             error: function (err) {

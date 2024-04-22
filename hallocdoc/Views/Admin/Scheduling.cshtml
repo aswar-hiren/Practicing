@@ -138,15 +138,13 @@
                         </select>
                     </div>
                     <div>
-<<<<<<< HEAD
+
                         
                             <a class="btn p-2 bg-info border-info me-2 rounded text-white" asp-action="MdOnCall">Provider On Call</a>
                       
-=======
-                        <button class="p-2 bg-info border-info me-2 rounded text-white" >
-                            Provider On Call
-                        </button>
->>>>>>> a7d636f3ea8b91980d7206e593c9e656cfc1182e
+
+                   
+
                         <button class="p-2 bg-info border-info me-2 rounded text-white">
                             <a asp-action="SchedulingReq"> Shift For Review</a>
                            
@@ -217,9 +215,9 @@
         });
     });
     var date = new Date();
-<<<<<<< HEAD
+
    
-=======
+
     // var diff = 7 - date.getDay();
     // if (diff === 0) {
     //     diff = 7;
@@ -227,7 +225,7 @@
     // var sunday = new Date(date.getTime() + (diff * 24 * 60 * 60 * 1000));
     // var saturday = new Date();
     // saturday.setDate(sunday.getDate() + 6);
->>>>>>> a7d636f3ea8b91980d7206e593c9e656cfc1182e
+
     var daysUntilSunday = (7 + date.getDay()) % 7;
     var sunday = new Date(date);
     sunday.setDate(date.getDate() - daysUntilSunday);
@@ -236,16 +234,16 @@
 
     var schedulingtype;
 
-<<<<<<< HEAD
+
  
-=======
+
     // function showcalender() {
     //     console.log("show");
     //     debugger;
     //     document.getElementById("month-input").datepicker('show');
     //     console.log(ele);
     // }
->>>>>>> a7d636f3ea8b91980d7206e593c9e656cfc1182e
+
     var regionId = 0;
     ShiftCalender('month');
     function schedulPhy() { 

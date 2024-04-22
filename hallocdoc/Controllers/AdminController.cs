@@ -15,6 +15,7 @@ using ClosedXML.Excel;
 
 using Newtonsoft.Json;
 using HalloDoc.Auth;
+using LogicLayer.Repositary_patient;
 
 namespace hallocdoc.Controllers
 {
@@ -26,14 +27,15 @@ namespace hallocdoc.Controllers
         private readonly HellodocPrjContext _context;
         private readonly IAdminRequest _adminrequest;
         private readonly IEmailsender _emailsender;
-
-        public AdminController(ILogger<HomeController> logger, IEmailsender emailsender, HellodocPrjContext context, IAdminRequest adminRequest, Microsoft.AspNetCore.Hosting.IHostingEnvironment hostingEnvironment)
+        private readonly IPatientRequest _PatientRequest;
+        public AdminController(ILogger<HomeController> logger, IPatientRequest patientRequest, IEmailsender emailsender, HellodocPrjContext context, IAdminRequest adminRequest, Microsoft.AspNetCore.Hosting.IHostingEnvironment hostingEnvironment)
         {
             this.hostingEnvironment = hostingEnvironment;
             _logger = logger;
             _context = context;
             _adminrequest = adminRequest;
             _emailsender = emailsender;
+            _PatientRequest = patientRequest;
         }
         public IActionResult AccessPage()
         {
@@ -154,7 +156,11 @@ namespace hallocdoc.Controllers
         {
             RequestListAdminDash requestListAdminDash=new RequestListAdminDash();
             try
-            {
+            { if(reqid ==null || phyid ==0 || textnote == null)
+                {
+                    throw new Exception("Fill All The Details");
+                }
+
             _adminrequest.AssignCaseReq(reqid, phyid, textnote);          
                 requestListAdminDash = _adminrequest.getallrequest(0);
                 TempData["success"] = "Assign Succesfully";
@@ -1326,6 +1332,24 @@ namespace hallocdoc.Controllers
         {
             var data = _adminrequest.getSmsLogDetails(page, pageSize, FirstName, roleid, Phonenumber, createdate, sendate);
             return PartialView("_smsLogTable", data);
+        }
+        public IActionResult PatientInfoPage(PatientInfo model)
+        {
+            try
+            {   
+
+                var userid = _PatientRequest.InsertPatientRequestData(model);
+                HttpContext.Session.SetInt32("userid", userid);
+                TempData["success"] = "Request Insert Successfully";
+                return RedirectToAction("MainPage", "Admin");
+            }
+            catch (Exception)
+            {
+                TempData["error"] = "Error while Request ";
+                return RedirectToAction("adminCreateRequest", "Admin");
+            }
+
+
         }
     }
     

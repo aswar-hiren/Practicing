@@ -115,6 +115,13 @@ namespace LogicLayer.Repositary_patient
                 State = model.State,
                 City = model.City,
                 Street = model.Street,
+                Phonenumber = model.b_PhoneNumber,
+                BirthDate = model.date,
+                Requestid = request.Requestid,
+                Request = request,
+
+
+                Notes = model.details
 
             };
 

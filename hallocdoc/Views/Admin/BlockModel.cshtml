@@ -1,9 +1,9 @@
-<<<<<<< HEAD
-﻿@model DataLayer.ViewModels.BlockView;
-=======
+
+
+
 ﻿
 @model DataLayer.ViewModels.BlockView;
->>>>>>> a7d636f3ea8b91980d7206e593c9e656cfc1182e
+
 
 
 <div class="modal fade" id="BlockPopUp" tabindex="-1" aria-labelledby="BlockPopUp" aria-hidden="true">
@@ -16,12 +16,12 @@
             <form asp-action="BlockRequest" asp-route-reqid=@Model.reqid>
                 <div class="modal-body">
                     <p class="mb-3 mt-3 text-dark"> Patient Name : <span class="text-info" id="patientName">@Model.Patientname</span></p>
-<<<<<<< HEAD
+
                     <textarea asp-for="TransNotes" id="TransNotes" rows="5" class="col-12 form-control p-1" placeholder="Reason For Block Request" style="font-size:medium" required></textarea>
                     <div> <span asp-validation-for="TransNotes"></span></div>
-=======
-                    <textarea asp-for="TransNotes" id="TransNotes" rows="5" class="col-12 form-control p-1" placeholder="Reason For Block Request" style="font-size:medium"></textarea>
->>>>>>> a7d636f3ea8b91980d7206e593c9e656cfc1182e
+
+  
+
                 </div>
                 <div class="modal-footer">
                     <button type="submit" data-bs-dismiss="modal" class="btn btn-info text-white">Confirm</button>
@@ -31,8 +31,7 @@
         </div>
     </div>
 </div>
-<<<<<<< HEAD
+
 <script src="~/lib/jquery-validation/dist/jquery.validate.min.js"></script>
 <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"></script>
-=======
->>>>>>> a7d636f3ea8b91980d7206e593c9e656cfc1182e
+

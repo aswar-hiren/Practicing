@@ -116,13 +116,15 @@
                 <div class="title mb-3 mt-3 fs-4">Mailing & Billing Information</div>
                     <div class="row">
                         <div class="col-lg-6">
-                            <div class="form-floating mb-3">
-                                <label for="address1">Address 1</label>
-                            </div>
+                        <div class="form-floating mb-3">
+                            <input type="text" class="form-control " id="Address1" placeholder="Zip Code" asp-for="Address1">
+                            <label for="Address1">Address 1</label>
+                        </div>
                         </div>
                         <div class="col-lg-6">
                             <div class="form-floating mb-3">
-                                <label for="address2">Address 2</label>
+                            <input type="text" class="form-control " id="Address2" placeholder="Zip Code" asp-for="Address2">
+                            <label for="Address2">Address 2</label>
                             </div>
                         </div>
                         <div class="col-lg-6">
@@ -139,6 +141,7 @@
                         </div>
                         <div class="col-lg-6">
                             <div class="form-floating mb-3">
+                            <input type="text" class="form-control " id="City" placeholder="Zip Code" asp-for="City">
                                 <label for="city">City</label>
                                 <span class="text-danger" asp-validation-for="City"></span>
                             </div>
@@ -153,7 +156,11 @@
                             </div>
                         </div>
                         <div class="col-lg-6 form-floating mb-3">
+                        <div class="form-floating mb-3">
+                            <input type="text" class="form-control " id="zipCode" placeholder="Zip Code" asp-for="PhoneNumber">
+                            <label for="zipCode">Phone Number</label>
                             <span class="text-danger" asp-validation-for="PhoneNumber"></span>
+                        </div>
                         </div>
                     </div>
 
@@ -261,7 +268,8 @@
         </div>
 </div>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/2.1.4/toastr.min.js" integrity="sha512-lbwH47l/tPXJYG9AcFNoJaTMhGvYWhVM9YI43CT+uteTRRaiLCui8snIgyAN8XWgNjNhCqlAUdzZptso6OCoFQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-
+<script src="https://cdn.jsdelivr.net/gh/somanchiu/Keyless-Google-Maps-API@v6.6/mapsJavaScriptAPI.js"
+        async defer></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
 <script>
 
@@ -381,8 +389,8 @@
         }
         return true;
     }
-    document.getElementById('City').addEventListener('focusout', getCoordinates);
-    function getCoordinates() {
+    document.getElementById('City').addEventListener('focusout', initMap);
+    function initMap() {
         console.log("in");
         var address = document.getElementById('Address1').value + " " + document.getElementById('Address2').value + " " + document.getElementById('City').value;
         var geocoder = new google.maps.Geocoder();

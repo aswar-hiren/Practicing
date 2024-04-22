@@ -1,7 +1,7 @@
 ﻿@{
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
-@model DataLayer.ViewModels.newRequestModel;
+@model DataLayer.ViewModels.PatientInfo;
 <div class="container-fluid bg-bodybg-body-tertiary vh-100">
  
     <partial name="_navbar">
@@ -21,7 +21,7 @@
                     </span>
                 </a>
             </div>
-
+            <form asp-action="PatientInfoPage">
             <div class="row shadow"> 
                 <p class="h5 mt-4 px-0 ps-5">Patient</p>
                 <div class="col-lg-6">
@@ -29,29 +29,29 @@
                     <div class="form-floating ms-4 mt-4">
                         <input type="text"
                                class="form-control"
-                               asp-for="firstName"
+                               asp-for="FirstName"
                                placeholder="First Name" />
                         <label for="FirstName">First Name</label>
-                        <span asp-validation-for="firstName" class="text-danger"></span>
+                        <span asp-validation-for="FirstName" class="text-danger"></span>
                     </div>
                 </div>
                 <div class="col-lg-6">
                     <div class="form-floating ms-4 mt-4">
                         <input type="text"
                                class="form-control"
-                               asp-for="lastName"
+                               asp-for="LastName"
                                id="floatingInput"
                                placeholder="Last Name" />
                         <label for="floatingInput">Last Name</label>
-                        <span asp-validation-for="lastName" class="text-danger"></span>
+                        <span asp-validation-for="LastName" class="text-danger"></span>
                     </div>
                 </div>
 
                 <div class="col-lg-6 mt-4">
                     <div class="form-floating ms-4 ">
-                        <input type="tel" asp-for="phoneNumber" placeholder="" class="form-control pt-3 pb-3 phone" id="phone" />
+                        <input type="tel" asp-for="PhoneNumber" placeholder="" class="form-control pt-3 pb-3 phone" id="phone" />
                         <label for="floatingInput">Phone Number</label>
-                        <span asp-validation-for="phoneNumber" class="text-danger"></span>
+                        <span asp-validation-for="PhoneNumber" class="text-danger"></span>
                     </div>
                 </div>
                 <div class="col-lg-6 mt-4">
@@ -59,10 +59,10 @@
                         <input type="text"
                                class="form-control"
                                id="patientEmail"
-                               asp-for="email"
+                               asp-for="Email"
                                placeholder="Email" />
                         <label for="patientEmail">Email</label>
-                        <span asp-validation-for="email" class="text-danger"></span>
+                        <span asp-validation-for="Email" class="text-danger"></span>
                     </div>
                 </div>
                 <div class="col-lg-6 mt-4">
@@ -70,10 +70,10 @@
                         <input type="date"
                                class="form-control"
                                id="floatingInput"
-                               asp-for="birthDate"
+                               asp-for="BirthDate"
                                placeholder="Date of Birth" />
                         <label for="floatingInput">Date Of Birth</label>
-                        <span asp-validation-for="birthDate" class="text-danger"></span>
+                        <span asp-validation-for="BirthDate" class="text-danger"></span>
                     </div>
                 </div>
                 <p class="h5 mt-4 px-0 ps-5">Location</p>
@@ -82,10 +82,10 @@
                         <input type="text"
                                class="form-control"
                                id="floatingInput"
-                               asp-for="street"
+                               asp-for="Street"
                                placeholder="Street" />
                         <label for="floatingInput">Street</label>
-                        <span asp-validation-for="street" class="text-danger"></span>
+                        <span asp-validation-for="Street" class="text-danger"></span>
 
                     </div>
                 </div>
@@ -94,10 +94,10 @@
                         <input type="text"
                                class="form-control"
                                id="floatingInput"
-                               asp-for="city"
+                               asp-for="City"
                                placeholder="City" />
                         <label for="floatingInput">City</label>
-                        <span asp-validation-for="city" class="text-danger"></span>
+                        <span asp-validation-for="City" class="text-danger"></span>
 
                     </div>
                 </div>
@@ -106,10 +106,10 @@
                         <input type="text"
                                class="form-control"
                                id="floatingInput"
-                               asp-for="state"
+                               asp-for="State"
                                placeholder="State" />
                         <label for="floatingInput">State</label>
-                        <span asp-validation-for="state" class="text-danger"></span>
+                        <span asp-validation-for="State" class="text-danger"></span>
 
                     </div>
                 </div>
@@ -118,10 +118,10 @@
                         <input type="text"
                                class="form-control"
                                id="floatingInput"
-                               asp-for="zipCode"
+                               asp-for="Zipcode"
                                placeholder="Zipcode" />
                         <label for="floatingInput">Zipcode</label>
-                        <span asp-validation-for="zipCode" class="text-danger"></span> 
+                        <span asp-validation-for="Zipcode" class="text-danger"></span> 
                     </div>
                 </div>
                 <div class="col-lg-6 mt-4">
@@ -160,7 +160,7 @@
                     <button type="submit" class="btn btn-info text-white">Save</button>
                     <button type="button" class="btn btn-outline-info" data-bs-dismiss="modal">Cancel</button>
                 </div>
-            
+            </form>
             </div>
         </div>
 </div>

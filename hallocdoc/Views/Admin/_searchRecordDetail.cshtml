@@ -1,7 +1,7 @@
 ﻿@using DataLayer.ViewModels;
 @model IEnumerable<SearchRecordvm>;
 
-<<<<<<< HEAD
+
 <div class="table-responsive d-none d-md-block table-responsive">
 
     <table class="table searchtable">
@@ -49,60 +49,12 @@
             }
         </tbody>
     </table>
-=======
-<div class="table-responsive ">
 
-	<table class="table searchtable">
-		<thead class="" style="">
-			<tr class="table-secondary" style="background-color:grey !important; color:white !important">
-				<th scope="col">Patient Name</th>
-				<th scope="col">Requestor</th>
-				<th scope="col">Date Service</th>
-				<th scope="col">Close Date</th>
-				<th scope="col" style="margin:20px;" >Email</th>
-				<th scope="col">Phone Number</th>
-				<th scope="col">Address</th>
-				<th scope="col">Zip</th>
-				<th scope="col">Request Status</th>
-				<th scope="col">Physician</th>
-				<th scope="col">Physician Notes</th>
-				<th scope="col">Cancelled By Provider Note</th>
-				<th scope="col">Admin Note</th>
-				<th scope="col">Patient Note</th>
-				<th scope="col">Delete Permanentaly</th>
-			</tr>
-		</thead>
-		<tbody>
-			@foreach (var obj in Model)
-			{
-				<tr class="fw-bolder">
-					<td scope="row">@obj.PatientName</td>
-					<td>@obj.RequestorName</td>
-					<td >@obj.DateofService</td>
-					<td>---</td>
-					<td class="email" style="margin:20px">@obj.Email</td>
-					<td>@obj.Phonenumber</td>
-					<td>@obj.Address</td>
-					<td>@obj.Zip</td>
-					<td>@obj.RequestStatus</td>
-					<td>@obj.PhysicianName</td>
-					<td>@obj.PhysicianNotes</td>
-					<td>---</td>
-					<td>@obj.AdminNotes</td>
-					<td>@obj.PatientNotes</td>
-					<td>
-						<a asp-action="deleteRequest" asp-route-requestid="@obj.requestid" class="btn btn-outline-info float-end me-3 ">Delete</a>
-					</td>
-				</tr>
-			}
-		</tbody>
-	</table>
->>>>>>> a7d636f3ea8b91980d7206e593c9e656cfc1182e
 
 </div>
 
 <div class=" @(ViewBag.total == 0 ? "d-none" : "")">
-<<<<<<< HEAD
+
     <nav aria-label="Page navigation" class="p-4 d-flex justify-content-between" ">
         <span>Page @ViewBag.CurrentPage of @ViewBag.TotalPages  </span>
         <span>Total requests: @ViewBag.total</span>
@@ -120,30 +72,12 @@
         </ul>
 
     </nav>
-=======
-	<nav aria-label="Page navigation" class="p-4 d-flex justify-content-between" ">
-		<span>Page @ViewBag.CurrentPage of @ViewBag.TotalPages  </span>
-		<span>Total requests: @ViewBag.total</span>
-		<ul class="pagination me-2">
-			<li class="page-item @(ViewBag.CurrentPage <= 1 ? "disabled" : "")">
-				<button class="page-link" onclick="Pagefile(@ViewBag.CurrentPage-1,@ViewBag.PageSize)"><i class="bi bi-chevron-left text-black"></i></button>
-			</li>
-			<li class="page-item">
-				<button class="page-link bg-info text-white fw-bold mx-1 text-black" data-page="@ViewBag.CurrentPage">@ViewBag.CurrentPage</button>
-			</li>
 
-			<li class="page-item @(ViewBag.CurrentPage == ViewBag.TotalPages ? "disabled" : "")">
-				<button class="page-link" onclick="Pagefile(@ViewBag.CurrentPage+1,@ViewBag.PageSize)"><i class="bi bi-chevron-right text-black"></i></button>
-			</li>
-		</ul>
-
-	</nav>
->>>>>>> a7d636f3ea8b91980d7206e593c9e656cfc1182e
 </div>
 
 <script>
 
-<<<<<<< HEAD
+
 </script>
 
 <div class="d-sm-block d-md-block d-lg-none d-xl-none">
@@ -187,8 +121,8 @@
     }
     </div>
 </div>
-=======
+
 	</script>
 
 
->>>>>>> a7d636f3ea8b91980d7206e593c9e656cfc1182e
+

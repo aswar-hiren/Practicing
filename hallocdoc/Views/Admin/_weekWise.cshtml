@@ -1,0 +1,83 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+
+}
+
+@model DataLayer.ViewModels.WeekShiftModal
+<div class=" table-responsive  w-100" id="maintable">
+    <table class="tabletwo d-block ">
+
+        <thead class="table-active bg-white">
+            <tr class="text-white w-100 " style="background-color:lightslategrey">
+                <th scope="col" style="width:25%" class="text-center">Staff</th>
+               @{
+                    var combinedList = Model.datelist.Zip(Model.dayNames, (date, name) => new { date = date, Name = name });
+                   foreach (var item in combinedList)
+                    {
+                        <th>@item.date @item.Name</th> 
+                    }
+               }
+                     
+            </tr>
+            <tr class="text-white w-100 text" style="background-color:grey; color:white">
+                <th scope="col" class="text-center" style="width:25%;  background-color:white; color:grey;">Coverage</th>
+                <th scope="col">0/24</th>
+                <th scope="col">0/24</th>
+                <th scope="col">0/24</th>
+                <th scope="col">0/24</th>
+                <th scope="col">0/24</th>
+                <th scope="col">0/24</th>
+                <th scope="col">0/24</th>
+            </tr>
+        </thead>
+        <tbody>
+     @{
+         foreach (var item in Model.Physicians)
+                {
+                    <tr>
+                        <td><img src="@item.Photo" style="width:50px; height:30px;" /> @item.Firstname</td>
+                        
+                        @{
+                            var list = Model.shiftDetailsmodals.Where(ph => ph.Physicianid == item.Physicianid).ToList();
+                            foreach (var client in Model.datelist)
+                            {
+                                var shift = list.Where(u => u.Shiftdate.Day == client).FirstOrDefault();
+                                var bgcolor = "";
+                                var color = "";
+                                if(shift!=null)
+                                {
+                                    if (shift.Status == 1)
+                                    {
+                                        bgcolor = "lightpink";
+                                        color = "white";
+                                      
+
+                                    }
+                                    else if (shift.Status == 2)
+                                    {
+                                        bgcolor = "green";
+                                        color = "white";
+
+                                    }
+                                    <td class="" style="background-color:@bgcolor; color:@color; font:bold" onclick="showmodel(@shift.Shiftdetailid)">Starttime: @shift.Starttime  EndTime @shift.Endtime</td>
+                                }
+                                else
+                                {
+                                    <td></td>
+                                }
+
+                            }
+                        }
+                    </tr>
+                }
+     }
+
+        </tbody>
+    </table>
+</div>
+
+<script>
+   
+</script>

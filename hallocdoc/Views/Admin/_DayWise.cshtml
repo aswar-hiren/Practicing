@@ -1,0 +1,148 @@
+﻿
+@model DataLayer.ViewModels.DayShiftModal
+<div class=" table-responsive  w-100 border" id="maintable">
+    <table class="tableone d-block">
+
+        <thead class="table-active bg-white">
+            <tr class="text-white w-100 " style="background-color:lightslategrey">
+                <th scope="col" style="width:25%" class="text-center">Staff</th>
+         
+                <th scope="col">1A</th>
+                <th scope="col">2A</th>
+                <th scope="col">3A</th>
+                <th scope="col">4A</th>
+                <th scope="col">5A</th>
+                <th scope="col">6A</th>
+                <th scope="col">7A</th>
+                <th scope="col">8A</th>
+                <th scope="col">9A</th>
+                <th scope="col">10A</th>
+                <th scope="col">11A</th>
+                <th scope="col">12P</th>
+            
+                <th scope="col">1P</th>
+                <th scope="col">2P</th>
+                <th scope="col">3P</th>
+                <th scope="col">4P</th>
+                <th scope="col">5P</th>
+                <th scope="col">6P</th>
+                <th scope="col">7P</th>
+                <th scope="col">8P</th>
+                <th scope="col">9P</th>
+                <th scope="col">10P</th>
+                <th scope="col">11P</th>
+                <th scope="col">12A</th>
+            </tr>
+            <tr class="text-white w-100 text" style="background-color:lightpink">
+                <th scope="col" class="text-center " style="width:25%;  background-color:white; color:grey;">Coverage</th>
+                <th scope="col"></th>
+                <th scope="col"></th>
+                <th scope="col"></th>
+                <th scope="col"></th>
+                <th scope="col"></th>
+                <th scope="col"></th>
+                <th scope="col"></th>
+                <th scope="col"></th>
+                <th scope="col"></th>
+                <th scope="col"></th>
+                <th scope="col"></th>
+                <th scope="col"></th>
+                <th scope="col"></th>
+                <th scope="col"></th>
+                <th scope="col"></th>
+                <th scope="col"></th>
+                <th scope="col"></th>
+                <th scope="col"></th>
+                <th scope="col"></th>
+                <th scope="col"></th>
+                <th scope="col"></th>
+                <th scope="col"></th>
+                <th scope="col"></th>
+                <th scope="col"></th>
+               
+            </tr>
+        </thead>
+
+        <tbody class="bodytable">
+
+@{
+
+
+
+    foreach (var item in Model.Physicians)
+                {
+                    <tr>
+                        <td class="text-start first fw-bolder" style="width:25%; border-right:1px solid grey;  background-color:white; color:grey;"><img src="@item.Photo" style="width:50px; height:30px;"/> @item.Firstname</td>
+                       
+                        @{
+                            var date = Model.currentDate;
+                            var list = Model.shiftDetailsmodals.Where(ph => ph.Physicianid == item.Physicianid).ToList();
+                            var shift = list.Where(u => u.Shiftdate.Day == date.Day).ToList();
+                            var flag = 0;
+                            for(int i=1;i<=24;i++)
+                            {  
+
+                                if(shift.Count!=0)
+                                {
+                                    int temp = 1;
+                                    foreach (var j in shift)
+                                    {
+                                        var bgcolor = "";
+                                        var color = "";
+                                        if (j.Status == 1)
+                                        {
+                                            bgcolor = "lightpink";
+                                            color = "white";
+                                        }
+                                        else if (j.Status == 2)
+                                        {
+                                            bgcolor = "green";
+                                            color = "white";
+                                        }
+                                       
+                                        for (int k = temp; k <= j.Endtime.Hour; k++)
+                                        {
+
+                                            if (k < j.Starttime.Hour || k > j.Endtime.Hour)
+                                            {
+                                                <td></td>
+                                                i++;
+                                                temp++;
+                                            }
+                                            else
+                                            {
+                                                <td class=" border-end" style="background-color:@bgcolor; color:@color; " onclick="showmodel(@j.Shiftdetailid)"></td>
+                                                i++;
+                                                temp++;
+
+                                            }
+
+                                        }
+
+                                    }
+                                    while(i!=25)
+                                    {
+                                        <td></td>
+                                        i++;
+                                    }
+
+
+                                }
+                                else
+                                {
+                                    <td></td>
+                                }
+                               
+
+                            }
+                        }
+                      
+
+                    </tr>
+                }
+}
+
+        </tbody>
+    </table>
+</div>
+

@@ -1,0 +1,162 @@
+﻿@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="container-fluid  vh-100">
+    <partial name="_Navbar"  />
+    <partial name="_Notification">
+
+        <div class="container d-flex flex-column mt-3 gap-2 p-3" >
+            <div class="container d-flex justify-content-between p-0 my-2">
+                <div>
+                    <p class="h4">Patient History</p>
+                </div>
+            </div>
+            <div class="row shadow rounded-3" >
+                <div class="row d-flex align-items-center mt-3 mb-3 me-2">
+                    <div class="col-md-3 col-sm-12  mt-2">
+
+                        <div class="form-floating mb-3">
+                            <input type="text" class="form-control" id="firstname"
+                                   placeholder="your first name" />
+                            <label for="firstname" class="">First Name</label>
+                        </div>
+
+                    </div>
+                    <div class="col-md-3 col-sm-12  mt-2">
+
+                        <div class="form-floating mb-3">
+                            <input type="text" class="form-control" id="lastname"
+                                   placeholder="your first name" />
+                            <label for="lastname" class="">Last Name</label>
+                        </div>
+
+                    </div>
+                    <div class="col-md-3 col-sm-12  mt-2">
+
+                        <div class="form-floating mb-3">
+                            <input type="text" class="form-control" id="email"
+                                   placeholder="your first name" />
+                            <label for="email" class="">Email</label>
+                        </div>
+
+                    </div>
+                    <div class="col-md-3 col-sm-12  mt-2">
+
+                        <div class="form-floating mb-3">
+                            <input type="text" class="form-control" id="phonenumber"
+                                   placeholder="your first name" />
+                            <label for="phonenumber" class="">Phone Number</label>
+                            <span class="invalid-feedback">
+                                Please enter only numbers.
+                            </span>
+                        </div>
+
+
+                    </div>
+                    <div class="col-md-12 mt-3">
+                        <div class="d-flex justify-content-end">
+                            <button type="reset" id="clearButton" class="btn  px-3 py-2 me-2 text-info border-info bg-white" onclick="clearRecord()">Clear</button>
+
+                            <button id="searchButton" class="btn  px-3 py-2 text-white btn-info" onclick="searchrecords()">Search</button>
+                        </div>
+                    </div>
+
+
+
+
+                </div>
+
+
+
+                <div id="patientHistoryContent" class="px-0">
+                </div>
+
+
+            </div>
+        </div>
+</div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+<script>
+
+
+    var FirstName;
+    var LastName;
+    var Email;
+    var Phonenumber;
+    var Page;
+    var pagesize;
+    $(document).ready(function () {
+        console.log("ajax");
+        $.ajax({
+            url: "/Admin/PatientRecordDetails",
+            type: "POST",
+            dataType: "html",
+            data: { page: 1, pageSize: 4 },
+            success: function (data) {
+                $("#patientHistoryContent").html(data);
+                page = 1;
+                pagesize = 4;
+            },
+            error: function (error) {
+
+                $("#patientHistoryContent").html('An error has occurred');
+            }
+        });
+
+        $('.dropdown-toggle').click(function () {
+            var dropdownMenu = $(this).next('.dropdown-menu');
+            $('.dropdown-menu').not(dropdownMenu).hide();
+            dropdownMenu.toggle();
+        });
+
+        $(document).on('click', function (e) {
+            if (!$(e.target).closest('.dropdown').length) {
+                $('.dropdown-menu').hide();
+            }
+        });
+
+
+    });
+    function Pagefile(page, totalperpage) {
+
+        Page = page;
+        console.log(Page);
+        pagesize = totalperpage;
+        console.log(pagesize);
+        searchrecords();
+
+
+    }
+    function clearRecord() {
+        document.getElementById("firstname").value = "";
+        document.getElementById("lastname").value = "";
+        document.getElementById("email").value = "";
+        document.getElementById("phonenumber").value = "";
+        Page = 1;
+        searchrecords();
+    }
+    function searchrecords() {
+        FirstName = $("#firstname").val().trim();
+        LastName = $("#lastname").val().trim();
+        Email = $("#email").val().trim();
+        Phonenumber = $("#phonenumber").val().trim();
+       
+        $.ajax({
+            url: "/Admin/PatientRecordDetails",
+            type: "POST",
+            dataType: "html",
+            data: {page:Page,pageSize:pagesize, FirstName, LastName, Email, Phonenumber },
+            success: function (data) {
+                $("#patientHistoryContent").html(data);
+              
+            },
+            error: function (error) {
+
+                $("#patientHistoryContent").html('An error has occurred');
+            }
+        });
+    }
+
+
+</script>

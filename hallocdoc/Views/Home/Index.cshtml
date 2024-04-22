@@ -1,0 +1,51 @@
+﻿@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<!DOCTYPE html>
+<html lang="en">
+
+
+    <Partial name="_Notification"/>
+<body>
+    <div class="container  "  style="height: 90vh;">
+        <butto class="col-auto justify-content-center align-item-center p-3 moonbtn allcontent">
+            <button onclick="toggle1()" class="bi bi-moon bg-white  pointer border border-1 border-info px-3 py-2 rounded text-info"></button>
+        </butto>
+        <div class="row   justify-content-center">
+
+            <div class="col-10  mx-auto justify-content-center align-items-center">
+
+         
+                  <div class="col-4 mx-lg-auto mx-xl-auto mb-md-5 ">
+                     <img  src="~/Images/hellodoclogo.png" class="mx-auto" />
+                  </div>
+
+               
+               
+                
+
+                    <div class="col-xl-7 col-lg-7 col-md-8 col-sm-9 col-xs-10 mx-auto " style="margin-top:170px;">
+
+                        <a asp-controller="Patient" asp-action="submitreqtype" class="btn text-white w-100 mx-auto justify-content-center btn-lg btn-block text-center mb-5" style="background-color: #0dcaf0; color: white;">Submit A Request</a>
+
+                        <a asp-controller="Patient" asp-action="PatientLoginPage" class="btn text-white w-100 mx-auto  btn-lg btn-block text-center" style="background-color: rgb(100, 100, 247); color: white;">Registered Patient</a>
+                    </div>
+
+                   
+            </div>
+            <div class=" d-flex justify-content-center align-items-center  " style="position: absolute; bottom: 0;">
+                <a href="" class="p-3">Terms And condition</a>
+                <a href="" class="p-3">|</a>
+                <a href="" class="p-3">Privacy Policy</a>
+            </div>
+
+        </div>
+    
+
+
+    </div>
+
+</body>
+
+</html>

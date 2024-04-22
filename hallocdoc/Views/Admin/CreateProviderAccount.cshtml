@@ -1,0 +1,414 @@
+﻿@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@model DataLayer.ViewModels.CreateProvidervm;
+@addTagHelper*,Microsoft.AspNetCore.Mvc.TagHelpers;
+
+<div class="container-fluid bg-body-tertiary vh-100">
+    <partial name="_navbar" />
+   <partial name="_Notification"/>
+
+        <div class="container d-flex flex-column mt-3 gap-2 p-3 ">
+
+
+            <div class="container d-flex justify-content-between p-0 my-2">
+
+                <p class="h4">Create Provider Account</p>
+
+                <a asp-controller="Admin" asp-action="Provider">
+                    <span class="border border-info text-info p-2 rounded-2">
+                        < Back
+                    </span>
+                </a>
+
+
+            </div>
+
+            <div class="row shadow p-4">
+                <form asp-action="CreateProviderAccount" enctype="multipart/form-data" method="post">
+                    <div class="title mb-3 fs-4">Account Information</div>
+                    <div class="row">
+                        <div class="col-lg-4">
+                            <div class="form-floating mb-3">
+                                <input type="text" class="form-control" id="username" placeholder="User Name" disabled>
+                                <label for="username">User Name</label>
+                            </div>
+                        </div>
+                        <div class="col-lg-4">
+                            <div class="form-floating mb-3">
+
+                                <input type="password" class="form-control" id="password" placeholder="Password" asp-for="Password" >
+                                <label for="password">Password</label>
+                                <span class="text-danger" asp-validation-for="Password"></span>
+                            </div>
+                        </div>
+                        <div class="col-lg-4">
+                            <div class="form-floating mb-3">
+                                <select class="form-select form-control " aria-label="Default select example" id="role" asp-for="RoleId">
+                                    <option disabled selected hidden>Select Role</option>
+                                    @foreach (var item in Model.RoleList!)
+                                    {
+                                        <option value="@item.Roleid">@item.Name</option>
+                                    }
+                                </select>
+                                <label for="role">Role</label>
+                                <span class="text-danger" asp-validation-for="RoleId"></span>
+                            </div>
+                        </div>
+                    </div>
+
+                <div class="title mb-3 mt-3 fs-4">Physician Information</div>
+                    <div class="row">
+                        <div class="col-lg-6">
+                            <div class="form-floating mb-3">
+                                <input type="text" class="form-control " id="firstname" placeholder="First Name" asp-for="Firstname">
+                                <label for="firstname">First Name</label>
+                                <span class="text-danger" asp-validation-for="Firstname"></span>
+                            </div>
+                        </div>
+                        <div class="col-lg-6">
+                            <div class="form-floating mb-3">
+                                <input type="text" class="form-control " id="lastname" placeholder="Last Name" asp-for="Lastname">
+                                <label for="lastname">Last Name</label>
+                                <span class="text-danger" asp-validation-for="Lastname"></span>
+                            </div>
+                        </div>
+                        <div class="col-lg-6">
+                            <div class="form-floating mb-3">
+                                <input type="email" class="form-control " id="email" onblur="checkEmail()" placeholder="Email" asp-for="Email">
+                                <label for="email">Email</label>
+                                <span class="text-danger" asp-validation-for="Email"></span>
+                            </div>
+                        </div>
+                        <div class="col-lg-6 form-floating mb-3">
+                            <span class="text-danger" asp-validation-for="PhoneNumber"></span>
+                        </div>
+                        <div class="col-lg-6">
+                            <div class="form-floating mb-3">
+                                <input type="text" class="form-control administratorInfo" id="medicalLicence" placeholder="Medical Licence #" asp-for="MedicalLicense">
+                                <label for="medicalLicence">Medical Licence #</label>
+                                <span class="text-danger" asp-validation-for="MedicalLicense"></span>
+                            </div>
+                        </div>
+                        <div class="col-lg-6">
+                            <div class="form-floating mb-3">
+                                <input type="text" class="form-control administratorInfo" id="npiNumber" placeholder="NPI Number" asp-for="NpiNumber">
+                                <label for="npiNumber">NPI Number</label>
+                                <span class="text-danger" asp-validation-for="NpiNumber"></span>
+                            </div>
+                        </div>
+
+                        <div class="form-floating mb-3  col-lg-6 d-flex ">
+
+                            @foreach (var item in Model.Regions)
+                            {
+                                <div class="form-check me-3 ">
+                                    <input class="form-check-input" name="region" type="checkbox" value="@item.Regionid" id="checkbox-@item.Regionid" />
+                                    <label class="form-check-label" for="checkbox-@item.Regionid" style="font-size: 15px; margin:0px;">@item.Name</label>
+                                </div>
+                            }
+
+                        </div>
+
+                    </div>
+
+                <div class="title mb-3 mt-3 fs-4">Mailing & Billing Information</div>
+                    <div class="row">
+                        <div class="col-lg-6">
+                            <div class="form-floating mb-3">
+                                <label for="address1">Address 1</label>
+                            </div>
+                        </div>
+                        <div class="col-lg-6">
+                            <div class="form-floating mb-3">
+                                <label for="address2">Address 2</label>
+                            </div>
+                        </div>
+                        <div class="col-lg-6">
+                            <div class="form-floating mb-3">
+                                <select class="form-select form-control" aria-label="Default select example" id="state" asp-for="RegionId">
+                                    @foreach (var item in Model.Regions!)
+                                    {
+                                        <option value="@item.Regionid">@item.Name</option>
+                                    }
+                                </select>
+                                <label for="state">State</label>
+                                <span class="text-danger" asp-validation-for="RegionId"></span>
+                            </div>
+                        </div>
+                        <div class="col-lg-6">
+                            <div class="form-floating mb-3">
+                                <label for="city">City</label>
+                                <span class="text-danger" asp-validation-for="City"></span>
+                            </div>
+                        <input type="hidden" id="lat" asp-for="Latitude" />
+                        <input type="hidden" id="long" asp-for="Longitude" />
+                        </div>
+                        <div class="col-lg-6">
+                            <div class="form-floating mb-3">
+                                <input type="text" class="form-control " id="zipCode" placeholder="Zip Code" asp-for="Zipcode">
+                                <label for="zipCode">Zip Code</label>
+                                <span class="text-danger" asp-validation-for="Zipcode"></span>
+                            </div>
+                        </div>
+                        <div class="col-lg-6 form-floating mb-3">
+                            <span class="text-danger" asp-validation-for="PhoneNumber"></span>
+                        </div>
+                    </div>
+
+                <div class="title mb-3 mt-3 fs-4">Provider Profile</div>
+                    <div class="row">
+                        <div class="col-lg-6">
+                            <div class="form-floating mb-3">
+                                <input type="text" class="form-control " id="businessName" placeholder="Business Name" asp-for="BusinessName">
+                                <label for="businessName">Business Name</label>
+                                <span class="text-danger" asp-validation-for="BusinessName"></span>
+                            </div>
+                        </div>
+                        <div class="col-lg-6">
+                            <div class="form-floating mb-3">
+                                <input type="text" class="form-control " id="businessWebsite" placeholder="Business Website" asp-for="BusinessWebsite">
+                                <label for="businessWebsite">Business Website</label>
+                                <span class="text-danger" asp-validation-for="BusinessWebsite"></span>
+                            </div>
+                        </div>
+                        <div class="col-lg-6">
+                            <div class="mb-3 file-upload d-flex justify-content-between">
+                                <input type="file"
+                                       class="form-control"
+                                       id="photo"
+                                       asp-for="Photo"
+                                       placeholder="Choose file" />
+                                <label for="floatingInput1" class="upload-file"><i class="bi bi-cloud-arrow-up upload-btn"></i><span class="d-sm-block d-none">Upload</span></label>
+
+                            </div>
+
+                        </div>
+                        <div>
+                            <div class="form-floating mb-3">
+                                <textarea class="form-control mb-3 " placeholder="Admin Notes"
+                                          id="adminNotes" asp-for="AdminNotes" style="height: 100px"></textarea>
+                                <label for="adminNotes">Admin Notes</label>
+                            </div>
+                        </div>
+                    </div>
+
+                <div class="title mb-3 mt-3 fs-4">Onboarding </div>
+                    <div class="row">
+                        <div class="col-auto checkbox">
+                            <input type="checkbox" class="check" id="agrrementCheckbox" disabled>
+                        </div>
+                        <div class="col-5">Independent Contractor Agreement</div>
+                        <div class="col-auto mb-4 d-flex">
+                            <div class="me-4">
+                                <input type="file" class="d-none " id="contractorAgreement" asp-for="AgreementDoc">
+                                <label for="contractorAgreement" class="form-control bg-info btn text-white">Upload</label>
+                            </div>
+                            @*<a id="contractorAgreementViewButton" class="btn bg-info text-white" target="_blank">View</a>*@
+                        </div>
+                    </div>
+                   
+                    <div class="row">
+                        <div class="col-auto checkbox">
+                            <input type="checkbox" class="check" id="backgroundCheckbox" disabled >
+                        </div>
+                        <div class="col-5">Background Check </div>
+                        <div class="col-auto mb-4 d-flex">
+                            <div class="me-4">
+                                <input type="file" class="d-none " id="backgroundDoc" asp-for="BackgroundDoc">
+                                <label for="backgroundDoc" class="form-control bg-info btn text-white">Upload</label>
+                            </div>
+                            @*<a id="contractorAgreementViewButton" class="btn bg-info text-white" target="_blank">View</a>*@
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-auto checkbox">
+                            <input type="checkbox" class="check" id="" >
+                        </div>
+                        <div class="col-5">HIPPA Compliance</div>
+                        <div class="col-auto mb-4 d-flex">
+                            <div class="me-4">
+                                <input type="file" class="d-none " id="contractorAgreement">
+                                <label for="contractorAgreement" class="form-control bg-info btn text-white">Upload</label>
+                            </div>
+                            @*<a id="contractorAgreementViewButton" class="btn bg-info text-white" target="_blank">View</a>*@
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-auto checkbox">
+                            <input type="checkbox" class="check" id="nonDisclosureCheckbox" disabled >
+                        </div>
+                        <div class="col-5">Non-Disclosure Agreement</div>
+                        <div class="col-auto mb-4 d-flex">
+                            <div class="me-4">
+                                <input type="file" class="d-none " id="nonDisclosureAgreement" asp-for="NonDisclosureDoc">
+                                <label for="nonDisclosureAgreement" class="form-control bg-info btn text-white">Upload</label>
+                            </div>
+                            @*<a id="contractorAgreementViewButton" class="btn bg-info text-white" target="_blank">View</a>*@
+                        </div>
+                    </div>
+
+                    <div class="d-flex justify-content-end">
+                        <button class="btn bg-success text-white" id="submitButton" type="submit" >
+                            Create Account
+                        </button>
+                    </div>
+
+                </form>
+               
+            </div>
+        </div>
+</div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/2.1.4/toastr.min.js" integrity="sha512-lbwH47l/tPXJYG9AcFNoJaTMhGvYWhVM9YI43CT+uteTRRaiLCui8snIgyAN8XWgNjNhCqlAUdzZptso6OCoFQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+<script>
+
+    $(document).ready(function () {
+
+
+        $('.dropdown-toggle').click(function () {
+            var dropdownMenu = $(this).next('.dropdown-menu');
+            $('.dropdown-menu').not(dropdownMenu).hide();
+            dropdownMenu.toggle();
+        });
+
+        $(document).on('click', function (e) {
+            if (!$(e.target).closest('.dropdown').length) {
+                $('.dropdown-menu').hide();
+            }
+        });
+
+    });
+
+    function checkEmail() {
+        var email = document.getElementById("email").value;
+      
+        if (email.trim() === "") {
+            //toastr.error("Email field is required.");
+            return;
+        }
+        fetch('/Admin/CreateProviderAccount/CheckEmail/' + email)
+            .then(response => response.json())
+            .then(data => {
+                var submitButton = document.getElementById('submitButton');
+                console.log(data);
+                if (data.exists) {
+                    submitButton.setAttribute("disabled", "disabled");
+                    console.log("toaster");
+                    Swal.fire({
+                        icon: "error",
+                        title: "Oops...",
+                        text: "Email Already Exist",
+                    });
+                    input.value = '';
+                    return false;
+                }
+                else {
+                    submitButton.removeAttribute("disabled");
+                    console.log("else");
+                   
+                }
+            })
+           
+    }
+
+    document.getElementById('contractorAgreement').addEventListener('change', function () {
+        if (this.files.length > 0) {
+            if (validateFileType(this)) {
+                document.getElementById('agrrementCheckbox').setAttribute("checked","checked");
+            }
+        }
+        else {
+            document.getElementById('agrrementCheckbox').removeAttribute("checked");
+        }
+    });
+
+    document.getElementById('backgroundDoc').addEventListener('change', function () {
+        if (this.files.length > 0) {
+            if (validateFileType(this)) {
+                document.getElementById('backgroundCheckbox').setAttribute("checked", "checked");
+            }
+        }
+        else {
+            document.getElementById('backgroundCheckbox').removeAttribute("checked");
+        }
+    });
+
+    document.getElementById('nonDisclosureAgreement').addEventListener('change', function () {
+        if (this.files.length > 0) {
+            if (validateFileType(this)) {
+                document.getElementById('nonDisclosureCheckbox').setAttribute("checked", "checked");
+            }
+        }
+        else {
+            document.getElementById('nonDisclosureCheckbox').removeAttribute("checked");
+        }
+    });
+
+
+    document.getElementById('photo').addEventListener('change', function validateFile(event) {
+        const input = event.target;
+        const allowedExtensions = /(\.jpg|\.jpeg|\.png)$/i;
+        if (!allowedExtensions.exec(input.value)) {
+            Swal.fire({
+                icon: "error",
+                title: "Oops...",
+                text: "Only jpg, jpeg, and png files are allowed!",
+            });
+            input.value = '';
+            return false;
+        }
+        return true;
+    });
+
+
+   
+
+
+
+    function validateFileType(input) {
+        const allowedExtensions = /(\.pdf)$/i;
+        if (!allowedExtensions.exec(input.value)) {
+            Swal.fire({
+                icon: "error",
+                title: "Oops...",
+                text: "Only PDF Files Are Allowed!",
+            });
+            input.value = '';
+            return false;
+        }
+        return true;
+    }
+    document.getElementById('City').addEventListener('focusout', getCoordinates);
+    function getCoordinates() {
+        console.log("in");
+        var address = document.getElementById('Address1').value + " " + document.getElementById('Address2').value + " " + document.getElementById('City').value;
+        var geocoder = new google.maps.Geocoder();
+        geocoder.geocode({ address: address }, function (results, status) {
+            if (status == "OK") {
+                var latitude = results[0].geometry.location.lat();
+                var longitude = results[0].geometry.location.lng();
+                document.getElementById('lat').value = latitude;
+                document.getElementById('long').value = longitude;
+                console.log(latitude);
+                console.log(longtitude);
+
+                //return true;
+            } else {
+                console.log("Geocoding failed: " + status);
+                //return false;
+            }
+        });
+        //return true;
+    }
+
+ 
+    @section Scripts{
+        @{
+                <Partial name="_ValidationScriptsPartial" />
+        }
+            }
+
+</script>

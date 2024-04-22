@@ -1,0 +1,212 @@
+﻿@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@model DataLayer.ViewModels.Providervm;
+<head>
+    <style>
+        .form-select {
+            height: 3em !important;
+            width: 20em;
+            color: gray !important;
+            font-size: 16px;
+            box-shadow: none !important;
+        }
+
+        input[type="checkbox"] {
+            transform: scale(1.5);
+        }
+    </style>
+</head>
+
+<div id="contactmodelpop"></div>
+<div id="provider">
+    <partial name="_navbar" />
+    <partial name="_Notification" />
+<div class=" min-vh-100 d-flex flex-column mt-5" >
+    <div class="container">
+        <h4>Provider Information</h4>
+        <div class="d-flex flex-column">
+            <div class="d-flex align-items-center mt-3 mb-3 me-2">
+                <select class="form-select  mb-2 providerRegion" id="val" onchange="getprovider()" aria-label="Default select example" >
+                    <option  selected >All Region</option>
+                    @foreach (var obj in Model.regions)
+                    {
+                        <option value="@obj.Regionid" >@obj.Name</option>
+                    }
+                </select>
+                    <a asp-action="CreateProviderAccount" type="button" class="btn bg-info ms-auto">
+                    <Span class=" d-none d-md-block">
+                        Create Provider Account
+                    </Span><i class="bi bi-plus-lg d-block d-md-none"></i>
+                </a>
+            </div>
+         
+            <div id="providerContent">
+              
+              
+            </div>
+            
+        </div>
+    </div>
+</div>
+</div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+<script>
+    var regionId;
+    $(document).ready(function () {
+        console.log("data");
+        $.ajax({
+            url: "/Admin/providertable",
+            type: "POST",
+            data: { regionId: regionId },
+            dataType: "html",
+            success: function (data) {
+                $("#providerContent").html(data);
+
+            },
+            error: function (error) {
+
+                $("#providerContent").html('An error has occurred');
+            }
+        });
+
+        $('.dropdown-toggle').click(function () {
+            var dropdownMenu = $(this).next('.dropdown-menu');
+            $('.dropdown-menu').not(dropdownMenu).hide();
+            dropdownMenu.toggle();
+        });
+
+        $(document).on('click', function (e) {
+            if (!$(e.target).closest('.dropdown').length) {
+                $('.dropdown-menu').hide();
+            }
+        });
+    
+    })
+    function getprovider()
+    {
+        console.log('all');
+        regionId = $("#val").val();
+        console.log(regionId);
+        AjaxAll();
+    }
+
+    function AjaxAll() {
+        console.log("ajx");
+        $.ajax({
+            url: "/Admin/providertable",
+            type: "POST",
+            data: { regionId: regionId },
+            dataType: "html",
+            success: function (data) {
+                $("#providerContent").html(data);
+
+            },
+            error: function (error) {
+
+                $("#providerContent").html('An error has occurred');
+            }
+        });
+    }
+
+    function contactmodel(email,phyid) {
+
+        console.log(email);
+        $.ajax({
+            url: "/Admin/ContactProvidermodel",
+            type: "POST",
+            data: {data:email,physicianId:phyid},
+
+            success: function (data) {
+                $("#contactmodelpop").html(data);
+                $("#ProviderPopUp").modal('show');
+            },
+            error: function (e) {
+
+                console.log(e);
+            }
+        });
+
+
+
+    };
+</script>
+
+@* <script>
+    var regionId;
+    $(document).ready(function () {
+        console.log("all");
+        $.ajax({
+            url: "/Admin/providertable",
+            type: "POST",
+            dataType: "html",
+            data: {regionId:regionId}
+            success: function (data) {
+                $("#providerContent").html(data);
+            },
+            error: function () {
+
+                $("#providerContent").html('An error has occurred');
+            }
+        });
+    });
+  
+
+    $("#selectRegion").on("input", function () {
+        regionId = $(this).val();
+        AjaxAll();
+    });
+
+    function AjaxAll() {
+        $.ajax({
+            url: "/Admin/providertable",
+            type: "POST",
+            data: { regionId: regionId },
+            dataType: "html",
+            success: function (data) {
+                $("#providerContent").html(data);
+
+            },
+            error: function (error) {
+
+                $("#providerContent").html('An error has occurred');
+            }
+        });
+    }
+    //window.addEventListener('DOMContentLoaded', (event) => {
+    //    const roleIds = [0,1];
+    //    roleIds.forEach(roleid => {
+    //        GetProviderRole(roleid);
+    //    })
+    //});
+
+   
+
+    //function getRoleNameForPhysicianId(roleId) {
+    //    const url = `/Admin/GetRoleName?id=${roleId}`;
+    //    console.log(roleId);
+    //    fetch(url)
+    //        .then(response => {
+    //            if (!response.ok) {
+    //                throw new Error('Network response was not ok');
+    //            }
+    //            return response.json();
+    //        })
+    //        .then(data => {
+    //            const roleName = data.roleName;
+
+    //            // Update UI with role name
+    //            const roleElement = document.getElementById(`role-name-${roleId}`);
+    //            if (roleElement) {
+    //                roleElement.innerText = roleName;
+    //            } else {
+    //                console.error('Role element not found for ID:', roleId);
+    //            }
+    //        })
+    //        .catch(error => {
+    //            console.error('Error fetching role name:', error);
+    //        });
+    //}
+
+</script>
+ *@

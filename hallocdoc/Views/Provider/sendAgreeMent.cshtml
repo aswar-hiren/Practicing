@@ -1,0 +1,53 @@
+﻿@model DataLayer.ViewModels.BlockView;
+<div class="modal fade" id="SendAgreementPopUp" tabindex="-1" aria-labelledby="SendAgreementPopUp" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">  
+        <div class="modal-content"> 
+            <div class="modal-header bg-info"> 
+                <h5 class="modal-title text-white" id="SendAgreementModalLabel"> 
+                    Send Agreement
+                </h5>
+                <button type="button"
+                        class="btn-close"
+                        data-bs-dismiss="modal"
+                        aria-label="Close"></button>
+             </div>  
+        <div class="modal-body"> 
+                <form id="requestForm" method="post" asp-action="SendMailOfAgreement"  asp-controller="Provider">
+                    @{
+                        Dictionary<int, string> myHashMap = new Dictionary<int, string>()
+                    {
+                    {1,"Patient"},
+                    {2,"Family/Friend"},
+                    {3,"Concierge"},
+                    {4,"Business"},
+                    {5,"VIP"},
+
+                    };
+                    }
+                    <input hidden name="reqid" value="@Model.reqid" /> 
+                    <div class="d-md-flex gap-1 mx-auto text-center align-items-center">
+                        <i class="bi bi-circle-fill st_@Model.reqtypeid"></i>
+                        <button style="background-color:white; border:none" id="Patient" onclick="fetchRequests(1,1)">@myHashMap[Model.reqtypeid]</button>
+                    </div>
+                    <p class="h5 mb-3 text-muted mt-2">To send agreement, please make sure you are updating the correct contact information below for the responsible party</p>
+                    <div class="form-floating text-light mb-3 w-100">
+                        <input type="tel" id="phoneForAgree" class="form-control" asp-for="phonenumber" />
+                        <label for="floatingInput" class="ms-2 text-muted">Phone Number</label>
+                    </div>
+                    <div class="form-floating text-light mb-3 w-100">
+                        <input type="text" id="emailForAgree" class="form-control" asp-for="email" />
+                        <label for="floatingInput" class="ms-2 text-muted">Email</label>
+                    </div>
+
+                    <div class="text-end mb-3 me-3 mt-3">
+                        <button type="submit" class="btn btn-info text-white" id="continueBtn">Send</button>
+                        <button type="button" class="btn btn-outline-info" data-bs-dismiss="modal">
+                            Cancel
+                        </button>
+                    </div>
+                </form>
+            </div>
+
+        </div>
+    </div>
+</div>

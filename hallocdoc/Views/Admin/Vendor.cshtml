@@ -1,0 +1,89 @@
+﻿@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@model DataLayer.ViewModels.Vendorvm;
+<Partial name="_navbar"/>
+<Partial name="_Notification"/>
+<div class="row">
+    <div class="col p-5">
+        <h4>Vendor</h4>
+        <div class="row mt-3 mb-3 shadow p-3 bg-white">
+            <div class="d-flex justify-content-between">
+                <div class="d-flex gap-2 w-25">
+                    <div class="col">
+                        <input class="form-control" placeholder="Search Vendors" onblur="SearchVendor()" id="search" />
+                    </div>
+                    <div class="col">
+                        <select class="form-select" aria-label="Default select example" id="proffesion" onchange="getproffesion()">
+                            <option value="0" selected>All Proffesssion</option>
+                            @{
+                                foreach (var item in Model.hptype)
+                                {
+                                 <option value="@item.Healthprofessionalid" >@item.Professionname</option>
+                                }
+                            }
+                          
+
+                        </select>
+                    </div>
+                </div>
+                <a class="btn btn-outline-info float-end me-3 " asp-action="AddBusiness">     <i class="bi bi-plus-lg text-info"></i>Add Business</a>
+            </div>
+        </div>
+        <div id="vendortable"></div>
+    </div>
+
+</div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+<script>
+    $(document).ready(function () {
+
+
+        $('.dropdown-toggle').click(function () {
+            var dropdownMenu = $(this).next('.dropdown-menu');
+            $('.dropdown-menu').not(dropdownMenu).hide();
+            dropdownMenu.toggle();
+        });
+
+        $(document).on('click', function (e) {
+            if (!$(e.target).closest('.dropdown').length) {
+                $('.dropdown-menu').hide();
+            }
+        });
+
+    });
+    var hpTypeId = 0;
+    var search = "";
+    var reqtype=0;
+    GetVendortable();
+        function SearchVendor()
+    {
+        search = $("#search")[0].value;
+    reqtype = 1;
+    GetVendortable();
+      
+    }
+    function getproffesion()
+    {
+        hpTypeId = $("#proffesion").val().toLowerCase();
+        reqtype=2;
+        GetVendortable();
+    }
+    function GetVendortable() {
+
+        $.ajax({
+            url: "/Admin/VendorTable",
+            type: "POST",
+            dataType: "html",
+            data: {hptypeid: hpTypeId,Searchname:search,requestype:reqtype},
+            success: function (data) {
+                $("#vendortable").html(data);
+              
+            },
+            error: function () {
+
+                $("#tableContent").html('An error has occurred');
+            }
+        });
+    }
+</script>

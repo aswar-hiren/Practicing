@@ -1,0 +1,46 @@
+﻿@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@model DataLayer.ViewModels.RequestListAdminDash;
+
+<div class=" m-0 p-0" id="allcontent">
+    <div id="newcon"></div>
+ 
+    <Partial name="_navbar" /> 
+
+    <div id="home" tabindex="0"> @Html.Partial("AdminDashBoard", Model) </div>
+
+</div>
+    <script>
+    $(document).ready(function () {
+
+       
+        $('#redirectBtn').on('click', function () {
+            // Show loader animation
+            console.log("load");
+            $('#loader').fadeIn(200);
+            $(".mainDiv ").css('opacity', '0.5');
+            // Simulate redirection after 2 seconds
+            setTimeout(function () {
+                window.location.href = '@Url.Action("LogOut", "Patient")'; // Redirect to About action in HomeController
+            }, 1000); // 2 seconds
+        });
+    });
+        window.onload = function () {
+
+            const cookies = document.cookie.split('; ');
+            var jwtCookieValue;
+
+            for (const cookie of cookies) {
+                const [name, value] = cookie.split('=');
+                if (name === 'jwt') {
+                    jwtCookieValue = value;
+                }
+            }
+            console.log(jwtCookieValue);
+
+            if (jwtCookieValue == null) {
+                window.location.href = '/Admin/MainPage';
+            }
+        }
+    </script>

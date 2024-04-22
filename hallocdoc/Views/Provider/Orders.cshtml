@@ -1,0 +1,125 @@
+﻿@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+
+}
+@model DataLayer.ViewModels.OrdersModel;
+
+<div>
+    <partial name="_navbar" />
+    <partial name="_Notification" />
+    <div class="container w-50  d-flex justify-content-between align-items-center mt-4">
+   
+        <h4 class="col-6 ms-0 fw-bold" style="margin-left: -10px !important;">        
+                Send Order           
+        </h4>
+        <div class="col-6 d-flex justify-content-end">
+            <a asp-action="ProviderDashBoard" class="btn btn-white border-1 border-info text-info rounded-1">&lt; &nbspBack</a>           
+        </div>
+    </div> 
+
+    <div class="container mt-4 shadow-lg p-3 mb-5 bg-white rounded w-50" id="main-container">
+        <div class="w-100">
+            <form method="post" asp-action="SendOrder" asp-controller="Provider" 
+                  enctype="multipart/form-data">
+                <input type="number" hidden  id="r-id" />
+                <div class="row">
+                    <div class="form-floating col-sm-6 mt-3">
+                        <select class="form-select py-0 px-2" aria-label="Default select example" onchange="selectBusiness()" id="select-profession">
+                            <option disabled selected  class="bg-white ">Profession</option>
+                            @{
+                                foreach (var item in Model.hptype)
+                                {
+                                    <option value=@item.Healthprofessionalid class="bg-white ">@item.Professionname</option>
+                                }
+                            }
+                        </select>
+                    </div>
+                    <div class="form-floating col-sm-6 mt-3">
+                        <select asp-for="vendorid" class="form-select py-0 px-2"  aria-label="Default select example" id="select-business" onchange="fetchOtherData()" name="vendorId">
+                            <option value="HealthProfessionalId" class="bg-white">Vendor</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="form-floating col-sm-6 mt-3">
+                        <input asp-for="contact" type="text" class="form-control" placeholder="Your First Name" aria-label="First name" id="contact">
+                        <label for="floatingInput" class="ms-2 text-muted">Business Contact</label>
+                    </div>
+                    <div class="form-floating email-field col-sm-6 mt-3">
+                        <input asp-for="email" type="text" class="form-control" placeholder="Your First Name" aria-label="First name"  id="email">
+                        <label for="floatingInput" class="ms-2 text-muted">Email</label>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-sm-6 form-floating mt-3">
+                        <input asp-for="faxnumber" id="fax-num" class="form-control" type="text" placeholder="Date Of Birth" >
+                        <label for="floatingInput" class="ms-2 text-muted">Fax Number</label>
+                        <span class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="row px-2">
+                    <div class="form-floating col-sm-10 mx-3 my-2"></div>
+                    <textarea asp-for="details" class="form-control" placeholder="Prescription or Order Details" id="floatingTextarea" rows="4" ></textarea>
+                </div>
+
+                <div class="row">
+                    <div class="form-floating col-sm-6 mt-3 ">
+                        <select asp-for="refill" class="form-select" aria-label="Default select example" name="noOfRefill" id="refil">
+                            <option selected>Number of Refill</option>
+                            <option value="0">Zero</option>
+                            <option value="1">One</option>
+                            <option value="2">Two</option>
+                            <option value="3">Three</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="colabels mt-3"> 
+                        <a type="button" asp-controller="Admin" asp-action="AdminDashboard" class="btn btn-outline-info float-end mb-3">Cancel</a>
+                        <button type="submit" class="btn btn-info float-end me-3 mb-3" >Submit</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+<script>
+    function selectBusiness() {
+        const selectProfession = document.getElementById("select-profession").value;
+        $.ajax({
+            url: '/Provider/GetBusinessData',
+            type: 'GET',
+            data: { professionId: selectProfession },
+            success: function (data) {
+                console.log(data);
+                $("#select-business").empty();
+                $("#select-business").append('<option value="" class="business-dropdown" disabled selected>Business</option>');
+                $.each(data, function (index, healthProfessional) {
+                    console.log(healthProfessional);
+                    console.log(healthProfessional.profession);
+                    console.log(healthProfessional.vendorname);
+                    $("#select-business").append('<option class="business-dropdown" value="' + healthProfessional.vendorid + '">' + healthProfessional.vendorname + '</option>');
+                });
+            },
+            error: function (error) {
+                console.error("Error fetching data:", error);
+            }
+        });
+    }
+    function fetchOtherData() {
+        const selectBusiness = document.getElementById("select-business").value;
+        $.ajax({
+            url: '/Provider/GetOtherData',
+            type: 'GET',
+            data: { businessId: selectBusiness },
+
+            success: function (data) {
+                console.log(data);
+                $("#contact").val(data.businesscontact);
+                $("#email").val(data.email);
+                $("#fax-num").val(data.faxnumber);
+            }
+        });
+        }
+</script>

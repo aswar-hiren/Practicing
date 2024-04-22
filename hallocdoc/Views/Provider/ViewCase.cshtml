@@ -1,0 +1,153 @@
+﻿@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@model DataLayer.ViewModels.RequestListAdminDash;
+<div>
+    <Partial name="_navbar" />
+    <div id="modelpartialcon"></div>
+    <div class="row conone  mt-sm-5">
+        <div class="col ">
+
+            <div class="  d-flex justify-content-between align-items-center mb-md-3 p-2   ">
+                <div class="d-flex gap-3"> <h3>New Request</h3> <button type="button" class="btn btn-success rounded" style="height: 30px; width: 80px; padding: 2px;">Patient</button> </div>
+                <a asp-action="ProviderDashBoard" class="btn btn-white border-1 border-info text-info rounded-1">&lt; &nbspBack</a>
+            </div>
+            <div class="border">
+                <div class="row m-2">
+                    <h3>Patient Information</h3>
+
+
+                </div>
+                <div class="shadow">
+                    <div class=" row m-2 d-flex  flex-column ">
+                        <p style="margin:0" class="mt-2"> Confirmation Number</p>
+                        <h4 class="text-info">MDI20523PASA0002 </h4>
+
+                    </div>
+
+                    <div class=" row   m-2 ">
+                        <div class="row ">
+                            <div class="col mb-3">
+
+                                <textarea class="form-control" placeholder="Enter The brief details"
+                                          id="exampleFormControlTextarea1" rows="4" cols="200"> No Notes</textarea>
+                            </div>
+                        </div>
+                        <div class="form-floating mb-3 col-sm">
+                            <input type="text" value="@Model.Requestclient.Firstname" class="form-control" id="floatingInput" placeholder="name@example.com">
+                            <label for="floatingInput">FirstName</label>
+                        </div>
+
+
+                        <div class="form-floating mb-3 col-sm">
+                            <input type="text" class="form-control" value="@Model.Requestclient.Lastname" id="floatingInput" placeholder="name@example.com">
+                            <label for="floatingInput">LastName</label>
+                        </div>
+
+                    </div>
+                    <div class=" row   m-2 ">
+
+                        <div class="form-floating mb-3 col-sm">
+                            <input class="form-control" value="@Model.Requestclient.BirthDate" id="floatingInput" placeholder="date Of Birth">
+                            <label for="floatingInput">Date Of Birth</label>
+                        </div>
+
+
+                        <div class="form-floating mb-3 col-sm d-flex flex-row ">
+                            <input type="tel" class="form-control" value="@Model.Requestclient.Phonenumber" id="floatingInput" placeholder="Phone Number">
+                            <label for="floatingInput"> Phone Number</label>
+                            <i class="bi bi-telephone-fill px-3 fs-5 d-flex mx-2 justify-content-center align-items-center text-info border border-info "></i>
+                        </div>
+
+
+                    </div>
+                    <div class=" row   m-2 ">
+
+                        <div class="form-floating mb-3 col-6">
+                            <input type="email" class="form-control" value="@Model.Requestclient.Email" id="floatingInput" placeholder="name@example.com">
+                            <label for="floatingInput">Email</label>
+                        </div>
+
+
+
+
+                    </div>
+                    <div class="row m-3">
+                        <h3>Location Information</h3>
+
+
+                    </div>
+
+                    <div class=" row   m-2 ">
+
+                        <div class="form-floating mb-3 col-sm">
+                            <input type="text" class="form-control" id="floatingInput" placeholder="Region" value="@Model.Requestclient.City">
+                            <label for="floatingInput"> Region</label>
+                        </div>
+
+
+                        <div class="form-floating mb-3 col-sm d-flex flex-row">
+                            <input type="text" class="form-control" id="floatingInput" placeholder="Business/Address" value="@Model.Requestclient.Street">
+                            <label for="floatingInput"> Address</label>
+                            <i class="bi bi-geo px-3 fs-5 d-flex mx-2 justify-content-center align-items-center text-info border border-info "></i>
+                        </div>
+
+                    </div>
+
+                    <div class=" row   m-2 ">
+
+                        <div class="form-floating mb-3 col-6">
+                            <input type="text" class="form-control" id="floatingInput" placeholder="Room" value="10">
+                            <label for="floatingInput"> Room #</label>
+                        </div>
+
+
+
+
+                    </div>
+
+
+
+
+
+                    <div class="row   justify-content-end">
+                        <div class=" col-xl-3 col-md-4 col-sm-6 buttons d-flex flex-row gap-2  justify-content-end">
+
+                            <button type="button" class="btn btn-info btn btn-info float-end me-3 mb-3 " onclick="assignmodel('@Model.Requestclient.Request.Requestid')" @(Model.Requestclient.Request.Status == 1 ? "" : "disabled")>Assign</button>
+                            <button type="submit" class="btn btn-info btn btn-info float-end me-3 mb-3 "> <a asp-action="ViewNotes" asp-route-reqid="@Model.Requestclient.Request.Requestid"> ViewNotes</a></button>
+
+                            <button type="button" class="btn btn-danger float-end mb-3">Cancel</button>
+
+
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+<script>
+    function assignmodel(Requestid) {
+
+        console.log("all");
+        $.ajax({
+            url: "/Admin/assignModel",
+            type: "POST",
+            data: { reqid: Requestid },
+
+            success: function (data) {
+                $("#modelpartialcon").html(data);
+                $("#AssignPopUp").modal('show');
+            },
+            error: function (e) {
+
+                console.log(e);
+            }
+        });
+
+
+
+    };
+</script>

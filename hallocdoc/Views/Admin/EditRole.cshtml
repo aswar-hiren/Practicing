@@ -1,0 +1,102 @@
+﻿@model DataLayer.ViewModels.AccessPagevm;
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@using System;
+@using System.Collections.Generic;
+@{
+    Dictionary<int?, string> accountType = new Dictionary<int?, string>()
+        {
+        {1,"Admin"},
+        {2,"Physician"},
+
+        };
+}
+
+<div class="container-fluid bg-body-tertiary vh-100">
+    <partial name="_navbar" />
+    <partial name="_Notification" />
+
+
+        <div class="container d-flex flex-column mt-3 gap-2 p-3 ">
+
+
+            <div class="container d-flex justify-content-between p-0 my-2">
+
+                <p class="h4">Create Role</p> 
+
+                <a asp-controller="Admin" asp-action="Access">
+                    <span class="border border-info text-info p-2 rounded-2">
+                        < Back
+                    </span>
+                </a>
+
+            </div>
+            <form asp-action="EditRoleDetails">
+                <div class="row shadow p-3">
+                    <h4>Details</h4>
+                    <input type="hidden" asp-for="RoleId" />
+
+
+                    <div class="col-lg-6 mt-3">
+                        <div class="form-floating mb-3">
+                            <input type="text" class="form-control" id="roleName" placeholder="Role Name" asp-for="RoleName">
+                            <label for="roleName">Role Name</label>
+                        </div>
+                    </div>
+                    <div class="col-lg-6 mt-3">
+                        <div class="form-floating mb-3">
+                            <select class="form-select form-control" aria-label="Default select example" id="accountTypeSelect" asp-for="accountType" disabled>
+
+                                <option value="@Model.accountType">@accountType[@Model.accountType]</option>
+
+                            </select>
+                            <label for="accountTypeSelect">Account Type</label>
+                        </div>
+                    </div>
+                    <div class="col-lg-12">
+                        @foreach (var item in Model.MenuList)
+                        {
+                            <span class="checkbox">
+                                <input type="checkbox" class="check me-1" value="@item.Menuid" name="menuItems" @(Model.menuItems!.Contains(item.Menuid) ? "checked" : "")>
+                                <span class="me-4">@item.Name</span>
+                            </span>
+                        }
+                    </div>
+
+                    <div class="d-flex justify-content-end mb-3">
+                        <button type="submit" id="save-role-button" class="btn bg-info text-white me-2">Save</button>
+                        <button class="btn border-info text-info">Cancel</button>
+                    </div>
+
+
+                </div>
+            </form>
+
+
+        </div>
+</div>
+
+<script>
+
+    $(document).ready(function () {
+
+        $('.dropdown-toggle').click(function () {
+            var dropdownMenu = $(this).next('.dropdown-menu');
+            $('.dropdown-menu').not(dropdownMenu).hide();
+            dropdownMenu.toggle();
+        });
+
+        $(document).on('click', function (e) {
+            if (!$(e.target).closest('.dropdown').length) {
+                $('.dropdown-menu').hide();
+            }
+        });
+    });
+
+
+    document.getElementById("access-tab").classList.remove("text-muted");
+    document.getElementById("access-tab").classList.add("text-info");
+
+
+</script>

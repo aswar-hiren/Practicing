@@ -1,0 +1,336 @@
+﻿@model DataLayer.ViewModels.viewdocumentmodel;
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<div id="viewdoc" class="m-0 p-0">
+    <Partial name="_navbar" />
+    <Partial name="_Notification" />
+    <div class="create-patient-main mx-auto w-75">
+        <div class="row mt-5 mb-3">
+            <div class="d-flex justify-content-between">
+                <h4>Documents</h4>
+                <p id="error"></p>
+                <a asp-action="ProviderDashBoard" class="btn btn-white border-1 border-info text-info rounded-1">&lt; &nbspBack</a>
+
+            </div>
+        </div>
+        <div class="row shadow">
+            <div class="ps-3">
+                <p class="mt-3 " style="font-size:14px;">Patient Name</p>
+                <h5 class="text-info "><strong>Testing Test</strong> <small class="text-muted fs-6"> @Model.firstName</small> </h5>
+                <p class="text-muted h6 mb-4 mt-3">Check here for any files that you or the doctors of your subsequents requestor have attched for you to review </p>
+                <form enctype="multipart/form-data" asp-action="ViewUploads" asp-route-requestid=@Model.reqid asp-route-reqclientid=@Model.reqclientid>
+                    <div class="rounded-1 border-1 d-flex justify-content-between mb-5  ">
+                        <div class="col">
+                            <input type="file"
+                                   class="form-control py-2"
+                                   id="floatingInput1"
+                                   placeholder="Choose file" style="background-color:#f1f1f1;" asp-for="Photo" />
+                        </div>
+
+
+                        <button type="submit" class="text-info border-2 border-info py-2  bg-info text-white"><i class="bi bi-cloud-arrow-down text-white px-1 d-block d-sm-block d-md-block d-lg-none d-xl-none  "></i> <span class="d-none d-sm-none d-md-none d-lg-block d-xl-block "> Uploads</span> </button>
+                    </div>
+                </form>
+            </div>
+
+
+
+            <form asp-action="DownLoadAll" asp-route-requestid="@Model.reqid" asp-route-reqclientid="@Model.reqclientid">
+                <div class="d-flex justify-content-between ps-3 mb-4">
+                    <h4 class="">Documents</h4>
+                    <div class="d-flex ">
+                        <button type="submit" class="p-2 bg-info border-info me-2 rounded text-white" style="border:1px solid skyblue"><i class="bi bi-cloud-arrow-down text-info px-1 d-block d-sm-block d-md-block d-lg-none d-xl-none  "></i> <span class="d-none d-sm-none d-md-none d-lg-block d-xl-block "> Downlod All</span> </button>
+                        <a class=" p-2 bg-info border-info me-2 rounded text-white" style="border:1px solid skyblue; color:white;border-radius:10px; text-align:center" id="deleteButton"><i class="bi bi-trash text-info px-1 d-block d-sm-block d-md-block d-lg-none d-xl-none  "></i> <span class="d-none d-sm-none d-md-none d-lg-block d-xl-block "> Delete All</span> </a>
+                        <a class="p-2 bg-info border-info me-2 rounded text-white" style="border:1px solid skyblue; color:white;border-radius:10px;text-align:center" id="mailButton"><i class="bi bi-envelope text-info px-1 d-block d-sm-block d-md-block d-lg-none d-xl-none  "></i> <span class="d-none d-sm-none d-md-none d-lg-block d-xl-block "> Send Mail</span> </a>
+                    </div>
+                </div>
+
+                <div class="d-none d-sm-none d-md-block d-lg-block d-xl-block shadow-none">
+
+                    <table class="table sorttable mb-0 w-100">
+
+                        <thead class="thead" style="background-color:#f1f1f1;">
+
+                            <tr>
+                                <th scope="col">
+                                    <div class="checkbox">
+                                        <input type="checkbox" class="check" id="checkAll" data-requestid=@Model.reqid data-reqclientid=@Model.reqclientid>
+                                    </div>
+                                </th>
+
+                                <th scope="col">Documents</th>
+                                <th scope="col">Upload Date</th>
+                                <th scope="col">Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+
+                            @{
+                                foreach (var item in Model.requestwisefiles)
+                                {
+                                    <tr>
+                                        <td class="">
+                                            <div class="checkbox">
+                                                <input type="checkbox" class="checkone" name="allfile" value="@item.Requestwisefileid" data-documentid=@item.Requestwisefileid data-requestid=@Model.reqid data-reqclientid=@Model.reqclientid>
+
+                                            </div>
+
+                                        </td>
+
+                                        <td> <i class="bi bi-file-earmark-pdf text-danger fs-5"></i> Medical Report @Model.firstName</td>
+                                        <td> @item.Createddate </td>
+                                        <td>
+                                            <a asp-action="Downloaddoc" asp-controller="Provider" asp-route-documentid=@item.Requestwisefileid class="border-info bg-white px-2 py-1 shadow-none" style="border:1px solid skyblue"><i class="bi bi-cloud-arrow-up text-info  "></i></a>
+                                            <a asp-action="DeleteFile" asp-controller="Provider" asp-route-requestid=@Model.reqid asp-route-reqclientid=@Model.reqclientid asp-route-documentid=@item.Requestwisefileid class="border-info bg-white px-2 py-1 shadow-none" style="border:1px solid skyblue"><i class="bi bi-trash text-info  "></i></a>
+
+                                        </td>
+                                    </tr>
+                                }
+                            }
+
+
+                        </tbody>
+                    </table>
+
+                </div>
+            </form>
+            <div class="d-block d-sm-block d-md-none d-lg-none d-xl-none">
+                @{
+                    foreach (var item in Model.requestwisefiles)
+                    {
+                        <hr />
+                        <div class="d-flex flex-column p-2">
+                            <div class="d-flex flex-row gap-2">
+                                <div class="checkbox">
+                                    <input type="checkbox" class="checkone" data-documentid=@item.Requestwisefileid data-requestid=@Model.reqid data-reqclientid=@Model.reqclientid>
+                                    <span asp-validation-for="allfile" class="text-danger"></span>
+                                </div>
+                                <p><i class="bi bi-file-earmark-pdf text-danger"></i> Medical Report @Model.firstName</p>
+
+
+                            </div>
+                            <p> @item.Createddate </p>
+                            <div>
+                                <a asp-action="Downloaddoc" asp-controller="Provider" asp-route-documentid=@item.Requestwisefileid class="border-info bg-white px-2 py-1 shadow-none" style="border:1px solid skyblue"><i class="bi bi-cloud-arrow-up text-info  "></i></a>
+
+                                <a asp-action="DeleteFile" asp-route-requestid=@Model.reqid asp-route-reqclientid=@Model.reqclientid asp-route-documentid=@item.Requestwisefileid class="border-info bg-white px-2 py-1" style="border:1px solid skyblue"><i class="bi bi-trash text-info  "></i></a>
+                            </div>
+
+
+                        </div>
+                    }
+                }
+
+            </div>
+        </div>
+
+    </div>
+</div>
+<script>
+    var selectedKeys = [];
+    var deletefile = [];
+
+    document.getElementById("checkAll").addEventListener("click", function () {
+        var checkboxes = document.querySelectorAll(".checkone");
+        checkboxes.forEach(function (checkbox) {
+            debugger;
+            var documentid = $(checkbox).data('documentid');
+            var requestid = $(checkbox).data('requestid');
+            var reqclientid = $(checkbox).data('reqclientid');
+            document.getElementById('deleteButton').dataset.reqclientid = reqclientid;
+            document.getElementById('deleteButton').dataset.requestid = requestid;
+            document.getElementById('mailButton').dataset.documentid = documentid;
+            document.getElementById('mailButton').dataset.reqclientid = reqclientid;
+            document.getElementById('mailButton').dataset.requestid = requestid;
+
+            checkbox.checked = document.getElementById("checkAll").checked;
+            if (checkbox.checked) {
+                if (!(documentid == undefined)) {
+                    deletefile.push(documentid);
+
+
+                }
+            }
+
+
+        });
+        selectedKeys = [... new Set(deletefile)];
+
+        console.log(selectedKeys);
+    });
+    // $(document).ready(function () {
+    //     $('.check').on('change', function () {
+    //         var documentid = $(this).data('documentid');
+    //         var requestid = $(this).data('reqid');
+    //         var reqclientid = $(this).data('reqclientid');
+    //         var ischecked = $(this).prop('checked');
+
+    //         if (ischecked) {
+    //             // send ajax request to controller method
+    //             $.ajax({
+    //                 url: 'url.action("sendemaildoc", "admin")',
+    //                 type: 'post',
+    //                 data: { documentid: documentid, requestid: requestid, reqclientid: reqclientid },
+    //                 success: function (response) {
+    //                     $("#viewdoc").html("response");
+    //                 },
+    //                 error: function (e) {
+    //                     console.log(e)
+    //                 }
+    //             });
+    //         }
+    //     });
+    // });
+
+
+    document.querySelectorAll('.checkone').forEach(function (checkbox) {
+
+
+
+        checkbox.addEventListener('change', function () {
+            console.log(this.checked);
+            debugger;
+            if (this.checked) {
+
+                // Get the primary key value from the data attribute
+                var documentid = $(this).data('documentid');
+                requestid = $(this).data('requestid');
+                reqclientid = $(this).data('reqclientid');
+                var ischecked = $(this).prop('checked');
+                // Store the primary key value somewhere accessible to the button
+                // document.getElementById('submitButton').dataset.primaryKey = primaryKey;
+                console.log(ischecked);
+                if (ischecked) {
+                    selectedKeys.push(documentid);
+                    deletefile.push(documentid);
+                }
+                document.getElementById('deleteButton').dataset.documentid = documentid;
+                document.getElementById('deleteButton').dataset.reqclientid = reqclientid;
+                document.getElementById('deleteButton').dataset.requestid = requestid;
+
+                document.getElementById('mailButton').dataset.documentid = documentid;
+                document.getElementById('mailButton').dataset.reqclientid = reqclientid;
+                document.getElementById('mailButton').dataset.requestid = requestid;
+
+                document.getElementById('downlodButton').dataset.documentid = documentid;
+                document.getElementById('downlodButton').dataset.reqclientid = reqclientid;
+                document.getElementById('downlodButton').dataset.requestid = requestid;
+            }
+            else {
+
+                var documentid = $(this).data('documentid');
+                var requestid = $(this).data('requestid');
+                console.log(documentid);
+                var reqclientid = $(this).data('reqclientid');
+                var ischecked = $(this).prop('checked');
+                // Store the primary key value somewhere a
+
+                const index = selectedKeys.indexOf(documentid);
+
+                const x = selectedKeys.splice(index, 1);
+                console.log(selectedKeys);
+            }
+        });
+    });
+
+    // JavaScript code to handle button click event
+    document.getElementById('mailButton').addEventListener('click', function () {
+        // Get the stored primary key value
+        // var primaryKey = this.dataset.primaryKey;
+        var documentid = this.dataset.documentid;
+        var requestid = this.dataset.requestid;
+        var reqclientid = this.dataset.reqclientid;
+        // Send the primary key value to your controller method via AJAX or by setting it in a hidden input field in the form and submitting the form
+        // Example AJAX call:
+        if (selectedKeys.length === 0) {
+            alert("Please Select At Least One Item");
+            return;
+        }
+        debugger;
+        $.ajax({
+            url: '/Provider/SendEmailDoc',
+            type: 'POST',
+            data: { documentid: selectedKeys, requestid: requestid, reqclientid: reqclientid },
+            success: function (response) {
+                $("#viewdoc").html(response);
+            },
+            error: function (xhr, status, error) {
+                console.log(error);
+            }
+        });
+
+    });
+
+    document.getElementById('deleteButton').addEventListener('click', function () {
+        // Get the stored primary key value
+        // var primaryKey = this.dataset.primaryKey;
+        debugger;
+        var documentid = this.dataset.documentid;
+        var requestid = this.dataset.requestid;
+        var reqclientid = this.dataset.reqclientid;
+        // Send the primary key value to your controller method via AJAX or by setting it in a hidden input field in the form and submitting the form
+        // Example AJAX call:
+        if (selectedKeys.length === 0) {
+            alert("Please Select At Least One Item");
+            return;
+        }
+        debugger;
+        $.ajax({
+            url: '/Provider/deleteAllFile',
+            type: 'POST',
+            data: { documentid: selectedKeys, requestid: requestid, reqclientid: reqclientid },
+            success: function (response) {
+
+                $("#viewdoc").html(response);
+
+
+            },
+            error: function (xhr, status, error) {
+                console.log(error);
+            }
+        });
+
+    });
+
+        // document.getElementById('downlodButton').addEventListener('click', function () {
+        //     // Get the stored primary key value
+        //     // var primaryKey = this.dataset.primaryKey;
+        //     debugger;
+        //     var documentid = this.dataset.documentid;
+        //     var requestid = this.dataset.requestid;
+        //     var reqclientid = this.dataset.reqclientid;
+        //     // Send the primary key value to your controller method via AJAX or by setting it in a hidden input field in the form and submitting the form
+        //     // Example AJAX call:
+        //     if (selectedKeys.length === 0) {
+        //         alert("Please Select At Least One Item");
+        //         return;
+        //     }
+        //     debugger;
+        //     $.ajax({
+        //         url: '/Admin/DownLoadAll',
+        //         type: 'POST',
+        //         data: { documentid: selectedKeys, requestid: requestid, reqclientid: reqclientid },
+        //         success: function (data) {
+
+        //             var blob = new Blob([data]);
+        //             var link = document.createElement('a');
+        //             link.href = window.URL.createObjectURL(blob);
+        //             link.download = 'filename.zip';
+        //             document.body.appendChild(link);
+        //             link.click();
+        //             window.URL.revokeObjectURL(url);
+        //             document.body.removeChild(link);
+
+
+        //         },
+        //         error: function (xhr, status, error) {
+        //             console.log(error);
+        //         }
+        //     });
+
+        // });
+
+
+
+</script>

@@ -1,0 +1,86 @@
+﻿@model DataLayer.ViewModels.AccessPagevm;
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@using System;
+@using System.Collections.Generic;
+@{
+    Dictionary<int, string> accountType = new Dictionary<int, string>()
+        {
+        {1,"Admin"},
+        {2,"Physician"},       
+        };
+}
+
+<div class="container-fluid  vh-100">
+    <partial name="_navbar" />
+    <partial name="_Notification" />
+    <div class="container d-flex flex-column mt-3 gap-2 p-3 ">
+            <div class="container d-flex justify-content-between p-0 my-2">
+                <p class="h4">Account Access</p> 
+                <a asp-controller="Admin" asp-action="Provider">
+                    <span class="border border-info text-info p-2 rounded-2">
+                        < Back
+                    </span>
+                </a>
+
+
+            </div>
+
+            <div class="row shadow ">
+                <div class="d-flex my-3 justify-content-end">
+                <a class="btn btn-white border-1 border-info text-info rounded-1" asp-action="CreateRole" asp-controller="Admin">
+                        <i class="bi bi-envelope d-inline-block d-md-none "></i> 
+                        <span class="d-none d-md-inline-block">Create Access </span>
+                    </a>
+                </div>
+
+                <div class="table-responsive"> 
+                    <table class="table">
+                        <thead class="thead fw-bold" style="background-color:#f1f1f1;">
+                            <tr>
+                                <td scope="col" width="35%">Name</td>
+                                <td scope="col" width="35%">Account Type</td>
+                                <td scope="col" class="text-center" width="10%">Actions</td>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var item in Model.roles)
+                            {
+                                <tr>
+                                    <td>@item.Name</td>
+                                    <td>@accountType[item.Accounttype]</td>
+                                    <td>
+                                        <div class="d-flex">
+                                            <a class="btn btn-light  border-info text-info me-2 d-flex contact" asp-action="EditRole" asp-controller="Admin" asp-route-roleId="@item.Roleid" style="background-color: transparent;">Edit</a>
+                                        </div>
+                                    </td>
+                                </tr>
+                            }
+
+                        </tbody>
+                    </table>
+                </div>
+
+            </div>
+        </div>
+</div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+<script>
+    $(document).ready(function () {
+
+
+        $('.dropdown-toggle').click(function () {
+            var dropdownMenu = $(this).next('.dropdown-menu');
+            $('.dropdown-menu').not(dropdownMenu).hide();
+            dropdownMenu.toggle();
+        });
+
+        $(document).on('click', function (e) {
+            if (!$(e.target).closest('.dropdown').length) {
+                $('.dropdown-menu').hide();
+            }
+        });
+
+    });
+</script>

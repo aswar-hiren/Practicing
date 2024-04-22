@@ -1,0 +1,36 @@
+﻿@model DataLayer.ViewModels.editProvidervm;
+
+<div class="modal fade" id="ModalToOpen" tabindex="-1" role="dialog" aria-labelledby="" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <input type="hidden" id="hiddenrequest" value="@Model.phyid" />
+            <div class="p-4 m-auto border border-1 border-info rounded-2">
+                <div class="row">
+                    <div class="col-md-12">
+                        <h1>E-Signature</h1>
+                        <p>Sign in the canvas below and save your signature as an image!</p>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        <canvas id="sig-canvas" width="300" height="160">
+                            Get a better browser, bro.
+                        </canvas>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        <button class=" p-2 px-3 text-white bg-info rounded border-info  mx-2 px-3 shadow-none" id="sig-submitBtn">Submit Signature</button>
+                        <button class="btn border-info text-info shadow-none" id="sig-clearBtn">Clear Signature</button>
+                    </div>
+                </div>
+                <div class="d-flex justify-content-end">
+                    <button type="button" id="Cancelbutton" class="btn border-info text-info shadow-none" data-bs-dismiss="modal">Cancel</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/signature_pad/1.5.3/signature_pad.min.js"></script>
+

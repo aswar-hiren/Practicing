@@ -1,0 +1,234 @@
+﻿@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="container-fluid  vh-100">
+    <partial name="_navbar" />
+    <partial name="_Notification">
+
+        <div class="container-fluid d-flex flex-column mt-3 gap-2  ">
+           <div class="container d-flex justify-content-between p-0 mx-0 ">
+                <div>
+                    <p class="h4">Search Record</p>
+                </div>
+            </div>
+            <div class="row shadow rounded-3">
+                <div class="row d-flex align-items-center mt-3 mb-3 me-2">
+                    <div class="col-md-3 col-sm-12">
+                        <div class="mb-3">
+                            <select class="form-select form-control w-100 p-3" id="stautsofrequest">
+                                <option selected value="0">Select Request Status</option>
+                                <option value="1">New</option>
+                                <option value="2">Pending</option>
+                                <option value="4,5">Active</option>
+                                <option value="6">Conclude</option>
+                                <option value="3,7,8">ToClose</option>
+                                <option value="9">Unpaid</option>
+                            </select>
+                        </div>
+
+                    </div>
+                    <div class="col-md-3 col-sm-12  ">
+
+                        <div class="form-floating mb-3">
+                            <input type="text" class="form-control" id="patientname"
+                                   placeholder="Patient Name" />
+                            <label for="patientname" class="">Patient Name</label>
+                        </div>
+
+                    </div>
+                    <div class="col-md-3 col-sm-12 ">
+
+                        <div class="form-floating mb-3">
+                            <select class="form-select form-control w-100 p-3" id="typeofrequest">
+                                <option selected value="0">Select Request Type</option>
+                                <option value="1">Patient</option>
+                                <option value="2">Family/Friend</option>
+                                <option value="4">Business</option>
+                                <option value="3">Concierge</option>
+                            </select>
+
+                        </div>
+
+                    </div>
+                    <div class="col-md-3 col-sm-12 ">
+
+                        <div class="form-floating mb-3">
+                            <input type="date"
+                                   class="form-control"
+                                   id="fromdateofservice"
+                                   placeholder="From Date of Service" />
+                            <label for="fromdateofservice">From Date Of Service</label>
+                        </div>
+                    </div>
+
+                    <div class="col-md-3 col-sm-12 ">
+                        <div class="form-floating mb-3">
+                            <input type="date"
+                                   class="form-control"
+                                   id="todateofservice"
+                                   placeholder="To Date of Service" />
+                            <label for="todateofservice">To Date Of Service</label>
+                        </div>
+                    </div>
+                    <div class="col-md-3 col-sm-12  ">
+                        <div class="form-floating mb-3">
+                            <input type="text" class="form-control" id="providername"
+                                   placeholder="Patient Name" />
+                            <label for="patientname" class="">Provider Name</label>
+                        </div>
+                    </div>
+
+                    <div class="col-md-3 col-sm-12  ">
+
+                        <div class="form-floating mb-3">
+                            <input type="text" class="form-control" id="email"
+                                   placeholder="Email " />
+                            <label for="email" class="">Email</label>
+                        </div>
+
+                    </div>
+
+                    <div class="col-md-3 col-sm-12  ">
+
+                        <div class="form-floating mb-3">
+                            <input type="text" class="form-control" id="phonenumber"
+                                   placeholder="Phone Number" />
+                            <label for="phonenumber" class="">Phone Number</label>
+                        </div>
+
+                    </div>
+
+
+                    <div class="col-md-12 mt-3">
+                        <div class="d-flex justify-content-end">
+                            <button type="reset" id="clearButton" class="btn  px-3 py-2 me-2 text-info  bg-white border-info" onclick="clearRecord()">Clear</button>
+
+                            <button id="searchButton" class="btn  px-3 py-2 btn-info text-white" onclick="searchrecord()">Search</button>
+                        </div>
+                    </div>
+
+
+
+
+                </div>
+
+
+
+                <div id="searchRecordContent" class="px-0">
+                </div>
+
+
+            </div>
+        </div>
+</div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+<script>
+    var Page;
+    var pageSize;
+    var patientname;
+    var providername;
+    var statusOfrequest;
+    var requestType;
+    var fromdate;
+    var todate;
+    var email;
+    var phonenumber
+    $(document).ready(function () {
+        $.ajax({
+            url: "/Admin/SearchRecordDetails",
+            type: "POST",
+            dataType: "html",
+            data: {
+                page: 1,
+                pageSize: 5,
+                
+
+            },
+            success: function (data) {
+                $("#searchRecordContent").html(data); 
+                Page = 1;
+                pageSize = 5;
+
+            },
+            error: function () {
+                $("#searchRecordContent").html('No Data Found Related Your Search');
+            }
+        });
+        $('.dropdown-toggle').click(function () {
+            var dropdownMenu = $(this).next('.dropdown-menu');
+            $('.dropdown-menu').not(dropdownMenu).hide();
+            dropdownMenu.toggle();
+        });
+
+        $(document).on('click', function (e) {
+            if (!$(e.target).closest('.dropdown').length) {
+                $('.dropdown-menu').hide();
+            }
+        });
+
+
+
+    });
+   
+    function clearRecord() {
+        document.getElementById("patientname").value = "";
+        document.getElementById("email").value = "";
+        document.getElementById("phonenumber").value = "";
+        document.getElementById("providername").value = "";
+        document.getElementById("typeofrequest").selectedIndex = 0;
+        document.getElementById("stautsofrequest").selectedIndex = 0;
+        searchrecord();
+        Page = 1;
+
+    }
+    function Pagefile(page, pagesize) {
+      
+        Page = page;
+        console.log(Page);
+        pageSize = pagesize;
+        searchrecord();
+
+
+    }
+    function searchrecord() {
+         patientname = $('#patientname').val().trim();
+         providername = $('#providername').val().trim();
+        requestType = $('#typeofrequest').val();
+        statusOfrequest = $('#stautsofrequest').val();
+         fromdate = $('#fromdate').val();
+         todate = $('#todate').val();
+         email = $('#email').val().trim();
+         phonenumber = $('#phonenumber').val().trim();
+        $.ajax({
+            url: "/Admin/SearchRecordDetails",
+            type: "POST",
+            data: {
+                patientname: patientname,
+                statusofrequest: statusOfrequest,
+                requesttype: requestType,
+                email: email,
+                fromdate: fromdate,
+                todate: todate,
+                providername: providername,
+                phoneNumber: phonenumber,
+                page: Page,
+                pageSize: pageSize,
+
+            },
+            dataType: "html",
+            success: function (data) {
+                $("#searchRecordContent").html(data);
+               
+            },
+            error: function (error) {
+
+                $("#searchRecordContent").html('No Data Found Related Your Search');
+            }
+        });
+    };
+
+
+
+
+</script>

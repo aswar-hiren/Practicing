@@ -1,0 +1,17 @@
+﻿@model DataLayer.ViewModels.CancelModel;
+
+<div class="modal fade" id="DownlodPopUp" tabindex="-1" aria-labelledby="DownlodPopUp" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content" style="font-weight:600">
+            <div class="modal-header bg-info text-white">
+                <h5 class="modal-title" id="exampleModalLabel"> Encounter Form</h5>
+                <button type="button" class="btn-close text-white" data-bs-dismiss="modal" aria-label="Close" style="color:white;"></button>
+            </div>
+            <div class="modal-body">
+                <div class="d-flex justify-content-center w-25 mx-auto">
+                    <a asp-action="GeneratePdf" class=" btn btn-outline-info" asp-route-reqid=@Model.reqid> Download</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,330 @@
+﻿@using DataLayer.ViewModels;
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+
+}
+@model DataLayer.ViewModels.RequestListAdminDash;
+
+
+<partial name="_Notification" />
+
+
+<div class="table-responsive d-sm-none d-none d-md-none d-lg-block d-xl-block mt-3 " style="height:400px;">
+
+    <table class="w-100 myTable " id="yourTableId">
+        <thead>
+            <tr class="text-secondary" style="height:60px; background-color:var(--bs-secondary-bg);">
+                <th scope="col" style="width:15%">Name</th>
+                <th scope="col" style="width:10%"></th>
+                <th scope="col">Phone</th>
+                <th scope="col" style="width:20%;">Address</th>
+                @{
+                    if (ViewBag.state == "Active")
+                    {
+                        <th scope="col">Status</th>
+                    }
+                    else
+                    {
+                        <th></th>
+                    }
+                }
+                <th scope="col" style="right:0;">Actions</th>
+
+                <th scope="col" class="d-none"></th>
+            </tr>
+        </thead>
+        <tbody id="geeks">
+            @{
+
+                Dictionary<int, string> HashMap = new Dictionary<int, string>()
+            {
+            {1,"Patient"},
+            {2,"Family/Friend"},
+            {3,"Concierge"},
+            {4,"Business"},
+            {5,"VIP"},
+
+            };
+
+                foreach (var item in Model.paginatedRequest)
+                {
+                    <tr class="style_@item.Request.Requesttypeid border-bottom-dark">
+                        <td>@item.Firstname</td>
+                        <td> <i class="bi bi-envelope me-2 border rounded-circle  border-info p-1 "></i> </td>
+
+                        <td class="p-2">
+                            <button class="btn border-white actions  px-3 py-1 text-white" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                <i class="bi bi-telephone-fill mx-1"></i>  (+91)  @item.Phonenumber
+                            </button>
+                            <p> (Patient) </p>
+                            @{
+                                if (item.Request.Requesttypeid != 1)
+                                {
+                                    <button class="btn border-white actions  px-3 py-1 text-white" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                        <i class="bi bi-telephone-fill"></i>  (+91)  @item.Request.Phonenumber
+                                    </button>
+                                    <p> (@HashMap[item.Request.Requesttypeid]) </p>
+                                }
+                            }
+
+                        </td>
+                        <td> @item.Street , @item.City , @item.State</td>
+                        @{
+                            if (item.Request.Status == 5 && ViewBag.state == "Active")
+                            {
+                                <td> <a asp-action="Housecall" asp-route-reqid="@item.Requestid" class="p-2 me-2 rounded-2" style="background-color:skyblue; color:white">House Call</a> </td>
+                            }
+                            else
+                            {
+                                <td></td>
+                            }
+                        }
+                        <td>
+                            @{
+                                if (item.Request.Status == 1 && ViewBag.state == "New")
+                                {
+                                    <div class="dropdown">
+                                        <button class="btn border-white actions dropdown-toggle p-1 text-white " type="button" aria-expanded="false" aria-haspopup="true">
+                                            Actions
+                                        </button>
+                                        <ul class="dropdown-menu ">
+                                            <button class="bg-white border-white shadow-none w-100"><a class="dropdown-item" asp-action="acceptreq" asp-route-reqid="@item.Requestid"><i class="bi bi-journal-plus me-2"></i>Accept</a></button>
+
+
+                                            <button class="bg-white border-white shadow-none w-100"><a class="dropdown-item" asp-action="ViewCase" asp-controller="Provider" asp-route-reqclientid=@item.Requestclientid><i class="bi bi-journal-text me-2"></i>View Case</a></button>
+                                            <button class="bg-white border-white shadow-none w-100"><a class="dropdown-item" asp-action="ViewNotes" asp-controller="Provider" asp-route-reqid=@item.Request.Requestid><i class="bi bi-journals me-2"></i>View Notes</a></button>
+
+                                        </ul>
+
+
+                                    </div>
+                                }
+                                else if (item.Request.Status == 2 && ViewBag.state == "Pending")
+                                {
+                                    <div class="dropdown w-100">
+                                        <button class="btn border-white d-none d-md-block text-white actions dropdown-toggle  p-1" type="button" aria-expanded="false">
+                                            Actions
+                                        </button>
+                                        <ul class="dropdown-menu">
+                                            <button class="bg-white border-white shadow-none w-100" onclick="sendagreementmodel('@item.Request.Requestid','@item.Request.Requesttypeid')"><a class=""><i class="bi bi-send me-2"></i>Send AgreeMent</a></button>
+                                            <button class="bg-white border-white shadow-none w-100"><a class="dropdown-item" asp-action="ViewCase" asp-controller="Provider" asp-route-reqclientid=@item.Requestclientid><i class="bi bi-journal-text me-2"></i>View Case</a></button>
+                                            <button class="bg-white border-white shadow-none w-100"><a class="" asp-action="ViewNotes" asp-controller="Provider" asp-route-reqid=@item.Request.Requestid><i class="bi bi-journals me-2"></i>View Notes</a></button>
+                                            <button class="bg-white border-white shadow-none w-100" onclick="transfermodel('@item.Request.Requestid')"><a class=""><i class="bi bi-x-circle me-2"></i>Transfer</a></button>
+
+                                            <button class="bg-white border-white shadow-none w-100"><a class="" asp-action="viewUploads" asp-controller="Provider" asp-route-reqclientid=@item.Requestclientid asp-route-requestid=@item.Request.Requestid><i class="bi-journals me-2"></i>View Uploads</a></button>
+                                        </ul>
+                                    </div>
+                                }
+                                else if (item.Request.Status == 4 || item.Request.Status == 5)
+                                {
+                                    <div class="dropdown ">
+                                        <button class="btn btn-outline-info actions dropdown-toggle p-1 text-white" type="button" aria-expanded="false">
+                                            Actions
+
+                                        </button>
+                                        <ul class="dropdown-menu">
+
+                                            <button class="bg-white border-white shadow-none w-100"><a class="" asp-action="ViewCase" asp-controller="Provider" asp-route-reqclientid=@item.Requestclientid><i class="bi bi-journal-text me-2"></i>View Case</a></button>
+                                            <button class="bg-white border-white shadow-none w-100"><a class="" asp-action="viewUploads" asp-controller="Provider" asp-route-reqclientid=@item.Requestclientid asp-route-requestid=@item.Request.Requestid><i class="bi bi-file-earmark-arrow-up me-2"></i>View Uploads</a></button>
+                                            <button class="bg-white border-white shadow-none w-100"><a class="" asp-action="ViewNotes" asp-controller="Provider" asp-route-reqid=@item.Request.Requestid><i class="bi bi-journals me-2"></i>View Notes</a></button>
+                                            <button class="bg-white border-white shadow-none w-100"><a class="" asp-action="Orders" asp-controller="Provider" asp-route-reqid=@item.Request.Requestid><i class="bi bi-border-middle me-2"></i>Orders</a></button>
+
+                                            @if ((item.Request.IsFinalized!.Get(0) == false && item.Request.Status == 4))
+                                            {
+                                                <button class="bg-white border-white shadow-none w-100" onclick="Encountermodel('@item.Requestid','@item.Requestclientid')"><a class=""><i class="bi bi-ban me-2"></i>Encounter</a></button>
+                                            }
+                                            else if ((item.Request.IsFinalized!.Get(0) == false && item.Request.Status == 5))
+                                            {
+                                                <button class="bg-white border-white shadow-none w-100"><a class="" asp-action="EncounterForm" asp-route-reqclientid=@item.Requestclientid asp-route-reqid=@item.Request.Requestid><i class="bi bi-ban me-2"></i>Encounter</a></button>
+                                            }
+                                            else
+                                            {
+                                                <button class="bg-white border-white shadow-none w-100" onclick="EncounterModelDownload('@item.Requestid')"><a class="btn dropdown-item finalizeForm"><i class="bi bi-journal-text me-2"></i> Encounter</a></button>
+
+                                            }
+                                        </ul>
+                                    </div>
+                                }
+                                else if (item.Request.Status == 6)
+                                {
+                                    <div class="dropdown ">
+                                        <button class="btn btn-outline-info actions dropdown-toggle p-1 text-white" type="button" aria-expanded="false">
+                                            Actions
+                                        </button>
+                                        <ul class="dropdown-menu">
+                                            <button class="bg-white border-white shadow-none w-100"><a class="" asp-action="ConcludeCare" asp-route-reqId=@item.Request.Requestid><i class="bi bi-border-middle me-2"></i>Conclude Care</a></button>
+                                            <button class="bg-white border-white shadow-none w-100"><a class="" asp-action="ViewCase" asp-controller="Provider" asp-route-reqclientid=@item.Requestclientid><i class="bi bi-journal-text me-2"></i>View Case</a></button>
+                                            <button class="bg-white border-white shadow-none w-100"><a class="" asp-action="viewUploads" asp-controller="Provider" asp-route-reqclientid=@item.Requestclientid asp-route-requestid=@item.Request.Requestid><i class="bi bi-file-earmark-arrow-up me-2"></i>View Uploads</a></button>
+                                            <button class="bg-white border-white shadow-none w-100"><a class="" asp-action="ViewNotes" asp-controller="Provider" asp-route-reqid=@item.Request.Requestid><i class="bi bi-journals me-2"></i>View Notes</a></button>
+
+
+
+                                            @if ((item.Request.IsFinalized!.Get(0) == false))
+                                            {
+                                                <button class="bg-white border-white shadow-none w-100"><a class="" asp-action="EncounterForm" asp-route-reqclientid=@item.Requestclientid asp-route-reqid=@item.Request.Requestid><i class="bi bi-ban me-2"></i>Encounter</a></button>
+                                            }
+                                            else
+                                            {
+                                                <button class="bg-white border-white shadow-none w-100" onclick="EncounterModelDownload('@item.Requestid')"><a class="btn dropdown-item finalizeForm"><i class="bi bi-journal-text me-2"></i> Encounter</a></button>
+
+                                            }
+                                        </ul>
+                                    </div>
+                                }
+                            }
+
+                        </td>
+                        <td class="d-none">@HashMap[item.Request.Requesttypeid]</td>
+
+                    </tr>
+                }
+            }
+
+        </tbody>
+    </table>
+
+</div>
+
+
+
+<div class="d-sm-block d-md-block d-lg-none d-xl-none">
+    <div class="accordion " id="accordionExample">
+
+        @{
+            Dictionary<int, string> myHashMap = new Dictionary<int, string>()
+        {
+        {1,"Patient"},
+        {2,"Family/Friend"},
+        {3,"Concierge"},
+        {4,"Business"},
+        {5,"VIP"},
+
+        };
+        }
+        @{
+            Dictionary<string, string> months = new Dictionary<string, string>()
+        {
+        { "1", "Jan"},
+        { "2", "Feb"},
+        { "3", "March"},
+        { "4", "April"},
+        { "5", "May"},
+        { "6", "June"},
+        { "7", "July"},
+        { "8", "Aug"},
+        { "9", "Sept"},
+        { "10", "Oct"},
+        { "11", "Nov"},
+        { "12", "Dec"},
+        };
+        }
+
+
+        @{
+            foreach (var client in Model.paginatedRequest)
+            {
+                <div class="accordion-item">
+                    <h2 class="accordion-header">
+                        <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#one_@client.Request.Requestid" aria-expanded="true" aria-controls="one_@client.Request.Requestid">
+                            <div class="d-flex flex-column w-100">
+                                <div class="row">
+                                    <div class="col-6">
+                                        <p>@client.Firstname,@client.Lastname</p>
+                                        <p class="fs-6">@client.Street,@client.City,<br />@client.State</p>
+                                    </div>
+                                    <div class="col-6">
+                                        <div class="d-flex justify-content-end align-items-center mb-3">
+                                            <div class="requestType ms-1 me-2 fs-6">@myHashMap[client.Request.Requesttypeid]</div>
+                                            <i class="bi bi-circle-fill st_@client.Request.Requesttypeid"></i>
+                                        </div>
+                                        <div class="d-flex flex-lg-nowrap justify-content-end">
+                                            @{
+                                                string address = client.Street + "," + client.City + "," + client.State;
+                                            }
+
+                                            <a target="_blank" href="https://www.google.com/maps/search/?api=1&query=@Uri.EscapeDataString(address)" class="btn btn-white border-1 border-info rounded-pill text-info map-location"> <small>Map Location</small></a>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="fs-6"><i class="bi bi-clock ms-1 me-2 text-info"></i>@client.Request.Createddate</div>
+                            </div>
+                        </button>
+                    </h2>
+                    <div id="one_@client.Request.Requestid" class="accordion-collapse collapse" data-bs-parent="#accordionExample">
+                        <div class="d-flex justify-content-end">
+                            <hr class="m-0" />
+                            <button class="btn btn-white border-info rounded-pill position-absolute case-button"><a class="dropdown-item" asp-action="ViewCase" asp-route-reqclientid=@client.Requestclientid>View case</a></button>
+                        </div>
+                        <div class="accordion-body" style="background:#e6e8e8">
+                            <p class="mb-0"><i class="bi bi-calendar3 me-2 border rounded-circle  border-info p-1 "></i>Date of Birth: @client.BirthDate </p>
+                            <p class="mb-0 mt-3"><i class="bi bi-envelope me-2 border rounded-circle  border-info p-1 "></i>Email: @client.Email</p>
+                            <p class="mb-0 mt-3"><i class="bi bi-telephone me-2 border rounded-circle  border-info p-1"></i>patient:@client.Phonenumber</p>
+                            <p class="mb-0 mt-3"><i class="bi bi-calendar3 me-2 border rounded-circle  border-info p-1 "></i>Requestor: @client.Request.Firstname ,@client.Request.Lastname</p>
+
+                            <div class="row mt-3">
+                                <div class="col-6">
+                                    <div class="d-flex flex-column">
+                                        <button data-bs-toggle="modal" onclick="assignmodel('@client.Request.Requestid')" data-bs-target="#AssignCaseRes" class="mt-2 btn rounded-pill text-white" style="background:#943DB8">Assign Case</button>
+                                        <button class="mt-2 rounded-pill text-white p-1" style="background:#228B22">  <a asp-action="ViewNotes" asp-route-reqid=@client.Request.Requestid>View Notes</a></button>
+                                        <button class="mt-2 btn rounded-pill text-white" style="background:#228B22">Email</button>
+                                    </div>
+                                </div>
+                                <div class="col-6">
+                                    <div class="d-flex flex-column">
+                                        <button onclick="cancelmodel('@client.Request.Requestid','@client.Firstname')" class="mt-2 btn rounded-pill text-white" style="background:#E42929">Cancle Case</button>
+                                        <button onclick="blockmodel('@client.Request.Requestid','@client.Firstname')" class="mt-2 btn rounded-pill text-white" style="background:#E42929">Block Case</button>
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            }
+        }
+
+    </div>
+
+</div>
+<div class=" @(Model.total == 0 ? "d-none" : "")">
+    <nav aria-label="Page navigation" class="p-4 d-flex justify-content-between" ">
+        <span>Page @Model.CurrentPage of @Model.TotalPages  </span>
+        <span>Total requests: @Model.total</span>
+        <ul class="pagination me-2">
+            <li class="page-item @(Model.CurrentPage <= 1 ? "disabled" : "")">
+                <button class="page-link" onclick="Pagefile(@Model.CurrentPage-1,@Model.PageSize)"><i class="bi bi-chevron-left text-black"></i></button>
+            </li>
+            <li class="page-item">
+                <button class="page-link bg-info text-white fw-bold mx-1 text-black" data-page="@Model.CurrentPage">@Model.CurrentPage</button>
+            </li>
+
+            <li class="page-item @(Model.CurrentPage == Model.TotalPages ? "disabled" : "")">
+                <button class="page-link" onclick="Pagefile(@Model.CurrentPage+1,@Model.PageSize)"><i class="bi bi-chevron-right text-black"></i></button>
+            </li>
+        </ul>
+
+    </nav>
+
+</div>
+<script>
+
+    $(document).ready(function () {
+
+        $('.dropdown-toggle').click(function () {
+            var dropdownMenu = $(this).next('.dropdown-menu');
+            $('.dropdown-menu').not(dropdownMenu).hide();
+            dropdownMenu.toggle();
+        });
+
+        $(document).on('click', function (e) {
+            if (!$(e.target).closest('.dropdown').length) {
+                $('.dropdown-menu').hide();
+            }
+        });
+    });
+
+
+
+
+
+</script>

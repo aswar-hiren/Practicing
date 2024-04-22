@@ -1,0 +1,51 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+}
+@model List<Shiftdetail>;
+<div class="modal fade" id="Allshift" tabindex="-1" aria-labelledby="Allshift" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content" style="font-weight:600">
+
+            <div class="modal-header bg-info text-white">
+                <h5 class="modal-title" id="exampleModalLabel"> All Shift</h5>
+                <button type="button" class="btn-close text-white" data-bs-dismiss="modal" aria-label="Close" style="color:white;"></button>
+            </div>
+
+            <div class="modal-body" style="height:400px; overflow:scroll">
+                @foreach (var item in Model)
+                {
+                    var bgcolor = "";
+                    var color = "";
+                    if (item.Status == 1)
+                    {
+                        bgcolor = "lightpink";
+                        color = "white";
+                    }
+                    else if (item.Status == 2)
+                    {
+                        bgcolor = "green";
+                        color = "white";
+
+                    }
+                    <div class="w-100    shadow border-bottom " style="background-color:@bgcolor;color:@color">
+                        <div class="d-flex gap-2">
+                            <img src="@item.Shift.Physician.Photo" style="height:40px;width:40px" />
+                            <p>@item.Shift.Physician.Firstname</p>
+                        </div>
+                        <p>
+                            Shift : @item.Starttime-@item.Endtime
+                        </p>
+                        <p>
+                       Shift Date: @item.Shiftdate.Day/@item.Shiftdate.Month/@item.Shiftdate.Year
+                        </p>
+                        
+                    </div>
+                }
+            </div>
+
+
+        </div>
+    </div>
+</div>

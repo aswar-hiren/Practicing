@@ -1,0 +1,10 @@
+﻿@model DataLayer.ViewModels.AccessPagevm;
+@{
+
+@foreach  (var item in Model.MenuList) {
+    <span class="checkbox">
+        <input type="checkbox" value="@item.Menuid" class="check me-1" name="menuItems" />
+        <span class="me-4">@item.Name</span>
+    </span>
+}
+}

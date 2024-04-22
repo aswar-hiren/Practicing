@@ -1,0 +1,71 @@
+﻿@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@model DataLayer.ViewModels.Schedulereqvm;
+<Partial name="_navbar"/>
+<Partial name="_Notification"/>
+<div class="row">
+    <div class="col-xl-9 col-lg-10 col-md-10 col-sm-9 col-xs-12 mx-auto shadow bg-white mt-5">
+        <div class="row mt-5 mb-3">
+            <div class="d-flex justify-content-between">
+                <h4>Scheduling</h4>
+                <p id="error"></p>
+                <a asp-action="Scheduling" class="btn btn-white border-1 border-info text-info rounded-1">&lt; &nbspBack</a>
+            </div>
+        </div>
+        <div class="row mt-5 ">
+        <div class="col-4">
+            <select class="form-select" aria-label="Default select example" id="phyreg" onchange="schedulPhy()">
+                <option value="0" selected>All Region</option>
+                @foreach (var item in Model.region)
+                {
+                    <option value="@item.Regionid">@item.Name</option>
+                }
+            </select>
+        </div>
+        </div>
+       
+        <div class="" id="tableContent">
+
+           
+         
+        </div>
+     
+       
+    </div>
+</div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+<script>
+    var regionId=0;
+    $(document).ready(function (e) {
+        
+        Pagefile(1, 7, regionId);
+     
+    });
+   
+    function schedulPhy() {
+        regionId = $("#phyreg").val();
+        console.log(regionId);
+        Pagefile(1, 7, regionId);
+
+    }
+  
+    function Pagefile(page, pageSize,regionId) {
+
+        $.ajax({
+            url: "/Admin/SchedulingReqTable",
+            type: "POST",
+            data: { page: page, pageSize: pageSize, regionid: regionId },
+            dataType: "html",
+            success: function (data) {
+                $("#tableContent").html(data);
+            },
+            error: function (error) {
+
+                $("#tableContent").html('An error has occurred');
+            }
+        });
+
+    }
+
+    </script>

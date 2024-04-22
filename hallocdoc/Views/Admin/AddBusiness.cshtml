@@ -1,0 +1,133 @@
+﻿@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@model DataLayer.ViewModels.AddBusiness;
+
+<div>
+    <partial name="_navbar" />
+    <partial name="_Notification" />
+    <div class="container w-50  d-flex justify-content-between align-items-center mt-4">
+
+        <h4 class="col-6 ms-0 fw-bold" style="margin-left: -10px !important;">
+
+         Add Business
+
+        </h4>
+        <div class="col-6 d-flex justify-content-end">
+            <a asp-action="Vendor" asp-route-hptypeid="0" class="btn btn-white border-1 border-info text-info rounded-1">&lt; &nbspBack</a>
+
+        </div>
+    </div>
+
+    <div class="container mt-4 shadow-lg p-3 mb-5 bg-white rounded w-50" id="main-container">
+        <div class="w-100">
+            <form method="post" asp-controller="Admin" asp-action="AddBusiness" 
+                  enctype="multipart/form-data">
+                <input type="number" hidden id="r-id" />
+                <div class="row">
+                    <div class="form-floating col-sm-6 mt-3">
+                        <input asp-for="bname" type="text" class="form-control" placeholder="Business Name" aria-label="First name" id="contact">
+                        <label for="floatingInput" class="ms-2 text-muted">Business Name</label>
+                        <div > <span asp-validation-for="bname" class="text-danger"></span> </div>
+                    </div>
+                    <div class="form-floating email-field col-sm-6 mt-3">
+                        <select class="form-select" aria-label="Default select example" id="proffesion" asp-for="proffesion" >
+                            <option value="0" selected>All Proffesssion</option>
+                            @{
+                                foreach (var item in Model.hptype)
+                                {
+                                    <option value="@item.Healthprofessionalid">@item.Professionname</option>
+                                }
+                            }
+
+
+                        </select>
+                        <div> <span asp-validation-for="proffesion" class="text-danger"></span> </div>
+                    </div>
+                </div>
+                <div class="row">
+
+                    <div class="form-floating email-field col-sm-6 mt-3">
+                        <input asp-for="faxno" type="text" class="form-control" placeholder="Fax Number" aria-label="First name" id="">
+                        <label for="floatingInput" class="ms-2 text-muted">Fax Number</label>
+                        <div> <span asp-validation-for="faxno" class="text-danger"></span> </div>
+                    </div>
+                  
+                    <div class="form-floating col-sm-6 mt-3">
+                        <input asp-for="contact" type="text" class="form-control" placeholder="Phone Number" aria-label="First name" id="contact">
+                        <label for="floatingInput" class="ms-2 text-muted">Phone Number</label>
+                        <div> <span asp-validation-for="contact" class="text-danger"></span> </div>
+                    </div>
+                </div>
+                <div class="row">
+                  
+                    <div class="form-floating email-field col-sm-6 mt-3">
+                        <input asp-for="email" type="text" class="form-control" placeholder="Your First Name" aria-label="First name" id="email">
+                        <label for="floatingInput" class="ms-2 text-muted">Email</label>
+                        <div> <span asp-validation-for="email" class="text-danger"></span> </div>
+                    </div>
+                    <div class="form-floating col-sm-6 mt-3">
+                        <input asp-for="bcontact" type="text" class="form-control" placeholder="Business Contact" aria-label="First name" id="contact">
+                        <label for="floatingInput" class="ms-2 text-muted">Business Contact</label>
+                        <div> <span asp-validation-for="bcontact" class="text-danger"></span> </div>
+                    </div>
+                </div>
+                <div class="row">
+
+                    <div class="form-floating email-field col-sm-6 mt-3">
+                        <input asp-for="street" type="text" class="form-control" placeholder="Your First Name" aria-label="First name" id="email">
+                        <label for="floatingInput" class="ms-2 text-muted">Street</label>
+                        <div> <span asp-validation-for="street" class="text-danger"></span> </div>
+                    </div>
+                    <div class="form-floating col-sm-6 mt-3">
+                        <input asp-for="city" type="text" class="form-control" placeholder="Business Contact" aria-label="First name" id="contact">
+                        <label for="floatingInput" class="ms-2 text-muted">City </label>
+                        <div> <span asp-validation-for="city" class="text-danger"></span> </div>
+                    </div>
+                </div>
+                <div class="row">
+
+                    <div class="form-floating email-field col-sm-6 mt-3">
+                        <input asp-for="state" type="text" class="form-control" placeholder="Your First Name" aria-label="First name" id="email">
+                        <label for="floatingInput" class="ms-2 text-muted">State</label>
+                        <div> <span asp-validation-for="state" class="text-danger"></span> </div>
+                    </div>
+                    <div class="form-floating col-sm-6 mt-3">
+                        <input asp-for="pincode" type="text" class="form-control" placeholder="Business Contact" aria-label="First name" id="contact">
+                        <label for="floatingInput" class="ms-2 text-muted">Pin Code </label>
+                        <div> <span asp-validation-for="pincode" class="text-danger"></span> </div>
+                    </div>
+                </div>
+                <div class="row mt-3">
+                    <div class="d-flex justify-content-end gap-2">
+                        <button type="submit" class="btn btn-info float-end me-3 mb-3">Save</button>
+                        <button class="btn btn-outline-info float-end mb-3">Cancel</button>
+
+
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+<script>
+    $(document).ready(function () {
+
+        $('.dropdown-toggle').click(function () {
+            var dropdownMenu = $(this).next('.dropdown-menu');
+            $('.dropdown-menu').not(dropdownMenu).hide();
+            dropdownMenu.toggle();
+        });
+
+        $(document).on('click', function (e) {
+            if (!$(e.target).closest('.dropdown').length) {
+                $('.dropdown-menu').hide();
+            }
+        });
+    });
+    @section Scripts{
+        @{
+                <Partial name="_ValidationScriptsPartial" />
+        }
+            }
+</script>

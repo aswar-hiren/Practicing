@@ -1,0 +1,101 @@
+﻿@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@model DataLayer.ViewModels.Providervm;
+
+<head>
+    <style>
+        .form-select {
+            height: 3em !important;
+            width: 20em;
+            color: gray !important;
+            font-size: 16px;
+            box-shadow: none !important;
+        }
+
+        input[type="checkbox"] {
+            transform: scale(1.5);
+        }
+    </style>
+</head>
+<div class="table-responsive " id="maintable">
+    <table class="table d-block">
+
+        <thead class="table-active">
+            <tr>
+                <th scope="col" width="10%">Stop Notification</th>
+                <th scope="col">
+                    Provider Name<i class="bi bi-arrow-up ms-2"></i>
+                </th>
+                <th scope="col">Role</th>
+                <th scope="col">On Call Status</th>
+                <th scope="col" width="20%">Status</th>
+                <th scope="col" width="15%" class="">Action</th>
+            </tr>
+        </thead>
+
+        <tbody>
+            @foreach (var obj in Model.physicians)
+            {
+                <tr>
+                    <td> <input value="@obj.Physicianid" @(obj.Isnotificationstopped == true ? "checked" : "") type="checkbox" /></td>
+                    <td>@obj.Physician.Firstname </td>
+                    <td>
+                        @{
+                            if (obj.Physician.Role != null)
+                            {
+                        @obj.Physician.Role.Name
+                            }
+                        }
+
+                    </td>
+                    <td>Available</td>
+                    <td>
+                        @if (obj.Physician.Status == 1)
+                        {
+                            <p>New</p>
+                        }
+                        else if (obj.Physician.Status == 2)
+                        {
+                            <p>Active</p>
+                        }
+                        else if (obj.Physician.Status == 4)
+                        {
+                            <p>Other</p>
+                        }
+                    </td>
+                    <td class="d-flex">
+                        <button class="btn btn-outline-info me-2" onclick="contactmodel('@obj.Physician.Email','@obj.Physician.Physicianid')">Contact</button>
+                        <a asp-action="EditProvider" asp-route-phyid=@obj.Physician.Physicianid class="btn btn-outline-info ms-2 d-none d-md-block">Edit</a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+<script>
+    var physicianId;
+    var isChecked;
+    $("input[type='checkbox']").on("click", function () {
+        physicianId = $(this).val();
+        isChecked = $(this).is(":checked");
+        physicianNotification();
+    });
+
+    function physicianNotification() {
+        $.ajax({
+            url: "/Admin/UpdatedNotification",
+            type: "POST",
+            data: { physicianId: physicianId, isChecked: isChecked },
+            dataType: "html",
+            success: function (data) {
+
+            },
+            error: function (error) {
+                $("#providerContent").html('An error has occurred');
+            }
+        });
+    }
+  
+</script>

@@ -1,0 +1,833 @@
+﻿@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@model DataLayer.ViewModels.editProvidervm;
+<partial name="_navbar"/>
+<partial name="_Notification"/>
+<div class=" ">
+    <div class="modal fade" id="ModalToOpen" tabindex="-1" role="dialog" aria-labelledby="" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <input type="hidden" id="hiddenrequest" value="@Model.phyid" />
+                <div class="p-4 m-auto border border-1 border-info rounded-2">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <h1>E-Signature</h1>
+                            <p>Sign in the canvas below and save your signature as an image!</p>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <canvas id="sig-canvas" width="300" height="160">
+                                Get a better browser, bro.
+                            </canvas>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <button class=" p-2 px-3 text-white bg-info rounded border-info  mx-2 px-3 shadow-none" id="sig-submitBtn">Submit Signature</button>
+                            <button class="btn border-info text-info shadow-none" id="sig-clearBtn">Clear Signature</button>
+                        </div>
+                    </div>
+                    <div class="d-flex justify-content-end">
+                        <button type="button" id="Cancelbutton" class="btn border-info text-info shadow-none" data-bs-dismiss="modal">Cancel</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-lg-8 col-xl-8 col-md-9 col-sm-12 col-xs-12 mx-auto">
+        @*Page Header*@
+        <div class="row mt-5 mb-3">
+            <div class="d-flex justify-content-between">
+                <h4>Edit Physician Account </h4>
+                <p id="error"></p>
+                <a asp-action="Provider" class="btn btn-white border-1 border-info text-info rounded-1">&lt; &nbspBack</a>
+            </div>
+        </div>
+        @*Main Section*@
+        <div class="shadow bg-white rounded-3 p-4 ">
+            @*First div*@
+            <h4 class="">Account Information</h4>
+            <form asp-action="ProviderProfile" asp-controller="Admin">
+                <input asp-for="@Model.aspuserid" hidden />
+                <input asp-for="@Model.phyid" hidden />
+                <div class="row g-2">
+
+                    @*Username*@
+                    <div class="form-floating mb-3 col-sm-12 col-md-6 col-lg-6 col-xl-6 d-flex">
+                        <input type="text" asp-for="username" class="form-control " id="pi_name" placeholder="UserName" disabled>
+                        <label>Username</label>
+                    </div>
+
+                    @*Password*@
+                    <div class="form-floating mb-3 col-sm-12 col-md-6 col-lg-6 col-xl-6">
+                        <input type="text" asp-for="password" class="form-control enabled" id="pi_name" placeholder="password" disabled>
+                        <label for="floatingInput" style="margin-left: 1em">Password</label>
+                        <div> <span asp-validation-for="password" class="text-danger"></span> </div>
+                    </div>
+
+
+                    <div class="form-floating mb-3 col-sm-12 col-md-6 col-lg-6 col-xl-6 d-flex">
+                        <select class="form-select" aria-label="Default select example" style=" width: 100%; height:57px;" disabled>
+                            <option selected>Active</option>
+                            <option value="1">Leave</option>
+                            <option value="2">Retired</option>
+                        </select>
+                        <label for="select">Status</label>
+                    </div>
+
+                    @*Role*@
+
+                    <div class="form-floating mb-3 col-sm-12 col-md-6 col-lg-6 col-xl-6 d-flex">
+                        <select class="form-select" aria-label="Default select example" style=" width: 100%;" disabled>
+                            <option selected>Physician</option>
+                            <option value="1">Physician</option>
+                        </select>
+                        <label>Role</label>
+                    </div>
+
+
+                </div>
+                @*Reset Password*@
+                <div class="col-12 d-flex justify-content-end ">
+                    <button type="button" class="btn btn-outline-info " id="resetpasswordbtn">Reset Password</button>
+
+
+                    <button type="submit" name="command" value="1" class="btn btn-info me-2 " id="adminprofilesavebtn" style="display: none;">Save</button>
+
+                    <a type="button" class="btn btn-outline-info " id="adminprofilecancelbtn" style="display: none;">Cancel</a>
+                </div>
+            </form>
+
+
+            @*Second Div*@
+            <h4>Physician Information</h4>
+            <form asp-action="ProviderProfile" asp-controller="Admin">
+                <input asp-for="phyid" hidden />
+
+                <div class="row g-2">
+
+                    @*Firstnanme*@
+                    <div class="form-floating mb-3 col-sm-12 col-md-6 col-lg-6 col-xl-6 ">
+                        <input type="text" asp-for="firstname" class="form-control enabled1" id="pi_name" placeholder="FirstName" disabled>
+                        <label class="">First Name</label>
+                        <div> <span asp-validation-for="firstname" class="text-danger"></span> </div>
+                    </div>
+
+                    @*Lastname*@
+                    <div class="form-floating mb-3 col-sm-12 col-md-6 col-lg-6 col-xl-6 ">
+                        <input type="text" asp-for="lastname" class="form-control enabled1" id="pi_name"  placeholder="LastName" disabled>
+                        <label>Last Name</label>
+                        <div> <span asp-validation-for="lastname" class="text-danger"></span> </div>
+                    </div>
+
+                    @*Email*@
+                    <div class="form-floating mb-3 col-sm-12 col-md-6 col-lg-6 col-xl-6 ">
+                        <input type="text" asp-for="email" class="form-control enabled1" id="pi_name" placeholder="Email" disabled>
+                        <label>Email</label>
+                        <div> <span asp-validation-for="firstname" class="text-danger"></span> </div>
+                    </div>
+
+                    @*Confirm Email*@
+
+
+
+                    @*Phone*@
+                    <div class="form-floating mb-3 col-sm-12 col-md-6 col-lg-6 col-xl-6">
+                        <input type="text" asp-for="phoneno" class="form-control enabled1" id="pi_name" placeholder="Mobile" disabled>
+                        <label>Phone</label>
+                        <div> <span asp-validation-for="phoneno" class="text-danger"></span> </div>
+                    </div>
+                    <div class="form-floating mb-3 col-sm-12 col-md-6 col-lg-6 col-xl-6 ">
+                        <input type="text" asp-for="ml" class="form-control enabled1" id="pi_name" placeholder="Medical Licence" disabled>
+                        <label>Medical Licence</label>
+                        <div> <span asp-validation-for="ml" class="text-danger"></span> </div>
+                    </div>
+                    <div class="form-floating mb-3 col-sm-12 col-md-6 col-lg-6 col-xl-6 ">
+                        <input type="text" asp-for="npinumber" class="form-control enabled1" id="pi_name" placeholder="NPI Number" disabled>
+                        <label>NPI Number"</label>
+                        <div> <span asp-validation-for="npinumber" class="text-danger"></span> </div>
+                    </div>
+                    <div class="form-floating mb-3 col-sm-12 col-md-6 col-lg-6 col-xl-6 ">
+                        <input type="text" asp-for="semail" class="form-control enabled1" id="pi_name" placeholder="Email" disabled>
+                        <label> Syncronization Email Address</label>
+                        <div> <span asp-validation-for="semail" class="text-danger"></span> </div>
+                    </div>
+                    <div class="col-xl-12 d-flex">
+                       
+                        @{
+                            foreach (var item in Model.region)
+                            {
+                                var phyregion = Model.phyregion;
+                             
+                                <div class="form-check me-3 ">
+                                    <input class="form-check-input" type="checkbox" name="AllCheck" id="inlineCheckbox1" value="@item.Regionid" @(phyregion.Any(ph=>ph.Regionid==item.Regionid) ? "checked" : "")>
+                                    <label class="form-check-label" for="inlineCheckbox1">@item.Name</label>
+                                </div>
+                            }
+                       }
+                    </div>
+
+                    @*info change*@
+                    <div class="col-12 d-flex justify-content-end">
+                        <button type="button" class="btn btn-outline-primary colorbtn" id="adminprofileeditbtn1">Edit</button>
+
+
+                        <button type="submit" name="command" value="2" class="btn btn-primary me-2 colorbtn" id="adminprofilesavebtn1" style="display: none;">Save</button>
+
+                        <a href="#" type="button" class="btn btn-outline-primary colorlessbtn" id="adminprofilecancelbtn1" style="display: none;">Cancel</a>
+                    </div>
+
+                </div>
+            </form>
+
+
+            @*Third Div*@
+            <h4>Mailing & Billing Information</h4>
+            <form asp-action="ProviderProfile" asp-controller="Admin">
+                <input asp-for="phyid" hidden />
+
+                <div class="row g-2">
+
+                    @*Address*@
+                    <div class="form-floating mb-3 col-sm-12 col-md-6 col-lg-6 col-xl-6 ">
+                        <input type="text" class="form-control enabled2" id="pi_name" placeholder="Address1" asp-for="adress1" disabled>
+                        <label>Address #1</label>
+                        <div> <span asp-validation-for="adress1" class="text-danger"></span> </div>
+                    </div>
+
+                    @*Address*@
+                    <div class="form-floating mb-3 col-sm-12 col-md-6 col-lg-6 col-xl-6 ">
+                        <input type="text" class="form-control enabled2" id="pi_name" placeholder="Address2" asp-for="adress2" disabled>
+                        <label>Address #2</label>
+                        <div> <span asp-validation-for="adress2" class="text-danger"></span> </div>
+                    </div>
+
+                    @*City*@
+                    <div class="form-floating mb-3 col-sm-12 col-md-6 col-lg-6 col-xl-6">
+                        <input type="text" class="form-control enabled2" id="pi_name" placeholder="City" asp-for="city" disabled>
+                        <label>City</label>
+                        <div> <span asp-validation-for="city" class="text-danger"></span> </div>
+                    </div>
+
+                    @*State*@
+                    <div class="form-floating mb-3 col-sm-12 col-md-6 col-lg-6 col-xl-6">
+                        <input type="text" class="form-control enabled2" id="pi_name" placeholder="State" asp-for="state" disabled>
+                        <label>State</label>
+                        <div> <span asp-validation-for="state" class="text-danger"></span> </div>
+                    </div>
+
+                    @*Zip*@
+                    <div class="form-floating mb-3 col-sm-12 col-md-6 col-lg-6 col-xl-6 ">
+                        <input type="text" class="form-control enabled2" id="pi_name" placeholder="Zip" asp-for="zip" disabled>
+                        <label>Zip</label>
+                        <div> <span asp-validation-for="zip" class="text-danger"></span> </div>
+                    </div>
+
+                    @*Phone*@
+                    <div class="form-floating mb-3 col-sm-12 col-md-6 col-lg-6 col-xl-6 ">
+                        <input type="text" class="form-control enabled2" id="pi_name" placeholder="AlternareMobile" asp-for="phoneno" disabled>
+                        <label>Phone</label>
+                        <div> <span asp-validation-for="phoneno" class="text-danger"></span> </div>
+                    </div>
+
+                    @*Reset Password*@
+                    <div class="col-12 d-flex justify-content-end">
+                        <button type="button" class="btn btn-outline-primary colorbtn" id="adminprofileeditbtn2">Edit</button>
+
+                        <button type="submit" name="command" value="3" class="btn btn-primary me-2 colorbtn" id="adminprofilesavebtn2" style="display: none;">Save</button>
+
+                        <a href="#" type="button" class="btn btn-outline-primary colorlessbtn" id="adminprofilecancelbtn2" style="display: none;">Cancel</a>
+                    </div>
+
+                </div>
+            </form>
+            @*fourth Div*@
+            <h4>Provider Profile</h4>
+            <form id="signature-form" action="ProviderProfile" method="POST" enctype="multipart/form-data">
+                <input asp-for="phyid" hidden />
+
+                <div class="row g-2">
+                    <div class="form-floating mb-3 col-sm-12 col-md-6 col-lg-6 col-xl-6 ">
+                        <input type="text" class="form-control enabled3" id="pi_name" placeholder="BusinessName" asp-for="bname" disabled>
+                        <label>Business Name</label>
+                        <div> <span asp-validation-for="bname" class="text-danger"></span> </div>
+                    </div>
+
+                    @*Address*@
+                    <div class="form-floating mb-3 col-sm-12 col-md-6 col-lg-6 col-xl-6 ">
+                        <input type="text" class="form-control enabled3" id="pi_name" placeholder="Business Website" asp-for="website" disabled>
+                        <label>Business Website</label>
+                        <div> <span asp-validation-for="website" class="text-danger"></span> </div>
+                    </div>
+                    <div class="form-floating mb-3 col-sm-12 col-md-6 col-lg-6 col-xl-6 d-flex  ">
+                        <div class="col">
+                            <input type="file"
+                                   class="form-control py-2 enabled3"
+                                   id="actual-btn"
+                                   placeholder="Choose file" style="background-color:#f1f1f1;" asp-for="Photo" disabled />
+                        </div>
+
+
+                        <button type="button" onclick="PhotoUpload()" class="text-info border-2 border-info py-2  bg-info text-white"><i class="bi bi-cloud-arrow-down text-white px-1 d-block d-sm-block d-md-block d-lg-none d-xl-none  "></i> <span class="d-none d-sm-none d-md-none d-lg-block d-xl-block "> Uploads</span> </button>
+                    </div>
+                    <div class="form-floating mb-3 col-sm-12 col-md-6 col-lg-6 col-xl-6 d-flex  ">
+                        <div class="col">
+                            <input type="file"
+                                   class="form-control py-2 enabled3"
+                                   id="floatingInput1"
+                                   placeholder="Choose file" style="background-color:#f1f1f1;" asp-for="sign" disabled />
+                        </div>
+
+
+                        <button type="button" id="PhySignSubmit" onclick="SignUpload()" data-phyid="@Model.phyid" class="text-info border-2 border-info py-2 mx-2  bg-info text-white"><i class="bi bi-cloud-arrow-down text-white px-1 d-block d-sm-block d-md-block d-lg-none d-xl-none  "></i> <span class="d-none d-sm-none d-md-none d-lg-block d-xl-block "> Uploads</span> </button>
+                        <button onclick="SignPopUp('@Model.phyid')" disabled type="button" id="create" class="text-info border-2 border-info py-2  bg-info text-white"><i class="bi bi-pencil text-white px-1 d-block d-sm-block d-md-block d-lg-none d-xl-none  "></i> <span class="d-none d-sm-none d-md-none d-lg-block d-xl-block "> Create</span> </button>
+
+                    </div>
+                    <div class="form-floating mb-3 col-sm-12 col-md-6 col-lg-6 col-xl-6 d-flex">
+                        <img src="@Model.Photo" height="200" width="200" class="mx-auto" />
+                    </div>
+                    <div class="form-floating mb-3 col-sm-12 col-md-6 col-lg-6 col-xl-6 d-flex">
+                        <img src="@Model.sign" id="physign" height="200" width="200" class="mx-auto" />
+                    </div>
+                    @*   <div class="form-floating  col-sm-12 col-md-6 col-lg-6 col-xl-6 d-flex signpad m-5 mx-auto  ">
+                    <div class="signature-container">
+                    <canvas id="signature-pad" width="300" height="150"></canvas>
+                    <button id="clear-btn">Clear</button>
+                    <input type="file" id="signature-file" name="sign" accept="image/*" style="display: none;">
+
+                    </div>
+                    </div> *@
+                </div>
+                <div class="row g-2">
+
+                    <textarea class="form-control" placeholder="Admin Notes" asp-for="text"
+                    id="exampleFormControlTextarea1" rows="5" cols="200">@Model.text</textarea>
+
+                </div>
+                <div class="col-12 d-flex justify-content-end mt-2">
+                    <button type="button" class="btn btn-outline-primary colorbtn" id="adminprofileeditbtn3">Edit</button>
+                    <button type="submit" name="command" value="4" class="btn btn-primary me-2 colorbtn" id="adminprofilesavebtn3" style="display: none;">Save</button>
+                    <button type="button" class="btn btn-outline-primary colorlessbtn" id="adminprofilecancelbtn3" style="display: none;">Cancel</button>
+                </div>
+            </form>
+            <hr class="mt-2 p-0 text-dark border-3 border-dark fw-bold" />
+            @*fifth Div*@
+            <h4>OnBoarding</h4>
+            <form asp-action="UpdateProviderDocument" enctype="multipart/form-data" asp-controller="Admin">
+                <input asp-for="phyid" hidden/>
+                <div class="row g-2">
+                    <div class=" mb-3 col-sm-12 col-md-7 col-lg-7 col-xl-7 d-flex">
+                        <input class="form-check-input" type="checkbox" @(Model.agreement == true ? "checked" : "") id="inlineCheckbox1" />
+                        <p class="mx-5 w-50"> Independent Contractor AgreeMent</p>
+                        <input type="file" class="d-none " id="agreementDoc" asp-for="agreementdoc">
+                        <label for="agreementDoc" class="text-info border-2 border-info py-2 mx-3 p-3  bg-info text-white">Upload</label>
+                        @if (Model.agreement == true)
+                        {
+                            var fileName = Model.phyid + "_AgrrementDoc.pdf";
+                            <a id="agrrementViewButton" class="btn bg-info text-white " href="/uploads/@fileName" target="_blank">View</a>
+                        }
+                        else
+                        {
+                            <a id="agrrementViewButton" class="btn bg-info text-white ms-2 d-none">View</a>
+                        }
+                    </div>
+                </div>
+                <div class=" mb-3 col-sm-12 col-md-7 col-lg-7 col-xl-7 d-flex">
+                    <input class="form-check-input border" type="checkbox" id="inlineCheckbox1" @(Model.background == true ? "checked" : "") />
+                    <p class="mx-5 w-50"> Background Check</p>
+                    <input type="file" class="d-none" id="backgroundDoc"  asp-for="backgrounddoc">
+                    <label for="backgroundDoc" class="text-info border-2 border-info py-2 mx-3 p-3  bg-info text-white">Upload</label>
+                    @if (Model.background == true)
+                    {
+                        var fileName = Model.phyid + "_BackgroundDoc.pdf";
+                        <a id="backgroundViewButton" class="btn bg-info text-white " href="/uploads/@fileName" target="_blank">View</a>
+                    }
+                    else
+                    {
+                        <a id="backgroundViewButton" class="btn bg-info text-white ms-2 d-none">View</a>
+                    }
+                </div>
+                <div class=" mb-3 col-sm-12 col-md-7 col-lg-7 col-xl-7 d-flex">
+                    <input class="form-check-input border" type="checkbox" id="inlineCheckbox1" @(Model.compilance == true ? "checked" : "") />
+                    <p class="mx-5 w-50"> HTPAA Compilance</p>
+                    <input type="file" class="d-none"  >
+                    <label for="" class="text-info border-2 border-info py-2 mx-3 p-3  bg-info text-white">Upload</label>
+                    @if (Model.compilance == true)
+                    {
+                        var fileName = Model.phyid + "_CompialanceDoc.pdf";
+                        @*   <button type="submit" class="text-info border-2 border-info py-2 mx-3 bg-info text-white"><i class="bi bi-pencil text-white px-1 d-block d-sm-block d-md-block d-lg-none d-xl-none  "></i> <span class="d-none d-sm-none d-md-none d-lg-block d-xl-block "> View</span> </button> *@
+                        <a id="compilanceViewButton" class="btn bg-info text-white " href="/uploads/@fileName" target="_blank">View</a>
+                    }
+                    else
+                    {
+                        <a id="compilanceViewButton" class="btn bg-info text-white ms-2 d-none">View</a>
+                    }
+                </div>
+                <div class=" mb-3 col-sm-12 col-md-7 col-lg-7 col-xl-7 d-flex">
+                    <input class="form-check-input border" type="checkbox" id="inlineCheckbox1" @(Model.disclosure == true ? "checked" : "") />
+                    <p class="mx-5 w-50">    Non-disclosure AgreeMent</p>
+                    <input type="file" class="d-none" id="disclosureDoc" asp-for="disclosuredoc">
+                    <label for="disclosureDoc" class="text-info border-2 border-info py-2 mx-3 p-3  bg-info text-white">Upload</label>
+                    @if (Model.disclosure == true)
+                    {
+                        var fileName = Model.phyid + "_NonDisclosureDoc.pdf";
+                        <a id="disclosureViewButton" class="btn bg-info text-white " href="/uploads/@fileName" target="_blank">View</a>
+                    }
+                    else
+                    {
+                        <a id="disclosureViewButton" class="btn bg-info text-white ms-2 d-none">View</a>
+                    }
+                </div>
+                <div class=" mb-3 col-sm-12 col-md-7 col-lg-7 col-xl-7 d-flex">
+                    <input class="form-check-input border" type="checkbox" id="inlineCheckbox1" @(Model.license == true ? "checked" : "") />
+                    <p class="mx-5 w-50"> License Document</p>
+
+                    <input type="file" class="d-none" id="licenseDoc" asp-for="licensedoc">
+                    <label for="licenseDoc" class="text-info border-2 border-info py-2 mx-3 p-3  bg-info text-white">Upload</label>
+                    @if (Model.license == true)
+                    {
+                        var fileName = Model.phyid + "_LicenseDoc.pdf";
+                        <a id="licenseViewButton" class="btn bg-info text-white " href="/uploads/@fileName" target="_blank">View</a>
+                    }
+                    else
+                    {
+                        <a id="licenseViewButton" class="btn bg-info text-white ms-2 d-none">View</a>
+                    }
+
+                </div>
+                <hr class="mt-2 p-0 text-dark border-3 border-dark fw-bold" />
+                <div class="col-12 d-flex justify-content-end mt-2 gap-2">
+                    <button type="submit" class="btn btn-outline-info colorbtn bg-info text-white" id="adminprofileeditbtn2">Save</button>
+                    <button type="button" class="btn btn-outline-danger colorbtn bg-danger text-white" id="adminprofileeditbtn2">Delete Account</button>
+                </div>
+            </form>
+
+
+        </div>
+    </div>
+</div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+
+<script>
+    var signurl = "";
+    (function () {
+        window.requestAnimFrame = (function (callback) {
+            return window.requestAnimationFrame ||
+                window.webkitRequestAnimationFrame ||
+                window.mozRequestAnimationFrame ||
+                window.oRequestAnimationFrame ||
+                window.msRequestAnimaitonFrame ||
+                function (callback) {
+                    window.setTimeout(callback, 1000 / 60);
+                };
+        })();
+
+        var canvas = document.getElementById("sig-canvas");
+        var ctx = canvas.getContext("2d");
+        ctx.strokeStyle = "#222222";
+        ctx.lineWidth = 4;
+
+        var drawing = false;
+        var mousePos = {
+            x: 0,
+            y: 0
+        };
+        var lastPos = mousePos;
+
+        canvas.addEventListener("mousedown", function (e) {
+            drawing = true;
+            lastPos = getMousePos(canvas, e);
+        }, false);
+
+        canvas.addEventListener("mouseup", function (e) {
+            drawing = false;
+        }, false);
+
+        canvas.addEventListener("mousemove", function (e) {
+            mousePos = getMousePos(canvas, e);
+        }, false);
+
+        // Add touch event support for mobile
+        canvas.addEventListener("touchstart", function (e) {
+
+        }, false);
+
+        canvas.addEventListener("touchmove", function (e) {
+            var touch = e.touches[0];
+            var me = new MouseEvent("mousemove", {
+                clientX: touch.clientX,
+                clientY: touch.clientY
+            });
+            canvas.dispatchEvent(me);
+        }, false);
+
+        canvas.addEventListener("touchstart", function (e) {
+            mousePos = getTouchPos(canvas, e);
+            var touch = e.touches[0];
+            var me = new MouseEvent("mousedown", {
+                clientX: touch.clientX,
+                clientY: touch.clientY
+            });
+            canvas.dispatchEvent(me);
+        }, false);
+
+        canvas.addEventListener("touchend", function (e) {
+            var me = new MouseEvent("mouseup", {});
+            canvas.dispatchEvent(me);
+        }, false);
+
+        function getMousePos(canvasDom, mouseEvent) {
+            var rect = canvasDom.getBoundingClientRect();
+            return {
+                x: mouseEvent.clientX - rect.left,
+                y: mouseEvent.clientY - rect.top
+            }
+        }
+
+        function getTouchPos(canvasDom, touchEvent) {
+            var rect = canvasDom.getBoundingClientRect();
+            return {
+                x: touchEvent.touches[0].clientX - rect.left,
+                y: touchEvent.touches[0].clientY - rect.top
+            }
+        }
+
+        function renderCanvas() {
+            if (drawing) {
+                ctx.moveTo(lastPos.x, lastPos.y);
+                ctx.lineTo(mousePos.x, mousePos.y);
+                ctx.stroke();
+                lastPos = mousePos;
+            }
+        }
+
+        // Prevent scrolling when touching the canvas
+        document.body.addEventListener("touchstart", function (e) {
+            if (e.target == canvas) {
+                e.preventDefault();
+            }
+        }, false);
+        document.body.addEventListener("touchend", function (e) {
+            if (e.target == canvas) {
+                e.preventDefault();
+            }
+        }, false);
+        document.body.addEventListener("touchmove", function (e) {
+            if (e.target == canvas) {
+                e.preventDefault();
+            }
+        }, false);
+
+        (function drawLoop() {
+            requestAnimFrame(drawLoop);
+            renderCanvas();
+        })();
+
+        function clearCanvas() {
+            canvas.width = canvas.width;
+        }
+
+        // Set up the UI
+        var clearBtn = document.getElementById("sig-clearBtn");
+        var submitBtn = document.getElementById("sig-submitBtn");
+        clearBtn.addEventListener("click", function (e) {
+            clearCanvas();
+        }, false);
+        submitBtn.addEventListener("click", function (e) {
+            var dataUrl = canvas.toDataURL();
+            signurl = dataUrl;
+            $('#physign').attr('src', dataUrl);
+            $('#Cancelbutton').trigger('click');
+        }, false);
+
+    })();
+    // $(document).ready(function () {
+    //     $('#physignsubmit').on('click', function () {
+    //         var dataurl = signurl;
+    //         var physicianid = $('#physignsubmit').data('phyid');
+    //         console.log("ready");
+    //         console.log(dataurl);
+    //         console.log(physicianid);
+    //         $.ajax({
+    //             url: '/admin/editprovidersign',
+    //             type: 'post',
+    //             data: { physicianid: physicianid, base64string: dataurl },
+    //             success: function (response) {
+    //                 $('#cancelbutton').trigger('click');
+    //                 window.location.reload();
+    //             }
+    //         });
+    //     });
+
+    // })
+    // script.js
+    $(document).ready(function () {
+
+        $('.dropdown-toggle').click(function () {
+            var dropdownMenu = $(this).next('.dropdown-menu');
+            $('.dropdown-menu').not(dropdownMenu).hide();
+            dropdownMenu.toggle();
+        });
+
+        $(document).on('click', function (e) {
+            if (!$(e.target).closest('.dropdown').length) {
+                $('.dropdown-menu').hide();
+            }
+        });
+    });
+    document.getElementById('agreementDoc').addEventListener('change', function () {
+        if (this.files.length > 0) {
+            if (validateFileType(this)) {
+                document.getElementById('agrrementViewButton').classList.remove("d-none");
+                document.getElementById('agrrementViewButton').setAttribute("href", URL.createObjectURL(this.files[0]));
+                document.getElementById('agrrementViewButton').setAttribute("target", "_blank");
+            }
+        } else {
+            document.getElementById('agrrementViewButton').classList.add("d-none");
+        }
+    });
+
+    document.getElementById('backgroundDoc').addEventListener('change', function () {
+        if (this.files.length > 0) {
+            if (validateFileType(this)) {
+                document.getElementById('backgroundViewButton').classList.remove("d-none");
+                document.getElementById('backgroundViewButton').setAttribute("href", URL.createObjectURL(this.files[0]));
+                document.getElementById('backgroundViewButton').setAttribute("target", "_blank");
+            }
+        } else {
+            document.getElementById('backgroundViewButton').classList.add("d-none");
+        }
+    });
+
+    document.getElementById('disclosureDoc').addEventListener('change', function () {
+        if (this.files.length > 0) {
+            if (validateFileType(this)) {
+                document.getElementById('disclosureViewButton').classList.remove("d-none");
+                document.getElementById('disclosureViewButton').setAttribute("href", URL.createObjectURL(this.files[0]));
+                document.getElementById('disclosureViewButton').setAttribute("target", "_blank");
+            }
+        }
+        else {
+            document.getElementById('disclosureViewButton').classList.add("d-none");
+        }
+    });
+
+    document.getElementById('licenseDoc').addEventListener('change', function () {
+        if (this.files.length > 0) {
+            if (validateFileType(this)) {
+                document.getElementById('licenseViewButton').classList.remove("d-none");
+                document.getElementById('licenseViewButton').setAttribute("href", URL.createObjectURL(this.files[0]));
+                document.getElementById('licenseViewButton').setAttribute("target", "_blank");
+            }
+        } else {
+            document.getElementById('licenseViewButton').classList.add("d-none");
+        }
+    });
+    function validateFileType(input) {
+        const allowedExtensions = /(\.pdf)$/i;
+        if (!allowedExtensions.exec(input.value)) {
+            Swal.fire({
+                icon: "error",
+                title: "Oops...",
+                text: "Only PDF Files Are Allowed!",
+            });
+            input.value = '';
+            return false;
+        }
+        return true;
+    }
+
+
+    function SignUpload() {
+        var dataUrl = signurl;
+        var physicianid = $('#PhySignSubmit').data('phyid');
+        console.log("ready");
+        console.log(dataUrl);
+        console.log(physicianid);
+        $.ajax({
+            url: '/Admin/EditProviderSign',
+            type: 'POST',
+            data: { physicianid: physicianid, base64string: dataUrl },
+            success: function (response) {
+                $('#Cancelbutton').trigger('click');
+                window.location.reload();
+            }
+        });
+    };
+    function PhotoUpload() {
+        console.log("photo");
+        var fileInput = document.querySelector('#actual-btn');
+        var file = fileInput.files[0];
+        var reader = new FileReader();
+        var physicianid = @Model.phyid;
+        reader.onloadend = function () {
+            var base64String = reader.result;
+            $.ajax({
+                url: '/Admin/EditProviderPhoto',
+                type: 'POST',
+                data: { physicianid, base64String },
+                success: function (response) {
+                    window.location.reload();
+                }
+            });
+        };
+        reader.readAsDataURL(file);
+    }
+    function SignPopUp(phyid) {
+
+        console.log("sign");
+        $.ajax({
+            url: "/Admin/SignPad",
+            type: "POST",
+            data: { phyid: phyid },
+
+            success: function (data) {
+                $("#sign").html(data);
+                $("#ModalToOpen").modal('show');
+            },
+            error: function (e) {
+                console.log(e);
+            }
+        });
+
+
+
+    };
+
+
+    //this is for reset password and save and cancel
+    const editbtn = document.getElementById('resetpasswordbtn')
+    const submitcancel = document.getElementById('adminprofilesavebtn')
+    const cancelbtn = document.getElementById('adminprofilecancelbtn');
+    const enabled = document.getElementsByClassName('enabled')
+    editbtn.addEventListener('click', function (e) {
+
+        for (let index = 0; index < enabled.length; index++) {
+            //if i want to use read only instend of disabled i can use by this way
+            //enabled1[index].readOnly = false;
+            enabled[index].disabled = false;
+        }
+        submitcancel.style.display = "block";
+        cancelbtn.style.display = "block";
+        this.style.display = "none"
+    })
+
+    cancelbtn.addEventListener('click', function (e) {
+
+
+        for (let index = 0; index < enabled.length; index++) {
+            //if i want to use read only instend of disabled i can use by this way
+            //enabled1[index].readOnly = false;
+            enabled[index].disabled = true;
+        }
+        submitcancel.style.display = "none";
+        editbtn.style.display = "block";
+        this.style.display = "none"
+    })
+
+
+    //this is for first edit save and cancel button
+    var editbtn1 = document.getElementById('adminprofileeditbtn1')
+    var submitcancel1 = document.getElementById('adminprofilesavebtn1')
+    var cancelbtn1 = document.getElementById('adminprofilecancelbtn1');
+    var enabled1 = document.getElementsByClassName('enabled1')
+    editbtn1.addEventListener('click', function (e) {
+
+        for (var index = 0; index < enabled1.length; index++) {
+            //if i want to use read only instend of disabled i can use by this way
+            //enabled1[index].readOnly = false;
+            enabled1[index].disabled = false;
+        }
+        submitcancel1.style.display = "block";
+        cancelbtn1.style.display = "block";
+        this.style.display = "none"
+    })
+
+    cancelbtn1.addEventListener('click', function (e) {
+
+
+        for (var index = 0; index < enabled1.length; index++) {
+            //if i want to use read only instend of disabled i can use by this way
+            //enabled1[index].readOnly = false;
+            enabled1[index].disabled = true;
+        }
+        submitcancel1.style.display = "none";
+        editbtn1.style.display = "block";
+        this.style.display = "none"
+    })
+
+
+
+    // this is for second edit button
+    var editbtn2 = document.getElementById('adminprofileeditbtn2')
+    var submitcancel2 = document.getElementById('adminprofilesavebtn2')
+    var cancelbtn2 = document.getElementById('adminprofilecancelbtn2');
+    var enabled2 = document.getElementsByClassName('enabled2')
+    editbtn2.addEventListener('click', function (e) {
+
+        for (var index = 0; index < enabled2.length; index++) {
+            //if i want to use read only instend of disabled i can use by this way
+            //enabled1[index].readOnly = false;
+            enabled2[index].disabled = false;
+        }
+        submitcancel2.style.display = "block";
+        cancelbtn2.style.display = "block";
+        this.style.display = "none"
+    })
+
+    cancelbtn2.addEventListener('click', function (e) {
+
+
+        for (var index = 0; index < enabled2.length; index++) {
+            //if i want to use read only instend of disabled i can use by this way
+            //enabled1[index].readOnly = false;
+            enabled2[index].disabled = true;
+        }
+        submitcancel2.style.display = "none";
+        editbtn2.style.display = "block";
+        this.style.display = "none"
+    })
+    var editbtn3 = document.getElementById('adminprofileeditbtn3')
+    var submitcancel3 = document.getElementById('adminprofilesavebtn3')
+    var cancelbtn3 = document.getElementById('adminprofilecancelbtn3');
+    var create = document.getElementById('create');
+
+    var PhySignSubmit = document.getElementById('PhySignSubmit');
+    var enabled3 = document.getElementsByClassName('enabled3')
+    editbtn3.addEventListener('click', function (e) {
+
+        for (var index = 0; index < enabled3.length; index++) {
+            //if i want to use read only instend of disabled i can use by this way
+            //enabled1[index].readOnly = false;
+            enabled3[index].disabled = false;
+        }
+        submitcancel3.style.display = "block";
+        cancelbtn3.style.display = "block";
+        create.disabled = false;
+        create.PhySignSubmit = false;
+        this.style.display = "none"
+    })
+
+    cancelbtn3.addEventListener('click', function (e) {
+        console.log("click");
+
+        for (var index = 0; index < enabled3.length; index++) {
+            //if i want to use read only instend of disabled i can use by this way
+            //enabled1[index].readOnly = false;
+            enabled3[index].disabled = true;
+        }
+        submitcancel3.style.display = "none";
+        editbtn3.style.display = "block";
+        create.disabled = true;
+        create.PhySignSubmit = true;
+        this.style.display = "none" 
+    })
+
+</script>
+
+
+
+
+

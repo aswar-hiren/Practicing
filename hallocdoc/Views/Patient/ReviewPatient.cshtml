@@ -1,0 +1,79 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@model DataLayer.ViewModels.BlockView;
+<div class="w-50 mx-auto mt-5 p-5 " id="parent">
+    @{
+        if (Model.status == 2)
+        {
+            <div id="modelpartialcontainer"></div>
+            <p>
+                is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's
+                standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has
+                is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's  text of the printing and typesetting industry.
+                Lorem Ipsum has been the industry's
+            </p>
+            <div class="w-75 mx-auto d-flex justify-content-between mt-5">
+                <button onclick="agreepatient('@Model.reqid')" class="ok-button mt-4 bg-success text-white border-success shadow-none py-2 rounded-2 px-2">
+                    I Agree
+                </button>
+                <button onclick="cancelpatientmodel('@Model.reqid')" class="ok-button mt-4 bg-danger text-white border-danger shadow-none py-2 rounded-2 px-2">
+                    Cancel
+                </button>
+            </div>
+        }
+        else
+        {
+            <p> Its Reviewed </p>
+        }
+    }
+  
+
+</div>
+<script>
+    function cancelpatientmodel(Requestid) {
+
+        console.log("all");
+        $.ajax({
+            url: "/Patient/cancelPatientModel",
+            type: "POST",
+            data: { reqid: Requestid },
+
+            success: function (data) {
+                console.log(data);
+                $("#modelpartialcontainer").html(data);
+                $("#CancelPatientPopUP").modal('show');
+            },
+            error: function (e) {
+                console.log(e);
+            }
+        });
+
+
+
+    };
+    function agreepatient(Requestid) {
+
+        console.log("all");
+        $.ajax({
+            url: "/Patient/AgreeRequest",
+            type: "POST",
+            data: { reqid: Requestid },
+
+            success: function (data) {
+                console.log(data);
+                $("#parent").html(data);
+              
+            },
+            error: function (e) {
+                console.log(e);
+            }
+        });
+
+
+
+    };
+</script>

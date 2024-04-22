@@ -1,0 +1,325 @@
+﻿ 
+@model DataLayer.ViewModels.RequestListAdminDash
+<partial name="_Notification" />
+<div>
+ 
+    <div class="table-responsive d-sm-none d-none d-md-none d-lg-block d-xl-block " style="height:400px;">
+
+    <table class="w-100 myTable" id="yourTableId"> 
+<thead>
+                <tr class="text-secondary" style="height:60px; background-color:var(--bs-secondary-bg);">
+        <th scope="col">Name</th>
+        <th scope="col">Physician Name</th>
+        <th scope="col">Date of Service</th>
+        <th scope="col">Phone</th>
+        <th scope="col">Address</th>
+        <th scope="col">Chat With</th>
+        <th scope="col">Actions</th>
+                    <th scope="col" class="d-none"></th>
+    </tr>
+</thead>
+<tbody>
+   @{
+       foreach (var item in Model.paginatedRequest)
+        {
+
+                        Dictionary<int, string> HashMap = new Dictionary<int, string>()
+                {
+                {1,"Patient"},
+                {2,"Family/Friend"},
+                {3,"Concierge"},
+                {4,"Business"},
+                {5,"VIP"},
+
+                };
+                        <tr class="style_@item.Request.Requesttypeid border-bottom-dark" style="height:60px;">
+                <td>@item.Firstname</td>
+                <td>---</td>
+                <td>@item.Request.Createddate</td>
+                            <td class="p-2">
+                                <button class="btn border-white actions  px-3 py-1 text-white" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                    <i class="bi bi-telephone-fill mx-1"></i>  (+91)  @item.Phonenumber
+                                </button>
+                                <p> (Patient) </p>
+                                @{
+                                    if (item.Request.Requesttypeid != 1)
+                                    {
+                                        <button class="btn border-white actions  px-3 py-1 text-white" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                            <i class="bi bi-telephone-fill"></i>  (+91)  @item.Request.Phonenumber
+                                        </button>
+                                        <p> (@HashMap[item.Request.Requesttypeid]) </p>
+                                    }
+                                }
+
+                            </td>
+                <td>@item.City</td>
+                            <td>
+                                <div class="d-flex gap-2">
+                                    <button class="btn border-white d-none d-md-block text-white"><i class="bi bi-person-lines-fill"></i> Patient</button>
+                                    <button class="btn btn-outline-info d-none d-md-block text-white"><i class="bi bi-person-lines-fill"></i> Provider</button>
+                                </div>
+                            </td>
+                <td>
+                    <div class="dropdown dropstart">
+                                    <button class="btn btn-outline-info d-none d-md-block text-white actions dropdown-toggle p-1" type="button"  aria-expanded="false">
+                            Actions
+                        </button>
+                        <ul class="dropdown-menu">
+
+                                        <button class="bg-white border-white shadow-none w-100"><a asp-action="ViewCase" asp-route-reqclientid=@item.Requestclientid><i class="bi bi-journal-text me-2"></i>View Case</a></button>
+                                        <button class="bg-white border-white shadow-none w-100"><a asp-action="viewUploads" asp-route-reqclientid=@item.Requestclientid asp-route-requestid=@item.Request.Requestid><i class="bi bi-file-earmark-arrow-up"></i>View Uploads</a></button>
+                                        <button class="bg-white border-white shadow-none w-100"><a asp-action="ViewNotes" asp-route-reqid=@item.Request.Requestid><i class="bi bi-journals me-2"></i>View Notes</a></button>
+
+                        </ul>
+                    </div>
+                </td>
+                            <td class="d-none">@HashMap[item.Request.Requesttypeid]</td>
+            </tr>
+        }
+   }
+</tbody>
+</table>
+
+     
+</div>﻿
+   
+    <div class="d-sm-block d-md-block d-lg-none d-xl-none">
+        <div class="accordion " id="accordionExample">
+
+            @{
+                Dictionary<int, string> myHashMap = new Dictionary<int, string>()
+            {
+            {1,"Patient"},
+            {2,"Family/Friend"},
+            {3,"Concierge"},
+            {4,"Business"},
+            {5,"VIP"},
+
+            };
+            }
+            @{
+                Dictionary<string, string> months = new Dictionary<string, string>()
+            {
+            { "1", "Jan"},
+            { "2", "Feb"},
+            { "3", "March"},
+            { "4", "April"},
+            { "5", "May"},
+            { "6", "June"},
+            { "7", "July"},
+            { "8", "Aug"},
+            { "9", "Sept"},
+            { "10", "Oct"},
+            { "11", "Nov"},
+            { "12", "Dec"},
+            };
+            }
+
+            @{
+
+
+                foreach (var client in Model.paginatedRequest)
+                {
+                    <div class="accordion-item">
+                        <h2 class="accordion-header">
+                            <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#one_@client.Request.Requestid" aria-expanded="true" aria-controls="one_@client.Request.Requestid">
+                                <div class="d-flex flex-column w-100">
+                                    <div class="row">
+                                        <div class="col-6">
+                                            <p>@client.Firstname,@client.Lastname</p>
+                                            <p class="fs-6">@client.Street,@client.City,<br />@client.State</p>
+                                        </div>
+                                        <div class="col-6">
+                                            <div class="d-flex justify-content-end align-items-center mb-3">
+                                                <div class="requestType ms-1 me-2 fs-6">@myHashMap[client.Request.Requesttypeid]</div>
+                                                <i class="bi bi-circle-fill st_@client.Request.Requesttypeid"></i>
+                                            </div>
+                                            <div class="d-flex flex-lg-nowrap justify-content-end">
+                                                <div class="btn btn-white border-1 border-info rounded-pill text-info map-location">Map Location</div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="fs-6"><i class="bi bi-clock ms-1 me-2 text-info"></i>@client.Request.Createddate</div>
+                                </div>
+                            </button>
+                        </h2>
+                        <div id="one_@client.Request.Requestid" class="accordion-collapse collapse" data-bs-parent="#accordionExample">
+                            <div class="d-flex justify-content-end">
+                                <hr class="m-0" />
+                                <button class="btn btn-white border-info rounded-pill position-absolute case-button"><a class="dropdown-item" asp-action="ViewCase" asp-route-reqclientid=@client.Requestclientid>View case</a></button>
+                            </div>
+                            <div class="accordion-body" style="background:#e6e8e8">
+                               
+                                <p class="mb-0 mt-3"><i class="bi bi-envelope me-2 border rounded-circle  border-info p-1 "></i>Email: @client.Email</p>
+                                <p class="mb-0 mt-3"><i class="bi bi-telephone me-2 border rounded-circle  border-info p-1 "></i>Patient: @client.Phonenumber</p>
+                               
+                                <p class="mb-0 mt-3"><i class="bi bi-calendar3 me-2 border rounded-circle  border-info p-1 "></i>Date Of Service: @client.Request.Createddate</p>
+                                <p class="mb-0 mt-3"><i class="bi bi-person-lines-fill me-2 border rounded-circle  border-info p-1 "></i>Physician: @client.Firstname</p>
+                     
+                                <div class="row mt-3">
+                                    <div class="col-6">
+                                        <div class="d-flex flex-column">
+
+                                            <button class="mt-2 btn rounded-pill text-white" style="background:#228B22"><a asp-action="ViewNotes" asp-route-reqid=@client.Request.Requestid>View Notes</a></button>
+                                          
+                                            <button class="mt-2 btn rounded-pill text-white" style="background:#228B22">Email</button>
+
+                                        </div>
+                                    </div>
+                                    <div class="col-6">
+                                        <div class="d-flex flex-column">
+
+
+                                            <button class="mt-2 btn rounded-pill text-white" style="background:#228B22"> <a asp-action="viewUploads" asp-route-reqclientid=@client.Requestclientid asp-route-requestid=@client.Request.Requestid>View Uploads</a></button>
+                                           
+
+                                        </div>
+                                    </div>
+
+                                </div>
+                                <div class=" d-flex flex-row justify-content-end gap-2 align-items-center mt-2">
+                                    <p class="mt-2"> Chat With</p>
+                                    <button class="btn btn-outline-info  text-info"><i class="bi bi-person-lines-fill text-info"></i> Patient</button>
+                                    <button class="btn btn-outline-info  text-info"><i class="bi bi-person-lines-fill text-info"></i> Provider</button>
+                                </div>
+                                <!-- Modal cancel case -->
+
+                            </div>
+                        </div>
+                    </div>
+                }
+            }
+
+        </div>
+
+    </div>
+    <div class=" @(Model.total == 0 ? "d-none" : "")">
+        <nav aria-label="Page navigation" class="p-4 d-flex justify-content-between">
+            <span>Page @Model.CurrentPage of @Model.TotalPages  </span>
+            <span>Total requests: @Model.total</span>
+            <ul class="pagination me-2">
+                <li class="page-item @(Model.CurrentPage <= 1 ? "disabled" : "")">
+                    <button class="page-link" onclick="Pagefile(@Model.CurrentPage-1,@Model.PageSize)"><i class="bi bi-chevron-left text-black"></i></button>
+                </li>
+                <li class="page-item">
+                    <button class="page-link bg-info text-white fw-bold mx-1 text-black" data-page="@Model.CurrentPage">@Model.CurrentPage</button>
+                </li>
+
+                <li class="page-item @(Model.CurrentPage == Model.TotalPages ? "disabled" : "")">
+                    <button class="page-link" onclick="Pagefile(@Model.CurrentPage+1,@Model.PageSize)"><i class="bi bi-chevron-right text-black"></i></button>
+                </li>
+            </ul>
+
+        </nav>
+    </div>
+</div>
+<script>
+    var flag;
+    var reqtype;
+    var regionvalue;
+    var searchval;
+    if (reqtype == 6) {
+        flag = 0;
+    }
+    $(document).ready(function () {
+
+
+        $('.dropdown-toggle').click(function () {
+            var dropdownMenu = $(this).next('.dropdown-menu');
+            $('.dropdown-menu').not(dropdownMenu).hide();
+            dropdownMenu.toggle();
+        });
+
+        $(document).on('click', function (e) {
+            if (!$(e.target).closest('.dropdown').length) {
+                $('.dropdown-menu').hide();
+            }
+        });
+
+
+
+
+
+    });
+    $('#downloadExcelButton').click(function () {
+        debugger;
+        // Get table HTML content
+        var table = document.getElementsByClassName('myTable')[0];
+        var rows = table.querySelectorAll('tr'); // Skip the first row (header)
+        for (var i = 0; i < rows.length; i++) {
+            rows[i].removeChild(rows[i].lastElementChild); // Remove last cell from each row
+        }
+        var html = table.outerHTML;
+
+        var blob = new Blob([html], {
+            type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=utf-8'
+        });
+        var url = window.URL.createObjectURL(blob);
+        var a = document.createElement('a');
+        a.href = url;
+        a.download = 'tableData.xlsx'; // Specify the filename
+        document.body.appendChild(a);
+        a.click();
+        window.URL.revokeObjectURL(url);
+        document.body.removeChild(a);
+    });
+  
+    function search() {
+        console.log("in");
+        searchval = $("#gfg").val().toLowerCase();
+        console.log(searchval);
+        flag = 1;
+        debugger;
+        $.ajax({
+            url: "/Admin/UnPaidTable",
+            type: "POST",
+            dataType: "html",
+            data: { page: 1, pageSize: 4, value: "all", work: "all", reqtype: reqtype, flag: 1, searchval: searchval },
+            success: function (data) {
+                $("#tableContent").html(data);
+            },
+            error: function (e) {
+                $("#tableContent").html('An error has occurred');
+            }
+        });
+
+    }
+    function region() {
+        flag = 2;
+        console.log("region");
+        regionvalue = $("#region").val().toLowerCase();
+        $.ajax({
+            url: "/Admin/UnPaidTable",
+            type: "POST",
+            dataType: "html",
+            data: { page: 1, pageSize: 4, value: regionvalue, work: "region", reqtype: reqtype, flag: 2 },
+            success: function (data) {
+                $("#tableContent").html(data);
+            },
+            error: function (e) {
+
+                $("#partial_container").html('An error has occurred');
+            }
+        });
+    }
+    function filterbtn(type) {
+        flag = 3;
+        reqtype = type
+        console.log("new");
+
+        $.ajax({
+            url: "/Admin/UnPaidTable",
+            type: "POST",
+            dataType: "html",
+            data: { page: 1, pageSize: 4, name: "all", work: "filter", reqtype: reqtype, flag: 3 },
+            success: function (data) {
+                $("#tableContent").html(data);
+            },
+            error: function (e) {
+
+                $("#partial_container").html('An error has occurred');
+            }
+        });
+    }
+
+</script>

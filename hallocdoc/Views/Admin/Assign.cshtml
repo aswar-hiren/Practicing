@@ -1,0 +1,112 @@
+﻿
+@model DataLayer.ViewModels.AssignModel;
+<div class="modal fade" id="AssignPopUp" tabindex="-1" aria-labelledby="AssignCase" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content" style="font-weight:600">
+
+            <div class="modal-header bg-info text-white">
+                <h5 class="modal-title" id="exampleModalLabel"> Assign Case</h5>
+                <button type="button" class="btn-close text-white" data-bs-dismiss="modal" aria-label="Close" style="color:white;"></button>
+            </div>
+
+            <div class="modal-body">
+                <p class="mb-3 mt-3 text-dark">
+                    To Assign this request search and select another
+                </p>
+
+                <div class="mb-4 border w-100">
+
+
+<<<<<<< HEAD
+                    <select id="RegionTable" name="cars" class="w-100 border-none p-2" onchange="GetPhyByRegion()" required>
+=======
+                    <select id="RegionTable" name="cars" class="w-100 border-none p-2" onchange="GetPhyByRegion()">
+>>>>>>> a7d636f3ea8b91980d7206e593c9e656cfc1182e
+                        <option disabled selected>Select Region</option>
+                        @{
+                            foreach (var listobj in Model.Regions)
+                            {
+                                                    <option value=@listobj.Regionid>@listobj.Name</option>
+
+                            }
+                        }
+                    </select>
+                </div>
+                <div class="mb-4 border w-100">
+
+
+<<<<<<< HEAD
+                    <select name="cars" id="Physiciantable" class="w-100 border-none p-2" required >
+=======
+                    <select name="cars" id="Physiciantable" class="w-100 border-none p-2" >
+>>>>>>> a7d636f3ea8b91980d7206e593c9e656cfc1182e
+                        <option disabled selected>Select Physician</option>
+                    </select>
+                </div>
+
+<<<<<<< HEAD
+                <textarea  id="TransNotes" rows="5" class="col-12 form-control p-1" placeholder="Description" style="font-size:medium" required></textarea>
+=======
+                <textarea  id="TransNotes" rows="5" class="col-12 form-control p-1" placeholder="Description" style="font-size:medium"></textarea>
+>>>>>>> a7d636f3ea8b91980d7206e593c9e656cfc1182e
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" onclick="ReqAssign(@Model.reqid)" data-bs-dismiss="modal" class="btn btn-info text-white">Submit</button>
+                <button type="button" class="btn btn-outline-info" data-bs-dismiss="modal">Cancel</button>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<script>
+    function GetPhyByRegion() {
+
+        console.log("all");
+        $.ajax({
+            method: "GET",
+            url: "/Admin/GetPhysician",
+            data: { region: $("#RegionTable").val() },
+            success: function (data) {
+                ;
+                console.log("Function Success");
+                console.log(data);
+                $('#Physiciantable').html(data);
+               
+    
+
+            },
+            error: function (err) {
+                console.log(err)
+            }
+        })
+
+    };
+    function ReqAssign(requestid) {
+        console.log($("#TransNotes").val())
+        console.log($("#Physiciantable").val())
+        console.log("all");
+        $.ajax({
+            method: "GET",
+            url: "/Admin/AssignCase",
+            data: { reqid: requestid, phyid: $("#Physiciantable").val(), textnote: $("#TransNotes").val() },
+            success: function (response) {
+                console.log(response);
+                if (response) {
+                    toastr.success("Assign Succesfully");
+                    $(".mainDivboard").html(response);
+
+                }
+                else{
+                    toastr.error("Not Assign Check Some Error");
+                }
+            },
+            error: function (err) {
+                alert("there are some problem!! try Again");
+            }
+        })
+
+    };
+
+</script>

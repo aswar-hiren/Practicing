@@ -1,0 +1,111 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+   
+}
+@model DataLayer.ViewModels.RequestListAdminDash;
+<div>
+
+<<<<<<< HEAD
+    <Partial name="_ProviderHeader"/>
+=======
+    <Partial name="_navbar"/>
+>>>>>>> a7d636f3ea8b91980d7206e593c9e656cfc1182e
+    <Partial name="_Notification" />
+    <div class="row">
+        <div class="col-xl-7 col-lg-7 col-md-8 col-sm-10 mx-auto ">
+            <div class="mt-5 d-flex flex-row justify-content-between">
+                <h4> Notes</h4>
+                <div> <a asp-action="MainPage" class="text-info py-1 px-2 rounded" style="border: 3px solid skyblue"><i class="bi bi-chevron-compact-left " style="color:skyblue; "></i> Back</a></div>
+            </div>
+            <div class="row mt-3 px-4 ">
+                <div class="col-md-5  p-3 d-flex mt-1  shadow border align-items-center">
+                    <div class=""> <i class="bi bi-book p-2 fs-5"></i></div>
+                    <div class="d-flex flex-column mt-1  px-3 align-items-center">
+                        <h5 style="margin:0"> Transfer Notes</h5>
+<<<<<<< HEAD
+                        @{
+                            if (Model.Requeststatuslog != null )
+                            {  
+                                <p style="margin:0"> @Model.Requeststatuslog.Notes </p>
+                                <p> Admin transfer to @Model.Requeststatuslog.Physician.Firstname</p>
+                            }
+                            else
+                            {
+                                <p style="margin:0"> --- </p>
+                            }
+                        }
+=======
+                        <p style="margin:0">Admin Transfered To </p>
+>>>>>>> a7d636f3ea8b91980d7206e593c9e656cfc1182e
+                    </div>
+                </div>
+                <div class="col-md-5 d-flex p-3 mx-md-4  shadow border mt-1 align-items-center">
+                    <div class=""> <i class="bi bi-person p-2 fs-5"></i></div>
+                    <div class="d-flex flex-column mt-1  px-3 align-items-center">
+                        <h5 style="margin:0"> Physician Notes</h5>
+<<<<<<< HEAD
+                        @{
+                            if (Model.RequestNotes != null)
+                            {
+                              
+                                <p style="margin:0"> @Model.RequestNotes.Physiciannotes </p>
+                            }
+                            else
+                            {
+                                <p style="margin:0"> --- </p>
+                            }
+                        }
+=======
+                        <p style="margin:0">Admin Transfered To </p>
+>>>>>>> a7d636f3ea8b91980d7206e593c9e656cfc1182e
+                    </div>
+                </div>
+            </div>
+            <div class="row mt-3 px-4" >
+                <div class="col-md-5    d-flex p-3  shadow border  align-items-center">
+                    <div class=""> <i class="bi bi-person p-2 fs-5"></i></div>
+                    <div class="d-flex flex-column mt-1  px-3 align-items-center">
+                        <h5 style="margin:0"> Admin Notes</h5>
+                        @{
+                                    if(Model.RequestNotes != null)
+                                {
+                                <p style="margin:0"> @Model.RequestNotes.Adminnotes </p>
+                                }
+                            else
+                            {
+                                <p style="margin:0"> --- </p>
+                            }
+                        } 
+                    </div>
+                </div>
+            </div>
+            <form asp-action="ViewNotes" asp-route-reqid=@Model.reqid asp-route-add="Add">
+            <div class="row shadow border mt-3 mx-2 py-2">
+                <div class="col mb-3 mt-3  ">
+
+                    <textarea class="form-control border border-info" placeholder="Enter The brief details" asp-for="AdminNotes"
+                              id="exampleFormControlTextarea1" rows="5" cols="200"> --</textarea>
+<<<<<<< HEAD
+                        <div> <span asp-validation-for="AdminNotes"></span></div>
+=======
+>>>>>>> a7d636f3ea8b91980d7206e593c9e656cfc1182e
+                </div>
+                <div class="d-flex  justify-content-end mt-3">
+                    <button type="submit" class="p-2 shadow text-white bg-info rounded-2 fw-bolder border-info">Save Changes</button>
+                </div>
+            </div>
+            </form>
+           
+        </div>
+    </div>
+    
+<<<<<<< HEAD
+</div>
+<script src="~/lib/jquery-validation/dist/jquery.validate.min.js"></script>
+<script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"></script>
+=======
+</div>
+>>>>>>> a7d636f3ea8b91980d7206e593c9e656cfc1182e

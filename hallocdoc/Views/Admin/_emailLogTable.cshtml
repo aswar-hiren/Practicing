@@ -1,0 +1,170 @@
+﻿@model DataLayer.ViewModels.EmailLogvm;
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<div class="d-none d-md-block table-responsive">
+    <table class="table">
+        <thead class="table-secondary">
+            <tr class="">
+                <th>Recipents</th>
+                <th>Action</th>
+                <th>Role name</th>
+                <th>Email Id</th>
+                <th>Create Date</th>
+                <th>Sent date</th>
+                <th>sent</th>
+                <th>Sent Tries</th>
+                <th>Confirmation Number</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model.clients)
+            {
+                Dictionary<int, string> HashMap = new Dictionary<int, string>()
+            {
+            {1,"New"},
+            {2,"Pending"},
+            {3,"Close"},
+            {4,"Active"},
+            {5,"Active"},
+            {6,"Conclude"},
+            {7,"Close"},
+            {8,"Close"},
+            {9,"UnPaid"},
+            {10,"Clear"},
+            {11,"Block"}
+            };
+                <tr>
+                    <td>
+                        @item.Recievername
+                    </td>
+                    <td>@item.Subjectname</td>
+                 @{
+                            if(item.Roleid==1)
+                            {
+                            <td> Admin   </td>
+                            }
+                        if (item.Roleid == 2)
+                        {
+                            <td> Provider  </td>
+                        }
+                        if (item.Roleid == 3)
+                        {
+                            <td>  patient  </td>
+                        }
+                        }
+                 
+                    <td>@item.Emailid</td>
+                    <td>@item.Createdate</td>
+                    <td>  @item.Sentdate</td>
+                    <td>true</td>
+                    <td>1</td>
+                  <td>---</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+
+</div>
+
+
+
+<div class="d-sm-block d-md-block d-lg-none d-xl-none">
+
+    <div class="accordion " id="accordionExample">
+        @{
+            Dictionary<int, string> myHashMap = new Dictionary<int, string>()
+        {
+        {1,"Patient"},
+        {2,"Family/Friend"},
+        {3,"Concierge"},
+        {4,"Business"},
+        {5,"VIP"},
+
+        };
+        }
+        @{
+            foreach (var client in Model.clients)
+            {
+                <div class="accordion-item">
+                    <h2 class="accordion-header">
+                        <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#one_@client.Emaillogid" aria-expanded="true" aria-controls="one_@client.Emaillogid">
+                            <div class="d-flex flex-column w-100">
+                                <div class="row">
+                                    <div class="col-6">
+                                        <p>@client.Recievername</p>
+                                       
+                                        <p> Email: @client.Emailid</p>
+                                    </div>
+
+                                </div>
+
+                            </div>
+                        </button>
+                    </h2>
+                    <div id="one_@client.Emaillogid" class="accordion-collapse collapse" data-bs-parent="#accordionExample">
+
+                        <div class="accordion-body" style="background:##E0FFFF">
+
+                            @{
+                                if (client.Roleid == 1)
+                                {
+                                    <p> <i class="bi bi-person-circle me-2 border rounded-circle text-info border-info p-1 "></i>Role Name :Admin</p>
+                                }
+                                if (client.Roleid == 2)
+                                {
+                                    <p> <i class="bi bi-person-circle me-2 border rounded-circle text-info border-info p-1 "></i>Role Name :Patient</p>
+                                }
+                                if (client.Roleid == 3)
+                                {
+                                    <p> <i class="bi bi-person-circle me-2 border rounded-circle text-info  border-info p-1 "></i>Role Name :Provider</p>
+                                }
+                            }
+                            <p class="mb-0"><i class="bi bi-calendar3 me-2 border rounded-circle  border-info p-1 "></i>Created Date: @client.Createdate </p>
+                            <p class="mb-0"><i class="bi bi-calendar3 me-2 border rounded-circle  border-info p-1 "></i>Sent Date: @client.Sentdate </p>
+                            <p class="mb-0 mt-3"><i class="bi bi-envelope me-2 border rounded-circle  border-info p-1 "></i>Email: @client.Emailid</p>
+                            <p class="mb-0 mt-3"><i class=" bi bi-check-circle me-2 border  rounded-circle  border-info p-1 "></i>Confirmation: ---</p>
+                        </div>
+                    </div>
+                </div>
+            }
+        }
+    </div>
+</div>
+<div class=" @(Model.total == 0 ? "d-none" : "")">
+
+    <nav aria-label="Page navigation" class="p-4 d-flex justify-content-between" ">
+        <span>Page @Model.CurrentPage of @Model.TotalPages  </span>
+        <span>Total requests: @Model.total</span>
+        <ul class="pagination me-2">
+            <li class="page-item @(Model.CurrentPage <= 1 ? "disabled" : "")">
+                <button class="page-link" onclick="Pagefile(@Model.CurrentPage-1,@Model.PageSize)"><i class="bi bi-chevron-left text-black"></i></button>
+            </li>
+            <li class="page-item">
+                <button class="page-link bg-info text-white fw-bold mx-1 text-black" data-page="@Model.CurrentPage">@Model.CurrentPage</button>
+            </li>
+
+            <li class="page-item @(Model.CurrentPage == Model.TotalPages ? "disabled" : "")">
+                <button class="page-link" onclick="Pagefile(@Model.CurrentPage+1,@Model.PageSize)"><i class="bi bi-chevron-right text-black"></i></button>
+            </li>
+        </ul>
+
+    </nav>
+</div>
+<script>
+    $(document).ready(function () {
+
+        $('.dropdown-toggle').click(function () {
+            var dropdownMenu = $(this).next('.dropdown-menu');
+            $('.dropdown-menu').not(dropdownMenu).hide();
+            dropdownMenu.toggle();
+        });
+
+        $(document).on('click', function (e) {
+            if (!$(e.target).closest('.dropdown').length) {
+                $('.dropdown-menu').hide();
+            }
+        });
+    });
+
+</script>

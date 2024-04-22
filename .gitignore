@@ -1,0 +1,6 @@
+bin
+obj
+.vs
+/hallocdoc/bin
+/hallocdoc/obj
+/hallocdoc/.vs

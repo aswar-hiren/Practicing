@@ -1,0 +1,256 @@
+﻿@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@model DataLayer.ViewModels.PatientInfo;
+
+<Partial name="_Notification" />
+<body class="bg-white" style="  height: 100vh;">
+    <div class="container-fluid">
+
+
+        <!-- navbar -->
+        <div class="row bg-white justify-content-center align-item-center border ">
+            <div class="col">
+                <img src="~/images/hellodoclogo.png" class="image-fluid" height="100" alt="">
+            </div>
+            <div class="col-auto justify-content-center align-item-center p-3">
+                <button onclick="toggle1()" class="bi bi-moon bg-white  pointer border border-1 border-info px-3 py-2 rounded text-info"></button>
+            </div>
+
+
+        </div>
+
+        <div class="row conone  mt-sm-5">
+            <div class="col border" style="">
+
+                <div class="  d-flex justify-content-end align-items-center mb-md-3 p-2   ">
+                    <a asp-action="Index" asp-controller="Home" class="border-info text-info px-2 py-1 rounded-2" style="border:1px solid skyblue"><i class="bi bi-chevron-compact-left text-info"></i>Back</a>
+
+                </div>
+                <div class="row m-3">
+                    <h3>Patient Information</h3>
+                </div>
+                <form asp-action="PatientInfoPage" asp-controller="Patient" enctype="multipart/form-data">
+                    <div class="row m-2">
+                        <div class="col mb-3">
+
+                            <textarea class="form-control" placeholder="Enter The brief details"
+                                      id="exampleFormControlTextarea1" rows="4" cols="200"></textarea>
+                        </div>
+                    </div>
+
+                    <div class=" row   m-2 ">
+                        <div class="col">
+
+                            <div class="form-floating mb-3 col-sm">
+                                <input asp-for="FirstName" type="text" class="form-control" id="floatingInput">
+                                <label for="floatingInput" class="">FirstName</label>
+                            </div>
+                            <div>
+                                <span asp-validation-for="FirstName" class="text-danger"></span>
+                            </div>
+                        </div>
+
+
+                        <div class="col">
+                            <div class="form-floating mb-3 col-sm">
+                                <input type="text" class="form-control" id="floatingInput" placeholder="name@example.com" asp-for="LastName">
+                                <label for="floatingInput ">lastname</label>
+                            </div>
+                            <div>
+                                <span asp-validation-for="LastName" class="text-danger"></span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row m-2">
+                        <div class="col-md-6">
+                            <div class="form-floating mb-3 border">
+                                <input type="date" class="form-control " placeholder="email" id="floatingInput" aria-label="Username" asp-for="date">
+                                <label for="floatingInput ">Date</label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row m-3">
+                        <h3 class="">Patient Contact Information</h3>
+                    </div>
+                    <div class=" row   m-2 ">
+                        <div class="col">
+                            <div class="form-floating mb-3 col-sm">
+                                <input type="email" class="form-control" asp-for="Email" id="patientEmail" placeholder="name@example.com" onblur="checkEmailExists()">
+                                <label for="patientEmail">Email</label>
+                            </div>
+                            <div>
+                                <span asp-validation-for="Email" class="text-danger"></span>
+                            </div>
+
+                        </div>
+                        <div class="col">
+                            <div class="form-floating mb-3 col-sm">
+                                <input type="text" class="form-control" id="floatingInput"  asp-for="PhoneNumber">
+                                <label for="floatingInput">PhoneNumber</label>
+                            </div>
+
+                            <div>
+                                <span asp-validation-for="PhoneNumber" class="text-danger"></span>
+                            </div>
+                        </div>
+
+
+                    </div>
+                    <div class="row m-2 ">
+                        <div class="col-sm-6">
+                            <div class="form-floating mb-3  passfield" id="passwordFields1">
+                                <input type="password" asp-for="PasswordHash" class="form-control" id="form-floating" placeholder="name@example.com">
+                                <label for="form-floating">Password</label>
+                                <span asp-validation-for="PasswordHash" class="text-danger"></span>
+                            </div>
+                           
+                        </div>
+                        <div class="col-sm-6">
+                        <div class="form-floating mb-3  passfield" id="passwordFields2">
+                            <input type="password" asp-for="PasswordHash" class="form-control" id="" placeholder="name@example.com">
+                            <label for="">Confirm Password</label>
+                            <span asp-validation-for="PasswordHash" class="text-danger"></span>
+                        </div>
+                        </div>
+                    </div>
+                    <div class="row m-3">
+                        <h3 class="">Patient Information</h3>
+                    </div>
+                    <div class=" row   m-2 ">
+                        <div class="col">
+                            <div class="form-floating mb-3 col-sm">
+                                <input type="text" class="form-control" id="floatingInput" placeholder="name@example.com" asp-for="Street">
+                                <label for="floatingInput">Street</label>
+                            </div>
+
+                            <div>
+                                <span asp-validation-for="Street" class="text-danger"></span>
+                            </div>
+                        </div>
+                        <div class="col">
+                            <div class="form-floating mb-3 col-sm">
+                                <input type="text" class="form-control" id="floatingInput" placeholder="name@example.com" asp-for="City">
+                                <label for="floatingInput">City</label>
+                            </div>
+
+                            <div>
+                                <span asp-validation-for="City" class="text-danger"></span>
+                            </div>
+
+                        </div>
+
+                    </div>
+                    <div class=" row   m-2 ">
+                        <div class="col">
+
+
+                            <div class="form-floating mb-3 col-sm">
+                                <input type="text" class="form-control" id="floatingInput" placeholder="name@example.com" asp-for="State">
+                                <label for="floatingInput">State</label>
+                            </div>
+
+                            <div>
+                                <span asp-validation-for="State" class="text-danger"></span>
+                            </div>
+                        </div>
+
+                        <div class="col">
+
+
+                            <div class="form-floating mb-3 col-sm">
+                                <input type="text" class="form-control" id="floatingInput" placeholder="name@example.com" asp-for="Zipcode">
+                                <label for="floatingInput">Zipcode</label>
+                            </div>
+
+                            <div>
+                                <span asp-validation-for="Zipcode" class="text-danger"></span>
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="row m-2">
+                        <div class="col-md-6">
+                            <div class="form-floating mb-3 col-sm">
+                                <input type="text" class="form-control" id="floatingInput" placeholder="name@example.com">
+                                <label for="floatingInput">Room #/ Suit</label>
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="row m-3">
+                        <h3 class="">(Optional) Upload Photo Or Document</h3>
+                    </div>
+                    <div class="row m-2 p-2">
+                        <div class="rounded-1 border-1 d-flex justify-content-between mb-5  ">
+                            <div class="col">
+                                <input type="file" class="form-control py-3"  placeholder="Select File" aria-label="Username" asp-for="Photo">
+                            </div>
+
+                            <button type="submit" class="text-info border-2 border-info py-2  bg-info text-white"><i class="bi bi-cloud-arrow-down text-white px-1 d-block d-sm-block d-md-block d-lg-none d-xl-none  "></i> <span class="d-none d-sm-none d-md-none d-lg-block d-xl-block "> Uploads</span> </button>
+                        </div>
+                    </div>
+
+                    <div class="row mb-5 mt-5   justify-content-end">
+                        <div class=" col-xl-3 col-md-4 col-sm-6 buttons   justify-content-end">
+
+                            <button type="submit" class="btn btn-info text-white " data-bs-toggle="modal"
+                                    data-bs-target="#exampleModal" onclick="popup()">
+                                Submit
+                            </button>
+
+                            <button type="button" class="btn btn-light">Cancel</button>
+
+
+                        </div>
+                    </div>
+
+
+
+                </form>
+
+
+            </div>
+        </div>
+
+        <script>
+            function checkEmailExists() {
+                var email = document.getElementById("patientEmail").value;
+
+                fetch('/Patient/PatientInfoPage/checkemail/' + email)
+                    .then(response => response.json())
+                    .then(data => {
+                        var patientPassword = document.getElementById('passwordFields1');
+                        var patientConfirmPassword = document.getElementById('passwordFields2');
+                        if (data.exists) {
+                            patientPassword.style.display = 'none';
+                            patientConfirmPassword.style.display = 'none';
+                            console.log("exist ")
+                        }
+                        else {
+                            patientPassword.style.display = 'block';
+                            patientConfirmPassword.style.display = 'block';
+                            console.log(" not exist ")
+                        }
+                    })
+                    .catch(error => console.error('Error:', error));
+            }
+        </script>
+        <script>
+            const phoneInputField = document.querySelector("#phone");
+            const phoneInput = window.intlTelInput(phoneInputField, {
+                utilsScript:
+                    "https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.8/js/utils.js",
+            });
+        </script>
+        <script src="./js/bootstrap.bundle.min.js"></script>
+        @section Scripts{
+            @{
+                <Partial name="_ValidationScriptsPartial" />
+            }
+        }
+
+</body>
+

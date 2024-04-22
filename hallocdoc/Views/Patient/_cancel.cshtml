@@ -1,0 +1,31 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+}
+@model DataLayer.ViewModels.BlockView;
+<div class="modal fade" id="CancelPatientPopUP" tabindex="-1" aria-labelledby="CancelPatientPopUP" aria-hidden="true">
+
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content" style="font-weight:600">
+            <form asp-action="CancelCaseByPatient" >
+                <input hidden name="reqid" value="@Model.reqid" />
+                <div class="modal-header bg-info text-white"> 
+                    <h5 class="modal-title" id="exampleModalLabel"> Confirm Cancellation</h5>
+                    <button type="button" class="btn-close text-white" data-bs-dismiss="modal" aria-label="Close" style="color:white;"></button>
+                </div>
+
+                <div class="modal-body">
+                    <p class="mb-3 mt-3 text-dark"> Patient Name : <span class="text-info" id="patientName">Test Test </span></p>
+
+                    <textarea asp-for="TransNotes" rows="5" class="col-12 form-control p-1" placeholder="please provide a brief explanation for your cancelation" style="font-size:medium"></textarea>
+
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-info text-white">Confirm</button>
+                    <button type="button" class="btn btn-outline-info" data-bs-dismiss="modal">Cancel</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

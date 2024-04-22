@@ -1,0 +1,60 @@
+﻿@model DataLayer.ViewModels.AssignModel;    
+<div class="modal fade" id="TransferPopUp" tabindex="-1" aria-labelledby="TransferPopUp" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content" style="font-weight:600">
+
+            <div class="modal-header bg-info text-white">
+                <h5 class="modal-title" id="exampleModalLabel"> Transfer Request</h5>
+                <button type="button" class="btn-close text-white" data-bs-dismiss="modal" aria-label="Close" style="color:white;"></button>
+            </div>
+
+            <div class="modal-body">
+                <p class="mb-3 mt-3 text-dark">
+                    To Transfer this request search and select another
+                </p>
+
+               
+                <<textarea id="TransNotes" rows="5" class="col-12 form-control p-1" placeholder="Description" style="font-size:medium"></textarea>
+
+                
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" onclick="ReqAssign(@Model.reqid)" data-bs-dismiss="modal" class="btn btn-info text-white">Submit</button>
+                <button type="button" class="btn btn-outline-info" data-bs-dismiss="modal">Cancel</button>
+            </div>
+
+        </div>
+    </div>
+</div>
+<script>
+    
+    function ReqAssign(requestid) {
+        console.log($("#TransNotes").val())
+        console.log($("#Physiciantable").val())
+        console.log("all");
+        $.ajax({
+            method: "GET",
+            url: "/Provider/TransferCase",
+            data: { reqid: requestid,   textnote: $("#TransNotes").val() },
+            success: function (response) {
+                console.log($("#region").val())
+                console.log("Function Success")
+               
+                if (response) {
+                    toastr.success("Transfer Succesfully");
+                    $(".mainDivboard").html(response);
+
+                }
+                else {
+                    toastr.error("Not Transfer Check Some Error");
+                }
+
+            },
+            error: function (err) {
+                console.log(err)
+            }
+        })
+
+    };
+</script>

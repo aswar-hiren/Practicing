@@ -1,0 +1,52 @@
+﻿@using Newtonsoft.Json;
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@model List<Physicianlocation>;
+<Partial name="_navbar"/>
+<div id="map" style="width: 100%;height:500px;"></div>
+<script src="https://cdn.jsdelivr.net/gh/somanchiu/Keyless-Google-Maps-API@v6.6/mapsJavaScriptAPI.js"
+        async defer></script>
+<script>
+
+    $(document).ready(function () {
+
+        $('.dropdown-toggle').click(function () {
+            var dropdownMenu = $(this).next('.dropdown-menu');
+            $('.dropdown-menu').not(dropdownMenu).hide();
+            dropdownMenu.toggle();
+        });
+
+        $(document).on('click', function (e) {
+            if (!$(e.target).closest('.dropdown').length) {
+                $('.dropdown-menu').hide();
+            }
+        });
+    });
+   
+    function initMap() {
+        var map, infoWindow;
+        var locations = JSON.parse('@Html.Raw(JsonConvert.SerializeObject(Model))'); // Pass model data to JS
+
+        console.log(location);
+        map = new google.maps.Map(document.getElementById("map"), {
+            zoom: 4,
+            center: { lat: 20.5937, lng: 78.9629 } // Default center (adjust as needed)
+        });
+
+        infoWindow = new google.maps.InfoWindow();
+
+        locations.forEach(function (location) {
+            var marker = new google.maps.Marker({
+                position: { lat: parseFloat(location.Latitude), lng: parseFloat(location.Longitude) },
+                map: map
+            });
+
+            marker.addListener('click', function () {
+                var contentString = "<b>" + location.Physicianname + "</b>"; // Customize content
+                infoWindow.setContent(contentString);
+                infoWindow.open(map, marker);
+            });
+        });
+    }
+</script>

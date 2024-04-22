@@ -1,0 +1,528 @@
+﻿@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@model DataLayer.ViewModels.RequestListAdminDash;
+
+<div id="newcon"></div>
+
+<div class="mainDivboard m-0 p-0">
+    <Partial name="_ProviderHeader" /> 
+    <div id="cancel"></div>
+    <div class="mx-4 mt-4">
+
+        <div class="row">
+            <div class="col-xl-2 col-lg-2 col-md-4 col-sm-4 mb-3 col-6">
+                <div onclick="newState()" class="border rounded p-1 p-sm-3 new new-active" id="pills-new-tab">
+                    <div class="d-flex align-items-center gap-1 ps-1">
+                        <i class="bi bi-person me-2 d-none px-1 d-md-block fs-4"></i>
+                        <h6 class="px-1 m-0">New</h6>
+                    </div>
+                    <div class="ps-1 pt-3 ">
+                        <h4 class="newcount">@Model.newreq</h4>
+                    </div>
+                </div>
+            </div>
+            <div class="col-xl-2 col-lg-2 col-md-4 col-sm-4 mb-3 col-6">
+                <div onclick="pendingState()" class="border rounded p-1 p-sm-3 Pending" id="pills-pending-tab">
+                    <div class="d-flex align-items-center gap-1 ps-1">
+                        <i class="bi bi-person me-2 d-none px-1 d-md-block fs-4"></i>
+                        <h6 class="px-1 m-0">Pending</h6>
+                    </div>
+                    <div class="ps-1 pt-3 ">
+                        <h4 class="pendingcount">@Model.pendingreq<h4>
+                    </div>
+                </div>
+            </div>
+            <div class="col-xl-2 col-lg-2 col-md-4 col-sm-4 mb-3 col-6">
+                <div onclick="activeState()" class="border rounded p-1 p-sm-3 Active" id="pills-active-tab">
+                    <div class="d-flex align-items-center gap-1 ps-1">
+                        <i class="bi bi-person me-2 d-none px-1 d-md-block fs-4"></i>
+                        <h6 class="px-1 m-0">Active</h6>
+                    </div>
+                    <div class="ps-1 pt-3">
+                        <h4 class="activecount"> @Model.activereq</h4>
+                    </div>
+                </div>
+            </div>
+            <div class="col-xl-2 col-lg-2 col-md-4 col-sm-4 mb-3 col-6">
+                <div onclick="concludeState()" class="border rounded p-1 p-sm-3 Conclude" id="pills-conclude-tab">
+                    <div class="d-flex align-items-center gap-1 ps-1">
+                        <i class="bi bi-person me-2 d-none px-1 d-md-block fs-4"></i>
+                        <h6 class="px-1 m-0">Conclude</h6>
+                    </div>
+                    <div class="ps-1 pt-3">
+                        <h4 class="concludecount">@Model.conclude</h4>
+                    </div>
+                </div>
+            </div>
+        
+        </div>
+
+
+        <div class="rounded-2 shadow" id="main">
+            <div class="d-flex justify-content-between align-items-center mb-3">
+                <h5>Patients (New)</h5>
+                <div class="d-flex">
+                    <button type="button" onclick="sendLinkModel()"
+                            class="btn btn-info d-flex ms-1 ms-sm-2 p-sm-2 p-1 align-items-center text-light">
+                        <i class="bi bi-send  me-md-1"></i><p class="d-md-block d-none mb-0 px-2 ">
+                            Send
+                            Link
+                        </p>
+                    </button>
+                    <a type="button" asp-action="adminCreateRequestt"
+                       class="btn btn-info d-flex ms-1 ms-sm-2 p-1 p-sm-2 align-items-center text-light">
+                        <i class="bi bi-pencil-square me-md-1"></i>
+                        <p class="d-md-block d-none mb-0 px-2 ">
+                            Create
+                            Request
+                        </p>
+                    </a>
+                
+                </div>
+            </div>
+            <div class="d-md-flex justify-content-between p-1 mt-1 shadow ">
+              
+                <div class="d-md-flex gap-1">
+                    <form role="search" class="mb-2">
+                        <!-- <i class="bi bi-search"></i> -->
+                        <input class="form-control bg-white" id="search" type="text" placeholder="Search" aria-label="Search" oninput="searchpatient()">
+                    </form>
+                    <!-- Example split danger button -->
+
+                    <select class="form-select mb-2" aria-label="Default select example" id="region" style="height: fit-content">
+                        <option value="0"> All region </option>
+                        @foreach (var r in Model.regionList)
+                        {
+                            <option value='@r.Regionid'> @r.Name  </option>
+                        }
+                    </select>
+                </div>
+
+                <div class="d-flex gap-2 align-items-center mb-2">
+                    <button class="btn btn-outline-secondary d-none d-md-block selecteditem " value="0" onclick="selectReqType(value)">All</button>
+                    <div class="d-md-flex gap-1 mx-auto text-center align-items-center">
+                        <i class="bi bi-circle-fill" style="color:#61BD5F"></i>
+                        <button style="background-color:white; border:none" id="Patient" class="selecteditem" value="1" onclick="selectReqType(value)">Patient</button>
+                    </div>
+                    <div class="d-md-flex gap-1 mx-auto text-center align-items-center">
+                        <i class="bi bi-circle-fill" style="color:#E9932D"></i>
+                        <button style="background-color:white; border:none" value="4" class="selecteditem" onclick="selectReqType(value)">Business</button>
+                    </div>
+                    <div class="d-md-flex gap-1 mx-auto text-center align-items-center">
+                        <i class="bi bi-circle-fill" style="color:#D96779"></i>
+                        <button style="background-color:white; border:none" value="3" class="selecteditem" onclick="selectReqType(value)">Conciege</button>
+                    </div>
+                    <div class="d-md-flex gap-1 mx-auto text-center align-items-center">
+                        <i class="bi bi-circle-fill" style="color:#067BBA"></i>
+                        <button style="background-color:white; border:none" value="2" class="selecteditem" onclick="selectReqType(value)">Friend</button>
+                    </div>
+                    <div class="d-md-flex gap-1 mx-auto text-center align-items-center">
+                        <i class="bi bi-circle-fill" style="color:#8F3EAC"></i>
+                        <button style="background-color:white; border:none" value="5">Vip</button>
+                    </div>
+                </div>
+
+
+            </div>
+            <div id="tableContent">
+            </div>
+
+
+        </div>
+    </div>
+</div>
+
+
+<script>
+    var url;
+    var Page;
+    var status;
+    var url;
+    var patientname;
+    var requestType;
+    var currentpage;
+    var regionId;
+    $(document).ready(function () {
+        $.ajax({
+            url: "/Provider/New",
+            type: "POST",
+            dataType: "html",
+            data: { page: 1, pageSize: 4, requestTypeId: requestType, regionId: regionId, patientname: patientname },
+            success: function (data) {
+                $("#tableContent").html(data);
+                url = "/Provider/New";
+            },
+            error: function () {
+                $("#tableContent").html('An error has occurred');
+            }
+        });
+
+        $('#pills-new-tab').click(function () {
+            $('#loader').fadeIn(200);
+            $("#tableContent").css('opacity', '0');
+            setTimeout(function () {
+                $.ajax({
+                    url: "/Provider/New",
+                    type: "POST",
+                    dataType: "html",
+                    data: { page: 1, pageSize: 4, requestTypeId: requestType, regionId: regionId, patientname: patientname },
+                    success: function (data) {
+                        $("#tableContent").html(data);
+                        url = "/Provider/New";
+                    },
+                    error: function (e) {
+
+                        console.log(e);
+                    }
+                });
+                $('#loader').fadeOut(100);
+                $("#tableContent").animate({ opacity: 1 }, 1000);// Redirect to About action in HomeController
+            }, 1000);
+
+        });
+
+        $('#pills-pending-tab').click(function () {
+            $('#loader').fadeIn(200);
+            $("#tableContent").css('opacity', '0');
+            setTimeout(function () {
+
+                $.ajax({
+                    url: "/Provider/PendingTable",
+                    type: "POST",
+                    dataType: "html",
+                    data: { page: 1, pageSize: 4, requestTypeId: requestType, regionId: regionId, patientname: patientname },
+                    success: function (data) {
+                        $("#tableContent").html(data);
+                        url = "/Provider/PendingTable";
+                    },
+                    error: function () {
+
+                        $("#tableContent").html('An error has occurred');
+                    }
+                });
+                $('#loader').fadeOut();
+                $("#tableContent").animate({ opacity: 1 }, 1000);// Redirect to About action in HomeController
+            }, 1000);
+
+        });
+
+
+        $('#pills-active-tab').click(function () {
+            $('#loader').fadeIn(200);
+            $("#tableContent").css('opacity', '0');
+            setTimeout(function () {
+                $.ajax({
+                    url: "/Provider/Active",
+                    type: "POST",
+                    dataType: "html",
+                    data: { page: 1, pageSize: 4, requestTypeId: requestType, regionId: regionId, patientname: patientname },
+                    success: function (data) {
+                        $("#tableContent").html(data);
+                        url = "/Provider/Active";
+                    },
+                    error: function () {
+
+                        $("#tableContent").html('An error has occurred');
+                    }
+                });
+                $('#loader').fadeOut();
+                $("#tableContent").animate({ opacity: 1 }, 1000);// Redirect to About action in HomeController
+            }, 1000);
+
+        });
+        $('#pills-conclude-tab').click(function () {
+            $('#loader').fadeIn(200);
+            $("#tableContent").css('opacity', '0');
+            setTimeout(function () {
+                $.ajax({
+                    url: "/Provider/ConcludeTable",
+                    type: "POST",
+                    dataType: "html",
+                    data: { page: 1, pageSize: 4, requestTypeId: requestType, regionId: regionId, patientname: patientname },
+                    success: function (data) {
+                        $("#tableContent").html(data);
+                        url = "/Provider/ConcludeTable";
+                    },
+                    error: function () {
+
+                        $("#tableContent").html('An error has occurred');
+                    }
+                });
+                $('#loader').fadeOut();
+                $("#tableContent").animate({ opacity: 1 }, 1000);// Redirect to About action in HomeController
+            }, 1000);
+
+        });
+    
+    });
+    function searchpatient() {
+        patientname = $("#search")[0].value;
+        Page = 1;
+        AjaxAll();
+    }
+    function selectReqType(value) {
+        Page = 1;
+        requestType = value;
+        AjaxAll();
+    }
+    selectElement = document.getElementById("region");
+
+    selectElement.addEventListener("change", function () {
+        regionId = selectElement.value;
+
+        Page = 1;
+        AjaxAll();
+    });
+    function Pagefile(page, pageSize) {
+        $.ajax({
+            url: url,
+            type: "GET",
+            data: { page: page, pageSize: pageSize, requestTypeId: requestType, regionId: regionId, patientname: patientname },
+            dataType: "html",
+            success: function (data) {
+                $("#tableContent").html(data);
+
+
+            },
+            error: function (error) {
+
+                $("#tableContent").html('An error has occurred');
+            }
+        });
+
+    }
+    function AjaxAll() {
+        $.ajax({
+            url: url,
+            type: "GET",
+            data: { page: 1, pageSize: 4, requestTypeId: requestType, regionId: regionId, patientname: patientname },
+            dataType: "html",
+            success: function (data) {
+                $("#tableContent").html(data);
+
+            },
+            error: function (error) {
+
+                $("#tableContent").html('An error has occurred');
+            }
+        });
+    }
+    function cancelmodel(Requestid) {
+        console.log("all");
+        $.ajax({
+            url: "/Provider/cancelModel",
+            type: "POST",
+            data: { reqid: Requestid},
+
+            success: function (data) {
+                $("#newcon").html(data);
+                $("#CancelPopUP").modal('show');
+            },
+            error: function (e) {
+
+                console.log(e);
+            }
+        });
+    };
+    function EncounterModelDownload(Requestid) {
+        console.log("all");
+        $.ajax({
+            url: "/Provider/DownlodEncounter",
+            type: "POST",
+            data: { reqid: Requestid },
+
+            success: function (data) {
+                $("#newcon").html(data);
+                $("#DownlodPopUp").modal('show');
+            },
+            error: function (e) {
+
+                console.log(e);
+            }
+        });
+    };
+    function assignmodel(Requestid) {
+        console.log("all");
+        $.ajax({
+            url: "/Admin/assignModel",
+            type: "POST",
+            data: { reqid: Requestid },
+
+            success: function (data) {
+                $("#newcon").html(data);
+                $("#AssignPopUp").modal('show');
+            },
+            error: function (e) {
+
+                console.log(e);
+            }
+        });
+    };
+    function sendLinkModel() {
+        console.log("all");
+        $.ajax({
+            url: "/Admin/sendmodel",
+            type: "POST",
+            success: function (data) {
+                $("#newcon").html(data);
+                $("#SendLinkPopUP").modal('show');
+            },
+            error: function (e) {
+                console.log(e);
+            }
+        });
+    };
+    function transfermodel(requestid) {
+        debugger;
+        console.log("all");
+        console.log(requestid);
+        $.ajax({
+            url: "/Provider/transfermodel",
+            type: "post",
+            data: { reqid: requestid },
+            success: function (data) {
+                $("#newcon").html(data);
+                $("#TransferPopUp").modal('show');
+            },
+            error: function (e) {
+                console.log(e);
+            }
+        });
+    };
+
+    function blockmodel(Requestid, firstname) {
+        console.log("all");
+        $.ajax({
+            url: "/Admin/blockModel",
+            type: "POST",
+            data: { reqid: Requestid, name: firstname },
+            success: function (data) {
+                $("#newcon").html(data);
+                $("#BlockPopUp").modal('show');
+            },
+            error: function (e) {
+                console.log(e);
+            }
+        });
+    };
+    function Encountermodel(Requestid, firstname) {
+        console.log("encounter");
+        $.ajax({
+            url: "/Provider/Encountermodel",
+            type: "POST",
+            data: { reqid: Requestid },
+            success: function (data) {
+                $("#newcon").html(data);
+                $("#ClearPopUp").modal('show');
+            },
+            error: function (e) {
+                console.log(e);
+            }
+        });
+    };
+    function sendagreementmodel(Requestid, reqtypeid) {
+        console.log("all");
+        $.ajax({
+            url: "/Provider/sendagreementModel",
+            type: "POST",
+            data: { reqid: Requestid, reqtypeid: reqtypeid },
+
+            success: function (data) {
+                $("#newcon").html(data);
+                $("#SendAgreementPopUp").modal('show');
+            },
+            error: function (e) {
+                console.log(e);
+            }
+        });
+    };
+
+    function newState() {
+        document.getElementById("pills-new-tab").classList.add("new-active");
+        document.getElementById("pills-pending-tab").classList.remove("Pending-active");
+        document.getElementById("pills-active-tab").classList.remove("Active-active");
+        document.getElementById("pills-conclude-tab").classList.remove("Conclude-active");
+
+    }
+
+    function pendingState() {
+        document.getElementById("pills-new-tab").classList.remove("new-active");
+        document.getElementById("pills-pending-tab").classList.add("Pending-active");
+        document.getElementById("pills-active-tab").classList.remove("Active-active");
+        document.getElementById("pills-conclude-tab").classList.remove("Conclude-active");
+     
+    }
+    function activeState() {
+        document.getElementById("pills-new-tab").classList.remove("new-active");
+        document.getElementById("pills-pending-tab").classList.remove("Pending-active");
+        document.getElementById("pills-active-tab").classList.add("Active-active");
+        document.getElementById("pills-conclude-tab").classList.remove("Conclude-active");
+      
+    }
+    function concludeState() {
+        document.getElementById("pills-new-tab").classList.remove("new-active");
+        document.getElementById("pills-pending-tab").classList.remove("Pending-active");
+        document.getElementById("pills-active-tab").classList.remove("Active-active");
+        document.getElementById("pills-conclude-tab").classList.add("Conclude-active");
+    
+    }
+    function closeState() {
+        document.getElementById("pills-new-tab").classList.remove("new-active");
+        document.getElementById("pills-pending-tab").classList.remove("Pending-active");
+        document.getElementById("pills-active-tab").classList.remove("Active-active");
+        document.getElementById("pills-conclude-tab").classList.remove("Conclude-active");
+   
+    }
+    function unpaidState() {
+        document.getElementById("pills-new-tab").classList.remove("new-active");
+        document.getElementById("pills-pending-tab").classList.remove("Pending-active");
+        document.getElementById("pills-active-tab").classList.remove("Active-active");
+        document.getElementById("pills-conclude-tab").classList.remove("Conclude-active");
+   
+    }
+    function exportTableToCSV() {
+        // Select the table you want to export
+        var table = document.getElementById('yourTableId');
+        var rows = table.querySelectorAll('tr');
+        var csvData = [];
+
+        // Iterate over table rows
+        for (var i = 0; i < rows.length; i++) {
+            var row = [], cols = rows[i].querySelectorAll('td, th');
+
+            // Iterate over columns
+            for (var j = 0; j < cols.length - 2; j++) {
+                // Clean the text and push to the row array
+                var text = cols[j].innerText.replace(/"/g, '""'); // Handle double quotes
+                row.push('"' + text + '"');
+            }
+
+            // Join each row's columns
+            // Add a new line in between rows
+            csvData.push(row.join(','));
+        }
+
+        // Join all rows into a CSV string
+        var csvString = csvData.join('\n');
+        console.log(csvString);
+
+        // Send the CSV string to the server using AJAX
+        $.ajax({
+            url: '/Admin/ExportToCsv', // Your server endpoint
+            type: 'POST',
+            data: { csv: csvString },
+            success: function (response) {
+                // Handle the response from the server
+                console.log(response)
+                window.location.href = response.fileDownloadUrl; // Assuming the server sends the file download URL
+            },
+            error: function (error) {
+                // Handle any errors
+                console.error('Error:', error);
+            }
+        });
+    }
+</script>
+﻿
+

@@ -1,0 +1,93 @@
+﻿@model DataLayer.ViewModels.Schedulereqvm;
+
+<form asp-action="requestApproveDelete">
+        <div class="row  mb-3  bg-white">
+            <div class="d-flex justify-content-end">              
+                <div>
+                    <button class="p-2  border-info me-2 rounded text-white" style="background-color:darkgreen">
+                    <a asp-action="Scheduling">   View Current Month Shift </a>
+                    </button>
+                    <button type="submit" name="type" value="1" class="p-2 bg-success border-info me-2 rounded text-white">
+                        Approved Selected
+                    </button>
+                        <button type="submit" name="type" value="2" class="p-2 bg-danger border-info me-2 rounded text-white" data-bs-toggle="modal" data-bs-target="#CreateShiftModal">
+                        Delete Selected
+                    </button>
+                </div>
+            </div>
+        </div>
+
+<table class=" schedulereq mb-0 w-100 p-2">
+
+    <thead class="w-100" style="background-color:#f1f1f1; color:white">
+
+        <tr style="background-color:grey">
+            <th scope="col" class="checkboxth">
+                <div class="checkbox">
+                    <input type="checkbox" class="check" id="checkAll">
+                </div>
+            </th>
+            <th scope="col">Staff</th>
+            <th scope="col">Day</th>
+            <th scope="col">Time</th>
+            <th scope="col">Region</th>
+        </tr>
+    </thead>
+    <tbody>
+
+        @{
+            foreach (var item in Model.paginatedRequest)
+            {
+                var regionlist = Model.region;
+                var regionname = regionlist.Where(rg => rg.Regionid == item.Shift.Physician.Regionid).FirstOrDefault();
+              
+                <tr class="fw-bold">
+                    <td class="checkboxth">
+                        <div class="checkbox">
+                            <input type="checkbox" class="checkone" value="@item.Shiftdetailid" name="allshift">
+                        </div>
+                    </td>
+                    <td>@item.Shift.Physician.Firstname</td>
+                    <td>@item.Shiftdate.Day/@item.Shiftdate.Month/@item.Shiftdate.Year</td>
+                    <td>@item.Starttime - @item.Endtime</td>
+                    <td>@regionname.Name</td>
+
+                </tr>
+            }
+        }
+
+
+
+    </tbody>
+</table>
+</form>
+<div class=" @(Model.total == 0 ? "d-none" : "")">
+    <nav aria-label="Page navigation" class="p-4 d-flex justify-content-between" ">
+        <span>Page @Model.CurrentPage of @Model.TotalPages  </span>
+        <span>Total requests: @Model.total</span>
+        <ul class="pagination me-2">
+            <li class="page-item @(Model.CurrentPage <= 1 ? "disabled" : "")">
+                <button class="page-link" onclick="Pagefile(@Model.CurrentPage-1,@Model.PageSize)"><i class="bi bi-chevron-left text-black"></i></button>
+            </li>
+            <li class="page-item">
+                <button class="page-link bg-info text-white fw-bold mx-1 text-black" data-page="@Model.CurrentPage">@Model.CurrentPage</button>
+            </li>
+
+            <li class="page-item @(Model.CurrentPage == Model.TotalPages ? "disabled" : "")">
+                <button class="page-link" onclick="Pagefile(@Model.CurrentPage+1,@Model.PageSize)"><i class="bi bi-chevron-right text-black"></i></button>
+            </li>
+        </ul>
+
+    </nav>
+</div>
+<script>
+    document.getElementById("checkAll").addEventListener("click", function () {
+        var checkboxes = document.querySelectorAll(".checkone");
+        checkboxes.forEach(function (checkbox) {
+            debugger;
+            checkbox.checked = document.getElementById("checkAll").checked;
+        });
+    });
+
+  
+ </script>

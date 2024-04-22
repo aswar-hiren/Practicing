@@ -1,0 +1,361 @@
+﻿@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@model DataLayer.ViewModels.CreateShift;
+<Partial name="_ProviderHeader" />
+<div id="shift"></div>
+<div class="">
+    <div class="modal fade" id="CreateShiftModal" tabindex="-1" aria-labelledby="CreateShiftModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header bg-info text-white">
+                    <h1 class="modal-title fs-5" id="CreateShiftModalLabel">Create Shift</h1>
+                    <button type="button" class="btn-close text-white" data-bs-dismiss="modal" aria-label="Close" style="color:white;"></button>
+                </div>
+                <form id="CreateShiftForm" asp-action="CreateShift" asp-controller="Provider" method="post">
+                    <div class="modal-body">
+                        <input asp-for="PhysicianId" hidden/>
+                        <div class="">
+                            <div class="mb-3">
+                                <div class="form-floating">
+                                    <select class="form-select" aria-label="Default select example" asp-for="PhysicianRegion">
+                                        <option value="" selected>Narrow Search by Region</option>
+                                        @foreach (var item in Model.Region)
+                                        {
+                                            <option value="@item.Regionid">@item.Name</option>
+                                        }
+                                        
+                                    </select>
+                                    <label asp-for="Region">Region</label>
+                                </div>
+                            </div>
+                          
+                            <div class="mb-3">
+                                <div class="form-floating">
+                                    <input type="date" class="form-control" asp-for="ShiftDate" placeholder="ShiftDate" onchange="disablePastTimes()">
+                                    <label asp-for="ShiftDate">Shift Date</label>
+                                </div>
+                            </div>
+                            <div class="mb-3 d-flex">
+                                <div class="form-floating flex-grow-1 me-2">
+                                    <input type="time" class="form-control" asp-for="StartTime" placeholder="StartTime" onchange="disablePastTimes()">
+                                    <label asp-for="StartTime">Start Time</label>
+                                </div>
+                                <div class="form-floating flex-grow-1">
+                                    <input type="time" class="form-control" asp-for="EndTime" placeholder="EndTime">
+                                    <label asp-for="EndTime">End Time</label>
+                                </div>
+                            </div>
+                            <div class="mb-3">
+                                <div class="form-check form-switch">
+                                    <input class="form-check-input" type="checkbox" role="switch" asp-for="IsRepeat" onchange="EnableRepeat()">
+                                    <label class="form-check-label" asp-for="IsRepeat">Repeat</label>
+                                </div>
+                            </div>
+                            <fieldset id="RepeatFields" disabled>
+                                <div class="mb-3">
+                                    <p>Repeat Days</p>
+                                    <div class="form-check form-check-inline">
+                                        <input class="form-check-input" type="checkbox" id="Sunday" value="1" name="RepeatDays">
+                                        <label class="form-check-label" for="Sunday">Every Sunday</label>
+                                    </div>
+                                    <div class="form-check form-check-inline">
+                                        <input class="form-check-input" type="checkbox" id="Monday" value="2" name="RepeatDays">
+                                        <label class="form-check-label" for="Monday">Every Monday</label>
+                                    </div>
+                                    <div class="form-check form-check-inline">
+                                        <input class="form-check-input" type="checkbox" id="Tuesday" value="3" name="RepeatDays">
+                                        <label class="form-check-label" for="Tuesday">Every Tuesday</label>
+                                    </div>
+                                    <div class="form-check form-check-inline">
+                                        <input class="form-check-input" type="checkbox" id="Wednesday" value="4" name="RepeatDays">
+                                        <label class="form-check-label" for="Wednesday">Every Wednesday</label>
+                                    </div>
+                                    <div class="form-check form-check-inline">
+                                        <input class="form-check-input" type="checkbox" id="Thursday" value="5" name="RepeatDays">
+                                        <label class="form-check-label" for="Thursday">Every Thursday</label>
+                                    </div>
+                                    <div class="form-check form-check-inline">
+                                        <input class="form-check-input" type="checkbox" id="Friday" value="6" name="RepeatDays">
+                                        <label class="form-check-label" for="Friday">Every Friday</label>
+                                    </div>
+                                    <div class="form-check form-check-inline">
+                                        <input class="form-check-input" type="checkbox" id="Saturday" value="7" name="RepeatDays">
+                                        <label class="form-check-label" for="Saturday">Every Saturday</label>
+                                    </div>
+                                </div>
+                                <div class="mb-3">
+                                    <div class="form-floating">
+                                        <select class="form-select" aria-label="Default select example" asp-for="RepeatUpto">
+                                            <option value="1" selected>1 time</option>
+                                            <option value="2">2 time</option>
+                                            <option value="3">3 time</option>
+                                            <option value="4">4 time</option>
+                                            <option value="5">5 time</option>
+                                        </select>
+                                        <label asp-for="RepeatUpto">RepeatUpto</label>
+                                        <span asp-validation-for="RepeatUpto" class="text-danger"></span>
+                                    </div>
+                                </div>
+                            </fieldset>
+
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="submit" class="btn btn-info text-white" id="submitCreateShift">Save</button>
+                        <button type="button" class="btn btn-outline-info" data-bs-dismiss="modal">Cancel</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-xl-9 col-lg-10 col-md-10 col-sm-9 col-xs-12 mx-auto shadow bg-white mt-5">
+            <div class="row mt-5 mb-3">
+                <div class="d-flex justify-content-between">
+                    <h4>Scheduling</h4>
+                    <p id="error"></p>
+                    <a asp-action="Provider" class="btn btn-white border-1 border-info text-info rounded-1">&lt; &nbspBack</a>
+                </div>
+            </div>
+            <h5 id="datediv"> </h5>
+            <div class="row mb-1">
+                <div class="d-flex justify-content-end">
+                    <p class=" d-flex justify-content-center align-items-center text-center fw-bolder "> <i class="bi bi-square-fill rounded-pill me-2 fs-2 px-2 " style="color:lightpink; border-radius:30px"></i> Pending Shift</p>
+                    <p class="d-flex justify-content-center align-items-center text-center fw-bolder "> <i class="bi bi-square-fill rounded-pill me-2 fs-2 px-2 text-success "></i> Approved Shift</p>
+                </div>
+            </div>
+          
+           
+            <div class="row mb-3 ">
+                <div class="d-flex justify-content-between">
+                    <div class="d-flex justify-content-center align-items-center gap-2">
+                        <p onclick="previousCalendar()" id="PreBtn" class="rounded-circle bg-info text-white  "><i class="bi bi-chevron-left  p-2"></i></p>
+                        <div id="cal" class="upload-btn-wrapper" hidden> <input type="week" id="month-input" placeholder="Select Date" /></div>
+                        <p  id="calendarIcon" ><i class="bi bi-calendar-date fs-4"></i></p>
+
+                        <p onclick="nextCalendar()" id="nextBtn" class="rounded-circle bg-info text-white "><i class="bi bi-chevron-right  p-2 "></i></p>
+                    </div>
+                    <div>
+                        <button class="p-2 bg-info border-info me-2 rounded text-white" data-bs-toggle="modal" data-bs-target="#CreateShiftModal">
+                            Add New Shift
+                        </button>
+                       
+                    </div>
+                </div>
+            </div>
+            <div id="shiftTable">
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+
+
+<script>
+    $(document).ready(function () {
+        $('#calendarIcon').click(function () {
+            $('#month-input').datepicker('show');
+        });
+        $('.dropdown-toggle').click(function () {
+            var dropdownMenu = $(this).next('.dropdown-menu');
+            $('.dropdown-menu').not(dropdownMenu).hide();
+            dropdownMenu.toggle();
+        });
+
+        $(document).on('click', function (e) {
+            if (!$(e.target).closest('.dropdown').length) {
+                $('.dropdown-menu').hide();
+            }
+        });
+    });
+    var date = new Date();
+    // var diff = 7 - date.getDay();
+    // if (diff === 0) {
+    //     diff = 7;
+    // }
+    // var sunday = new Date(date.getTime() + (diff * 24 * 60 * 60 * 1000));
+    // var saturday = new Date();
+    // saturday.setDate(sunday.getDate() + 6);
+    var daysUntilSunday = (7 + date.getDay()) % 7;
+    var sunday = new Date(date);
+    sunday.setDate(date.getDate() - daysUntilSunday);
+    var saturday = new Date();
+    saturday.setDate(sunday.getDate() + 6);
+
+    var schedulingtype;
+
+    // function showcalender() {
+    //     console.log("show");
+    //     debugger;
+    //     document.getElementById("month-input").datepicker('show');
+    //     console.log(ele);
+    // }
+    var regionId = 0;
+    ShiftCalender('month');
+    function schedulPhy() { 
+        regionId = $("#phyreg").val();
+        console.log(regionId);
+        ShiftCalender(schedulingtype, regionId);
+    }
+    function ShiftCalender(shifttype,regionId) {
+        
+        schedulingtype = shifttype;
+        var datehere;
+        var calendar = document.getElementById("cal");
+        var calendar = document.getElementById("cal");
+        calendar.innerHTML = '';
+        switch (schedulingtype) {
+            case 'month':
+                datehere = date.toLocaleDateString('en-US', { month: 'long' }) + ',' + date.getFullYear();
+                calendar.innerHTML = '<input type="month" id="month-input" onchange="monthchange()"/>';
+              
+                break;
+            
+        }
+        console.log(sunday.getDay());
+      
+        $.ajax({
+            url: '/Provider/loadshift',
+            type: 'POST',
+            data: { datestring: date.toISOString(), sundaystring: sunday.toISOString(), saturdaystring: saturday.toISOString(), shifttype: shifttype,regionid:regionId },
+            success: function (data) {
+                $('#shiftTable').html(data);
+                $('#datediv').text(datehere);
+            },
+            error: function () {
+                console.error('Error loading partial view.'); 
+            }
+        });
+    }
+    function nextCalendar() {
+
+        switch (schedulingtype) {
+            case 'month':
+                date.setMonth(date.getMonth() + 1);
+                ShiftCalender('month');
+                break;
+
+            
+        }
+    }
+
+    function previousCalendar() {
+
+        switch (schedulingtype) {
+            case 'month':
+                date.setMonth(date.getMonth() - 1);
+                ShiftCalender('month');
+                break;
+
+           
+        }
+
+    }
+    jQuery(function () {
+        var isDateExist = $('input[type="date"]').length;
+        if (isDateExist != 0) {
+            var today = new Date().toISOString().split('T')[0];
+            $('input[type="date"]').attr('min', today);
+        }
+    });
+
+    function disablePastTimes() {
+        if ($("#ShiftDate").val() == new Date().toISOString().split('T')[0]) {
+            console.log("call");
+            var timeInput = document.getElementById('StartTime');
+            var now = new Date().toTimeString().slice(0, 5);
+            if (timeInput.value < now) {
+                timeInput.value = now
+                console.log(now);
+            }
+
+        }
+    }
+    function loadShifts() {
+        console.log("loadshift");
+        $.ajax({
+            url: '/Provider/loadshift',
+            type: 'POST',
+            data: { datestring: date.toISOString(), sundaystring: sunday.toISOString(), saturdaystring: saturday.toISOString(), shifttype: schedulingtype },
+            success: function (data) {
+                $('#shiftTable').html(data);
+                $('#datediv').text(datehere);
+            },
+            error: function () {
+                console.error('Error loading partial view.');
+            }
+        });
+    }
+
+
+    function EnableRepeat() {
+        if ($("#IsRepeat").prop("checked")) {
+            $("#RepeatFields").removeAttr("disabled")
+        } else {
+            $("#RepeatFields").attr("disabled", true);
+            $('#RepeatFields input[type=checkbox]').prop("checked", false);
+            $("#RepeatUpto").val("1");
+        }
+    }
+
+    $("#PhysicianRegion").on("change", function () {
+        var RegionId = $(this).val();
+        var innerHtml = "";
+        if (RegionId != "") {
+            $.ajax({
+                url: "/Provider/GetPhysicianForCreateShift",
+                type: "GET",
+                data: { RegionId },
+                success: function (data) {
+                    var obj = JSON.parse(data)
+                    console.log(obj)
+                    $.each(obj, function (i, obj) {
+                        
+                        innerHtml += "<option value=\"" + obj.PhysicianId + "\">" + obj.PhysicianName + "</option>"
+                    })
+                    $("#PhysicianId").html(innerHtml);
+                },
+                error: function (data) {
+                    $("#PhysicianId").html("<option value=\"\" selected>Select Physician</option>");
+                }
+            })
+        } else {
+            $("#PhysicianId").html("<option value=\"\" selected>Select Physician</option>");
+        }
+    })
+
+    $("#CreateShiftForm").on("submit", function (e) {
+        console.log("Submit")
+        e.preventDefault();
+        var actionurl = e.currentTarget.action;
+        $(this).validate();
+        if ($(this).valid()) {
+            $.ajax({
+                url: actionurl,
+                type: 'POST',
+                data: $(this).serialize(),
+                success: function (data) {
+                    if (data) {
+                        toastr.success("Shift Created Successfully");
+                        $("#CreateShiftModal").modal("hide");
+                        
+                        loadShifts();
+                    } else {
+                        toastr.error("Error While Creating Shift Information");
+                    }
+                },
+                error: function (data) {
+                    toastr.error("Error While Creating Shift Information");
+                }
+            });
+        }
+    })
+   
+</script>
+

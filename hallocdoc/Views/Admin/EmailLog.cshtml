@@ -1,0 +1,174 @@
+﻿@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+
+}
+
+<div class="container-fluid  vh-100">
+    <partial name="_Navbar" />
+    <partial name="_Notification">
+        <input value="@ViewBag.userid" id="userid" hidden />
+        <div class="container d-flex flex-column mt-3 gap-2 p-3">
+            <div class="container d-flex justify-content-between p-0 my-2">
+                <div>
+                    <p class="h4">Email Log</p>
+                </div>
+                
+            </div>
+            <div class="row shadow rounded-3">
+                <div class="row d-flex align-items-center mt-3 mb-3 me-2">
+                    <div class="col-md-3 col-sm-12 ">
+
+                        <div class="form-floating mb-3">
+                            <select class="form-select form-control w-100 p-3" id="typeofrole">
+                                <option selected value="0">Select By Role</option>
+                                <option value="1">Admin</option>
+                                <option value="3">Patient</option>
+                    
+                                <option value="2">Provider</option>
+                            </select>
+
+                        </div>
+
+                    </div>
+                    <div class="col-md-3 col-sm-12  mt-2">
+
+                        <div class="form-floating mb-3">
+                            <input type="text" class="form-control" id="firstname"
+                                   placeholder="your first name" />
+                            <label for="Receiver Name" class="">Receiver Name</label>
+                        </div>
+
+                    </div>
+                  
+                    <div class="col-md-3 col-sm-12  mt-2">
+                        <div class="form-floating mb-3">
+                            <input type="text" class="form-control" id="email"
+                                   placeholder="your first name" />
+                            <label for="email" class="">Email</label>
+                        </div>
+                    </div>
+                    <div class="col-md-3 col-sm-12  mt-2">
+                        <div class="form-floating mb-3">
+                            <input type="date" class="form-control" id="createDate"
+                                   placeholder="Create Date" />
+                            <label for="phonenumber" class="">Create Date</label>
+                          
+                        </div>
+                    </div>
+                    <div class="col-md-3 col-sm-12  mt-2">
+                    <div class="form-floating mb-3">
+                            <input type="date" class="form-control" id="send"
+                               placeholder="sentDate" />
+                        <label for="phonenumber" class="">sentDate</label>
+                    </div>
+                    </div>
+                    <div class="col-md-12 mt-3">
+                        <div class="d-flex justify-content-end">
+                            <button type="reset" id="clearButton" class="btn  px-3 py-2 me-2 text-info bg-white border-info" onclick="clearRecord()">Clear</button>
+
+                            <button id="searchButton" class="btn  px-3 py-2 text-white btn-info" onclick="searchrecords()">Search</button>
+                        </div>
+                    </div>
+
+
+
+
+                </div>
+
+
+
+                <div id="emaillog" class="px-0">
+                </div>
+
+
+            </div>
+        </div>
+</div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+<script>
+
+
+    var FirstName;
+    var LastName;
+    var Email;
+    var roleId;
+    var Phonenumber;
+    var createDate;
+    var sentDate;
+    var Page;
+    var pagesize;
+    var userId = $("#userid").val().trim();
+    $(document).ready(function () {
+        console.log("ajax");
+        $.ajax({
+            url: "/Admin/emailLogDetails",
+            type: "POST",
+            dataType: "html",
+            data: { page: 1, pageSize: 4 },
+            success: function (data) {
+                $("#emaillog").html(data);
+                Page = 1;
+                pagesize = 4;
+            },
+            error: function (error) {
+
+                $("#emaillog").html('An error has occurred');
+            }
+        });
+
+
+
+
+
+
+
+
+    });
+    function Pagefile(page, totalperpage) {
+
+        Page = page;
+        console.log(Page);
+        pagesize = totalperpage;
+        console.log(pagesize);
+        searchrecords();
+
+
+    }
+    function clearRecord() {
+        document.getElementById("firstname").value = "";
+   
+        document.getElementById("email").value = "";
+       
+        document.getElementById("createDate").value = "";
+        document.getElementById("send").value = "";
+        document.getElementById("typeofrole").selectedIndex = 0;
+        Page = 1;
+        pagesize = 4;
+        searchrecords();
+    }
+    function searchrecords() {
+        FirstName = $("#firstname").val().trim();
+        roleId = $("#typeofrole").val();
+        Email = $("#email").val().trim();
+        createDate = $("#createDate").val();
+        sentDate = $("#send").val();
+        console.log(sentDate);
+        $.ajax({
+            url: "/Admin/emailLogDetails",
+            type: "POST",
+            dataType: "html",
+            data: { page: Page, pageSize: pagesize, FirstName, createdate: createDate, sendate: sentDate, Email, roleid: roleId },
+            success: function (data) {
+                $("#emaillog").html(data);
+
+            },
+            error: function (error) {
+
+                $("#emaillog").html('An error has occurred');
+            }
+        });
+    }
+
+
+</script>
+

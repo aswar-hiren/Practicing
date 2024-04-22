@@ -1,0 +1,76 @@
+﻿@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<Partial name="_Notification"/>
+<body class="bg-white" style=" box-shadow: 10px 10px white; height: 100vh;">
+    <div class="" style=" ">
+        <div class="row bg-white justify-content-center align-item-center ">
+            <div class="col">
+                <img src="~/images/hellodoclogo.png" class="image-fluid" height="100" alt="">
+            </div>
+            <div class="col-auto justify-content-center align-item-center p-3">
+                <button onclick="toggle1()" class="bi bi-moon bg-white  pointer border border-1 border-info px-3 py-2 rounded text-info"></button>
+            </div>
+
+
+        </div>
+        <div class="row   justify-content-center mt-5 pt-md-5 " style="width: 360px; margin: auto">
+         
+            <div class="row mt-5 mb-3">
+
+                <div class="d-flex justify-content-between">
+                    <h2 class="col"> i am a...</h2>
+                    <a asp-action="Index" asp-controller="Home" class="border-info text-info px-2 py-1 rounded-2" style="border:1px solid skyblue"><i class="bi bi-chevron-compact-left text-info"></i>Back</a>
+                </div>
+            </div>
+        </div>
+        <a asp-controller="Patient" asp-action="PatientInfo">
+            <div class="row  justify-content-center mb-4" style=" padding: 10px; margin-bottom: 10px; width: 360px; margin: auto; border: 3px solid rgb(95, 235, 200); background-color: rgb(245, 226, 228); color: rgb(137, 88, 228); font-size: 600;">
+                <div class="col">
+                    <strong>PATIENT</strong>
+                </div>
+
+
+            </div>
+        </a>
+                <a asp-controller="Patient" asp-action="FamilyFriend" >
+        <div class="row  justify-content-center mb-4 " style=" padding: 10px;  width: 360px; margin: auto; border-color: rgb(177, 139, 248); background-color: rgb(198, 198, 248); color: rgb(118, 116, 122); font-size: 600;">
+            <div class="col ">
+                <strong> FAMILY/FRIEND</strong>
+            </div>
+
+
+        </div>
+        </a>
+           <a asp-controller="Patient" asp-action="Concierge" >
+        <div class="row justify-content-center mb-4 " style=" padding: 10px; margin-bottom: 10px; width: 360px; margin: auto; border-color: rgb(215, 241, 215); background-color: rgb(198, 238, 198); color: green; font-size: 600;">
+            <div class="col">
+                <strong> CONCIERGE</strong>
+            </div>
+
+
+        </div>
+        </a>
+    
+        <div class="row border justify-content-center mb-4 " style=" padding: 10px;  width: 360px; margin: auto; border-color: rgb(177, 139, 248); background-color: rgb(238, 202, 208); color: rgb(137, 88, 228); font-size: 600;">
+            <div class="col ">
+                     <a asp-controller="Patient" asp-action="Business" >
+                <strong> BUSINESS PARTENERS</strong>    </a>
+            </div>
+            <div class=" d-flex justify-content-center align-items-center  " style="position: absolute; bottom: 0;">
+                <a href="" class="p-3">Terms And condition</a>
+                <a href="" class="p-3">|</a>
+                <a href="" class="p-3">Privacy Policy</a>
+            </div>
+
+        </div>
+
+
+
+    </div>
+
+
+
+
+</body>
+

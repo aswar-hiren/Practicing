@@ -1,0 +1,121 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+}
+@model DataLayer.ViewModels.MonthShiftModal;
+<div id="allshift"></div>
+<div id="shiftdetail"></div>
+<div class="table-responsive ">
+    <table style="width:100%;z-index:5">
+        <thead>
+            <tr style="background-color: lightgray;">
+                <th class="p-3">SUN</th>
+                <th>MON</th>
+                <th>TUE</th>
+                <th>WED</th>
+                <th>THU</th>
+                <th>FRI</th>
+                <th>SAT</th>
+            </tr>
+        </thead>
+        <tbody style="font-size:larger;font-weight:400;" id="shifttable">
+            @for (int i = 0; i < Model.daysLoop; i += 7)
+            { 
+                <tr>
+                    @for (int j = 0; j < 7; j++)
+                    {
+                        var dayNumber = i + j + 1 - Model.startDayIndex;
+
+                        <td>
+                            @if (dayNumber > 0 && dayNumber <= Model.daysInMonth)
+                            {
+                                <div class="d-flex justify-content-center" style="background-color:grey; color:white">@dayNumber</div>
+                                {
+                                    var count = 1;
+                                    var list = Model.shiftDetailsmodals.Where(d => d.Shiftdate.Day == dayNumber);
+
+                                    foreach (var item in list)
+                                    {
+                                        var moreshift = list.Count() - 4;
+                                        var bgcolor = "";
+                                        var color = "";
+                                        if (count < 5)
+                                        {
+                                            if (item.Status == 1)
+                                            {
+                                                bgcolor = "lightpink";
+                                                color = "white";
+                                            }
+                                            else if (item.Status == 2)
+                                            {
+                                                bgcolor = "green";
+                                                color = "white";
+                                                
+                                            }
+
+
+                                            <div style="overflow-y:auto;">
+                                                <button class="w-100 h-100 border-0" style="background-color:@bgcolor; color: @color" onclick="showmodel('@item.Shiftdetailid')" >
+                                                    @item.Starttime - @item.Endtime physician : @item.PhysicianName
+                                                </button>
+                                            </div>
+                                            count = count + 1;
+                                        }
+                                        if (count > 4)
+                                        {
+                                            <div style="overflow-y:auto;">
+                                                <button class="w-100 h-100 border-0" style="background-color:mediumvioletred; color:white;" onclick="Allshift('@item.Shiftdate')">
+                                                    More Shifts(@moreshift)...
+                                                </button>
+                                            </div>
+                                            count = count + 1;
+                                            break;
+                                        }
+                                    }
+                                    for (var k = count; k <= 5; k++)
+                                    {
+                                        <div></div>
+                                    }
+                                }
+                            }
+                            else
+                            {
+                                <div></div>
+                                <div></div>
+                                <div></div>
+                                <div></div>
+                                <div></div>
+                                <div></div>
+                            }
+                        </td>
+                    }
+                </tr>
+            }
+        </tbody>
+    </table>
+    
+</div>
+<script>
+    function Allshift(Shiftdate) {
+
+        console.log("allshift");
+        $.ajax({
+            url: "/Admin/AllShift",
+            type: "POST",
+            data: { datestring: Shiftdate},
+
+            success: function (data) {
+                $("#allshift").html(data);
+                $("#Allshift").modal('show');
+            },
+            error: function (e) {
+
+                console.log(e);
+            }
+        });
+
+
+
+    };
+</script>

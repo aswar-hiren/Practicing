@@ -1,0 +1,163 @@
+﻿@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@model DataLayer.ViewModels.CreatePatientModel
+<<<<<<< HEAD
+=======
+
+
+
+
+
+>>>>>>> a7d636f3ea8b91980d7206e593c9e656cfc1182e
+<body>
+    <div class="container  " style="height: 100vh;">
+        <Partial name="_Notification" />
+        <div class="col-auto justify-content-center align-item-center p-3 moonbtn">
+            <svg xmlns="http://www.w3.org/2000/svg" width="30" height="40" fill="currentColor" class="bi bi-moon"
+                 viewBox="0 0 16 16">
+                <path d="M6 .278a.77.77 0 0 1 .08.858 7.2 7.2 0 0 0-.878 3.46c0 4.021 3.278 7.277 7.318 7.277q.792-.001 1.533-.16a.79.79 0 0 1 .81.316.73.73 0 0 1-.031.893A8.35 8.35 0 0 1 8.344 16C3.734 16 0 12.286 0 7.71 0 4.266 2.114 1.312 5.124.06A.75.75 0 0 1 6 .278M4.858 1.311A7.27 7.27 0 0 0 1.025 7.71c0 4.02 3.279 7.276 7.319 7.276a7.32 7.32 0 0 0 5.205-2.162q-.506.063-1.029.063c-4.61 0-8.343-3.714-8.343-8.29 0-1.167.242-2.278.681-3.286" />
+            </svg>
+        </div>
+        <div class="row   justify-content-center">
+<<<<<<< HEAD
+            <div class="col-9  ">
+=======
+
+            <div class="col-9  ">
+
+>>>>>>> a7d636f3ea8b91980d7206e593c9e656cfc1182e
+                <div class="row  mb-md-5  justify-content-center">
+                    <div class=" imgcl col-4 justify-content-center ">
+                        <img src="~/images/hellodoclogo.png" class="" alt="">
+                    </div>
+<<<<<<< HEAD
+=======
+
+>>>>>>> a7d636f3ea8b91980d7206e593c9e656cfc1182e
+                </div>
+                <div class="row  justify-content-center  loginimg  " style="height: 400px;">
+                    <div class="col-xl-6 col-md-6   ">
+                        <div class="row mt-5 mb-3">
+                            <div class="d-flex justify-content-between">
+<<<<<<< HEAD
+=======
+
+>>>>>>> a7d636f3ea8b91980d7206e593c9e656cfc1182e
+                                <a asp-action="Index" asp-controller="Home" class="btn btn-white border-1 border-info text-info rounded-1">&lt; &nbspBack</a>
+                            </div>
+                        </div>
+                        <h4 class="mb-3">LOGIN TO YOUR ACCOUNT</h4>
+                        <form method="post" asp-action="CreatePatientData" asp-controller="Patient">
+                            <div class="input-group mb-2">
+<<<<<<< HEAD
+                                <input type="email" asp-for="Email" class="form-control " placeholder="Email" aria-label="email">
+                                <div class="input-group-prepend border-2">
+                                    <i class="bi bi-person-circle fs-3 p-2 text-info bg-white"></i>
+                                </div>
+                            </div>
+                            <span asp-validation-for="Email" class="text-danger " style="font:bolder"></span>
+                            <div class="input-group mb-2">
+                                <input type="password" asp-for="passwordhash" class="form-control " placeholder="Password" aria-label="Username">
+                                <div class="input-group-prepend">
+                                    <i class="bi bi-person-circle fs-3 p-2 text-info bg-white border-2"></i>
+                                </div>
+                            </div>
+                            <span asp-validation-for="passwordhash" class="text-danger " style="font:bolder"></span>
+                            <div class="input-group mt-3">
+                                <input type="password" asp-for="confirmpass" class="form-control" placeholder="Password" aria-label="Username"
+                                       aria-describedby="basic-addon1">
+                                <div class="input-group-prepend">
+                                    <i class="bi bi-eye-fill fs-3 p-2 text-info bg-white border-2"></i>
+                                </div>
+=======
+
+                                <input type="email" asp-for="Email" class="form-control " placeholder="Email" aria-label="email">
+
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text">
+                                        <span class="material-icons">
+                                            account_circle
+                                        </span>
+                                    </span>
+                                </div>
+
+
+
+                            </div>
+                            <span asp-validation-for="Email" class="text-danger " style="font:bolder"></span>
+                            <div class="input-group mb-2">
+
+                                <input type="password" asp-for="passwordhash" class="form-control " placeholder="Password" aria-label="Username">
+
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text">
+                                        <span class="material-icons">
+                                            account_circle
+                                        </span>
+                                    </span>
+                                </div>
+
+
+
+                            </div>
+                            <span asp-validation-for="passwordhash" class="text-danger " style="font:bolder"></span>
+                            <div class="input-group mt-3">
+
+                                <input type="password" asp-for="confirmpass" class="form-control" placeholder="Password" aria-label="Username"
+                                       aria-describedby="basic-addon1">
+
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text" id="basic-addon1">
+                                        <span class="material-icons">
+                                            visibility
+                                        </span>
+                                    </span>
+                                </div>
+
+
+
+>>>>>>> a7d636f3ea8b91980d7206e593c9e656cfc1182e
+                            </div>
+                            <span asp-validation-for="confirmpass" class="text-danger"></span>
+                            <button class="btn text-white w-100  btn-lg btn-block text-center mt-3" type="submit"
+                                    style="background-color: #0dcaf0;">
+                                Login
+                            </button>
+                        </form>
+                        <div class="row justify-content-center">
+                            <a class=" col-4 justify-content-center  mt-3" asp-controller="Patient" asp-action="ForgetpassPatient" style="color: #0dcaf0;"> Forget password ? </a>
+                        </div>
+                    </div>
+                </div>
+<<<<<<< HEAD
+=======
+
+
+>>>>>>> a7d636f3ea8b91980d7206e593c9e656cfc1182e
+            </div>
+            <div class=" d-flex justify-content-center align-items-center  " style="position: absolute; bottom: 0;">
+                <a href="" class="p-3">Terms And condition</a>
+                <a href="" class="p-3">|</a>
+                <a href="" class="p-3">Privacy Policy</a>
+            </div>
+<<<<<<< HEAD
+        </div>
+    </div>
+=======
+
+        </div>
+
+
+    </div>
+
+>>>>>>> a7d636f3ea8b91980d7206e593c9e656cfc1182e
+</body>
+
+
+
+@section Scripts{
+    @{
+        <Partial name="_ValidationScriptsPartial" />
+    }
+    }

@@ -1,0 +1,181 @@
+﻿@model DataLayer.ViewModels.PatientHistoryvm;
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<div class="d-none d-md-block table-responsive">
+    <table class="table">
+        <thead class="table-secondary">
+            <tr class="">
+                <th>Client/Member</th>
+                <th>Created Date</th>
+                <th>Conformation</th>
+                <th>Provider Name</th>
+                <th>Concluded date</th>
+                <th>Status</th>
+                <th>Final Report</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model.clients)
+            {
+                Dictionary<int, string> HashMap = new Dictionary<int, string>()
+            {
+            {1,"New"},
+            {2,"Pending"},
+            {3,"Close"},
+            {4,"Active"},
+            {5,"Active"},
+            {6,"Conclude"},
+            {7,"Close"},
+            {8,"Close"},
+            {9,"UnPaid"},
+            {10,"Clear"},
+            {11,"Block"}
+            };
+                <tr> 
+                    <td>
+                        @item.Firstname
+                    </td>
+                    <td>@item.Request.Createddate.Day/@item.Request.Createddate.Month/@item.Request.Createddate.Year</td>
+                    <td>----</td>
+                    @{
+                        if (item.Request.Physician != null)
+                        {
+                            <td>@item.Request.Physician.Firstname</td>
+                        }
+                        else
+                        {
+                            <td>No Name</td>
+                        }
+                    }
+                    <td>---- </td>
+                    <td>@HashMap[item.Request.Status]</td>
+                    <td>---</td>
+                    <td>
+                        <div class="dropdown">
+                            <button class="btn border-info actions dropdown-toggle p-2 text-info bg-white" type="button" aria-expanded="false" aria-haspopup="true">
+                                Actions
+                            </button>
+                            <ul class="dropdown-menu" style="">
+                                
+                                <a asp-action="ViewCase" class="m-3" asp-route-reqclientid="@item.Requestclientid" asp-route-type="1">View Case</a>
+                                <a class="dropdown-item" asp-action="">Chat</a>
+                                @{
+                                    var count = item.Request.Requestwisefiles.Count;
+                                    <a class="dropdown-item" asp-action="ViewUploads" asp-route-reqclientid="@item.Requestclientid" asp-route-requestid="@item.Requestid" asp-route-type="1"> Document @count</a>
+                                }
+                            </ul>
+
+
+                        </div>
+
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+
+</div>
+
+
+
+<div class="d-sm-block d-md-block d-lg-none d-xl-none">
+  
+    <div class="accordion " id="accordionExample">      
+    @{
+        Dictionary<int, string> myHashMap = new Dictionary<int, string>()
+        {
+        {1,"Patient"},
+        {2,"Family/Friend"},
+        {3,"Concierge"},
+        {4,"Business"},
+        {5,"VIP"},
+
+        };
+    }
+    @{
+        foreach (var client in Model.clients)
+        {
+                <div class="accordion-item">
+                    <h2 class="accordion-header">
+                        <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#one_@client.Requestid" aria-expanded="true" aria-controls="one_@client.Request.Requestid">
+                            <div class="d-flex flex-column w-100">
+                                <div class="row">
+                                    <div class="col-6">
+                                        <p>@client.Firstname,@client.Lastname</p>
+                                        <p class="fs-6">MDS23143FDSF</p>
+                                    </div>
+                                  
+                                </div>
+                                
+                            </div>
+                        </button>
+                    </h2>
+                    <div id="one_@client.Request.Requestid" class="accordion-collapse collapse" data-bs-parent="#accordionExample">
+
+                        <div class="accordion-body" style="background:##E0FFFF">
+                            <p class="mb-0"><i class="bi bi-calendar3 me-2 border rounded-circle  border-info p-1 "></i>Created Date: @client.Request.Createddate </p>
+                            <p class="mb-0 mt-3"><i class="bi bi-envelope me-2 border rounded-circle  border-info p-1 "></i>Email: @client.Email</p>
+                            <p class="mb-0"><i class="bi bi-calendar3 me-2 border rounded-circle  border-info p-1 "></i>Concluded Date: ---- </p>
+
+                            <p  class="mb-0 mt-3"><i class="bi bi-calendar3 me-2 border rounded-circle  border-info p-1 "></i>Status: @client.Request.Status</p>
+                           
+                            <div class="row mt-3">
+                                <div class="col-10 mx-auto">
+                                    <div class="d-flex flex-column">
+                                        <a class="btn btn-outline-success float-end me-3" asp-action="ViewCase" asp-route-reqclientid="@client.Requestclientid" asp-route-type="1">View Case</a>
+                                
+                                    @{
+                                        var count = client.Request.Requestwisefiles.Count;
+                                            <a class="btn btn-outline-success  float-end me-3" asp-action="ViewUploads" asp-route-reqclientid="@client.Requestclientid" asp-route-requestid="@client.Requestid" asp-route-type="1"> Document @count</a>
+                                    }
+                           
+                                    </div>
+                                </div>
+                             
+                            </div>
+                        </div>
+                    </div>
+                </div>
+        }
+    }
+    </div>
+</div>
+<div class=" @(Model.total == 0 ? "d-none" : "")">
+
+    <nav aria-label="Page navigation" class="p-4 d-flex justify-content-between" ">
+        <span>Page @Model.CurrentPage of @Model.TotalPages  </span>
+        <span>Total requests: @Model.total</span>
+        <ul class="pagination me-2">
+            <li class="page-item @(Model.CurrentPage <= 1 ? "disabled" : "")">
+                <button class="page-link" onclick="Pagefile(@Model.CurrentPage-1,@Model.PageSize)"><i class="bi bi-chevron-left text-black"></i></button>
+            </li>
+            <li class="page-item">
+                <button class="page-link bg-info text-white fw-bold mx-1 text-black" data-page="@Model.CurrentPage">@Model.CurrentPage</button>
+            </li>
+
+            <li class="page-item @(Model.CurrentPage == Model.TotalPages ? "disabled" : "")">
+                <button class="page-link" onclick="Pagefile(@Model.CurrentPage+1,@Model.PageSize)"><i class="bi bi-chevron-right text-black"></i></button>
+            </li>
+        </ul>
+
+    </nav>
+</div>
+<script>
+    $(document).ready(function () {
+
+        $('.dropdown-toggle').click(function () {
+            var dropdownMenu = $(this).next('.dropdown-menu');
+            $('.dropdown-menu').not(dropdownMenu).hide();
+            dropdownMenu.toggle();
+        });
+
+        $(document).on('click', function (e) {
+            if (!$(e.target).closest('.dropdown').length) {
+                $('.dropdown-menu').hide();
+            }
+        });
+    });
+
+</script>

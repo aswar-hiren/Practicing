@@ -1,0 +1,96 @@
+﻿@using DataLayer.Models;
+@model List<Physician>;
+
+@{
+	var currentTime = TimeOnly.FromDateTime(DateTime.Now);
+	var currentDate = DateOnly.FromDateTime(DateTime.Now);
+	var flag = true;
+}
+
+<p class="fw-bolder mb-4 text-decoration-underline">MDs On Call</p>
+
+<div class="row">
+	@{
+		foreach (var item in Model)
+		{
+			if (item.Shifts.Count != 0)
+			{
+				foreach (var shifts in item.Shifts)
+				{
+					foreach (var shiftDetail in shifts.Shiftdetails)
+					{
+						if (shiftDetail.Starttime <= currentTime && shiftDetail.Endtime >= currentTime && DateOnly.FromDateTime(shiftDetail.Shiftdate) == currentDate && shiftDetail.Isdeleted.Get(0)==false)
+						{
+							<div class="col-md-4 mb-3">
+								@if (item.Photo == null)
+								{
+									<img src="/images/profile.png" class="me-1" width="50" height="50" />
+								}
+								else
+								{
+									<img src="@item.Photo" class="me-1" width="50" height="50" />
+								}
+								<span>@item.Firstname @item.Lastname</span>
+							</div>
+							break;
+						}
+
+
+					}
+
+				}
+			}
+		}
+	}
+
+</div>
+
+<p class="fw-bolder mb-4 text-decoration-underline">Physicians Off Duty</p>
+
+<div class="row">
+	@foreach (var item in Model)
+	{
+		if (item.Shifts.Count == 0)
+		{
+			<div class="col-md-4 mb-3">
+				@if (item.Photo == null)
+				{
+					<img src="/uploads/57f16de9-8cab-43f9-95c1-1d105cfc31f4_d3e19c57-f78a-4e5f-a6f1-e043f8ae83c6_833eecf1-b83a-4bfe-a266-614d8f4856ca_login-page.jpg" class="me-1" width="50" height="50" />
+				}
+				else
+				{
+					<img src="@item.Photo" class="me-1" width="50" height="50" />
+				}
+				<span>@item.Firstname @item.Lastname</span>
+			</div>
+		}
+		else
+		{
+			flag = true;
+			foreach (var shifts in item.Shifts)
+			{
+				foreach (var shiftDetail in shifts.Shiftdetails)
+				{
+					if (shiftDetail.Starttime <= currentTime && shiftDetail.Endtime >= currentTime && DateOnly.FromDateTime(shiftDetail.Shiftdate) == currentDate)
+					{
+						flag = false;
+					}
+				}
+			}
+			if (flag)
+			{
+				<div class="col-md-4 mb-3">
+					@if (item.Photo == null)
+					{
+						<img src="/images/profile.png" class="me-1" width="50" height="50" />
+					}
+					else
+					{
+						<img src="@item.Photo" class="me-1" width="50" height="50" />
+					}
+					<span>@item.Firstname @item.Lastname</span>
+				</div>
+			}
+		}
+	}
+</div>

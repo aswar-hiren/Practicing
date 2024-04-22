@@ -1,0 +1,597 @@
+﻿
+.bgimg {
+    background-image: url("/Images/login-page.jpg");
+    background-repeat: no-repeat;
+    background-position: center center;
+    background-size: cover;
+    background-blend-mode: overlay;
+    background-color: rgba(255, 255, 255, 0.680);
+    
+}
+.passfield {
+    display: none;
+}
+.create-request-active {
+    background-color: #0dcaf0 !important;
+    color: white !important;
+}
+
+.upload-file {
+    border: 1px solid #ccc;
+    display: flex;
+    justify-content: flex-end;
+    padding: 7px 30px;
+    cursor: pointer;
+    color: #fff;
+    background: #01bce9;
+}
+
+.nav {
+    box-shadow: 10px 10px white;
+}
+
+
+
+.conone {
+    width: 75%;
+    margin: auto;
+   
+}
+
+
+
+@media only screen and (max-width: 581px) {
+    .conone {
+        width: 100%;
+    }
+}
+
+.navbar-toggler:focus,
+.navbar-toggler:active,
+.navbar-toggler-icon:focus {
+    outline: none;
+    box-shadow: none;
+}
+
+@media only screen and (max-width: 520px) {
+    .imgcl {
+        visibility: hidden;
+    }
+
+    .login {
+        margin-top: 50%;
+    }
+}
+
+a,
+a:hover,
+a:focus,
+a:active {
+    text-decoration: none;
+    color: inherit;
+}
+
+@media only screen and (min-width: 571px) {
+
+    .l_svg {
+        display: none;
+        visibility: hidden;
+    }
+
+    .d_req {
+        display: none;
+        visibility: hidden;
+    }
+
+    .d_btn {
+        display: block;
+        visibility: visible;
+    }
+
+    .dtable {
+        display: block;
+        visibility: visible;
+    }
+
+    .acord {
+        display: none;
+        visibility: hidden;
+    }
+}
+
+@media only screen and (max-width: 571px) {
+    .buttons {
+        width: 200px;
+        margin: auto;
+    }
+
+    .d_img {
+        height: 60px;
+    }
+
+    .welcome {
+        display: none;
+        visibility: hidden;
+        width: 0;
+        height: 0;
+    }
+
+    .d_svg {
+        width: 40px;
+        height: 40px;
+    }
+
+    .logout {
+        visibility: hidden;
+        display: none;
+        width: 0;
+        height: 0;
+    }
+
+    .l_svg {
+        display: block;
+        visibility: visible;
+    }
+
+    .plus {
+        width: 40px;
+        height: 50px;
+    }
+
+    .d_req {
+        display: block;
+        visibility: visible;
+    }
+
+    .d_btn {
+        display: none;
+        visibility: hidden;
+    }
+
+    .dtable {
+        display: none;
+        visibility: hidden;
+    }
+
+    .acord {
+        display: block;
+        visibility: visible;
+    }
+}
+
+input[type=file]::file-selector-button {
+    visibility: hidden;
+    color: transparent;
+}
+
+input[type=file]::-webkit-file-upload-button {
+    display: none;
+    visibility: hidden;
+    color: transparent;
+}
+
+.popup {
+    width: 400px;
+    height: 400px;
+    position: fixed;
+    top: 30%;
+    left: 37%;
+    background-color: wheat;
+    display: block;
+}
+
+.hellodocimg {
+    width: 30%;
+    height: 10%;
+}
+
+.moonbtn {
+    position: fixed;
+    top: 10px;
+    right: 10px;
+}
+
+.iti {
+    display: inline-block;
+    width: 100%;
+}
+
+a:link {
+}
+
+a:hover {
+    text-decoration: none;
+}
+
+custom-file-upload {
+    display: block;
+    width: 100%;
+}
+
+.upload-button {
+    background-color: rgb(4, 190, 200);
+    color: white;
+    margin: -9px;
+    align-items: center;
+    gap: 10px;
+    padding: 0px 10px;
+    border-radius: 5px;
+}
+
+label {
+    margin-left: 10px;
+}
+
+.form-floating {
+    
+}
+#loader {
+   display:none;
+    position: fixed;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 9999;
+   
+    padding: 20px;
+  
+    
+}
+.nav-underline .nav-item .nav-link.active {
+    color: #0dcaf0;
+    font-size: large;
+}
+
+.nav-underline .nav-item .nav-link {
+    color: black;
+    font-weight: 400;
+    font-size: large;
+}
+
+.spinner {
+    border: 4px solid rgba(0, 0, 0, 0.1);
+    border-left-color: #333;
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    animation: spin 2s linear infinite;
+    position:absolute;
+    top:50%;
+    left:50%;
+    margin-top:-25px;
+    margin-left:-25px;
+
+
+}
+
+@keyframes spin {
+    0% {
+        transform: rotate(0deg);
+    }
+
+    100% {
+        transform: rotate(360deg);
+    }
+}
+
+
+/*admin*/
+
+.new {
+    background-color: rgba(2, 2, 255, 0.1);
+    border-color: rgba(2, 2, 146) !important;
+    color: rgba(2, 2, 146);
+}
+
+    .new:hover, .new-active {
+        background-color: rgba(2, 2, 146);
+        border-color: rgba(2, 2, 146) !important;
+        color: white;
+    }
+
+
+.Pending {
+    background-color: rgba(167, 239, 248, 0.10);
+    border-color: rgb(41, 179, 197) !important;
+    color: rgb(41, 179, 197);
+}
+
+    .Pending:hover, .Pending-active {
+        background-color: rgb(0, 92, 104);
+        border-color: rgb(41, 179, 197) !important;
+        color: white;
+    }
+
+.Active {
+    background-color: rgba(138, 253, 215, 0.10);
+    border-color: rgb(19, 99, 55) !important;
+    color: rgb(19, 99, 55);
+}
+
+    .Active:hover, .Active-active {
+        background-color: rgb(2, 54, 37);
+        border-color: rgb(19, 99, 55) !important;
+        color: white;
+    }
+
+
+.Conclude {
+    background-color: rgba(252, 87, 238, 0.10);
+    border-color: rgb(129, 22, 124) !important;
+    color: rgb(129, 22, 124);
+}
+
+    .Conclude:hover, .Conclude-active {
+        background-color: rgb(99, 3, 91);
+        border-color: rgb(129, 22, 124) !important;
+        color: white;
+    }
+
+.ToClose {
+    background-color: rgba(68, 156, 228, 0.10);
+    border-color: rgb(16, 100, 133) !important;
+    color: rgb(16, 100, 133);
+}
+
+
+    .ToClose:hover, .ToClose-active {
+        background-color: rgb(3, 47, 83);
+        border-color: rgb(16, 100, 133) !important;
+        color: white;
+    }
+
+.Unpaid {
+    background-color: rgba(164, 46, 233, 0.10);
+    border-color: rgb(86, 26, 134) !important;
+    color: rgb(86, 26, 134);
+}
+
+    .Unpaid:hover, .Unpaid-active {
+        background-color: rgb(44, 1, 70);
+        border-color: rgb(86, 26, 134) !important;
+        color: white;
+    }
+
+.style_1 {
+    background-color: #61BD5F !important;
+    color:white !important
+}
+
+.style_2 {
+    background-color: #067BBA;
+    
+    color: white;
+}
+
+.style_3 {
+    background-color: #D96779;
+    color:white;
+}
+
+.style_4 {
+ 
+    background-color: #E9932D;
+    color: white;
+}
+
+.style_5 {
+    background-color: #8F3EAC;
+    color:white;
+}
+.accordion-button:not(.collapsed) {
+    box-shadow: none;
+    border: none;
+    color:black;
+    
+    background-color: white;
+}
+
+button.accordion-button:focus {
+    box-shadow: none;  
+    background-color: white;
+    border: none;
+
+}
+.accordion-button::after {
+    transform: none !important;
+    transition: none !important;
+}
+.st_1 {
+    color: #61BD5F;
+}
+.st_2 {
+    color: #067BBA;
+}
+.st_3 {
+    color: #D96779;
+}
+.st_4 {
+    color: #E9932D;
+}
+.form-control{
+background-color: var(--bs-secondary-bg);
+opacity: 1;
+}
+#select-profession {
+    background-color: var(--bs-secondary-bg);
+    opacity: 1;
+}
+#select-business {
+    background-color: var(--bs-secondary-bg);
+    opacity: 1;
+}
+#refil {
+    background-color: var(--bs-secondary-bg);
+    opacity: 1;
+}
+.dropdown{
+
+}
+
+.dropdown-menu {
+    display: none;
+    position: absolute;
+    background-color: #fff;
+
+    z-index: 1000;
+    right: 0px;
+}
+#pagecneter{
+    position:fixed;
+    bottom:20px;
+    left:50%;
+    transform:translateX(-50%);
+}
+
+.signature-container {
+    border: 2px solid #ccc;
+    padding: 10px;
+    border-radius: 5px;
+}
+
+#clear-btn {
+    margin-top: 10px;
+}
+.signpad {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height:100px;
+    margin: 0;
+}
+.tableone tr th{
+    padding:10px;
+ border-right:1px solid white;
+ height:15px;
+
+}
+.tabletwo tr th {
+    height: 50px;
+    width: 200px;
+    border-right: 1px solid white;
+    border-bottom: 1px solid white;
+    overflow:auto;
+}
+.tabletwo tr td {
+    height: 50px;
+    width: 200px;
+    border-right: 1px solid grey;
+    border-bottom: 1px solid grey;
+    overflow:auto;
+}
+.tableone tr td {
+    padding: 20px;
+    border-right: 1px solid white;
+}
+.bodytable tr td {
+    padding: 10px;
+    border-right: 1px solid grey;
+    border-bottom: 1px solid grey;
+}
+.first{
+    border-right:1px solid grey !important;
+}
+.calendar {
+    display: none;
+    position: absolute;
+    top: calc(100% + 10px);
+    left: 0;
+    z-index: 1000;
+    background-color: #fff;
+    border: 1px solid #ccc;
+    padding: 10px;
+}
+
+.fa-calendar {
+    margin-left: 10px;
+    cursor: pointer;
+}
+#shifttable tr td {
+    border: 1px solid gray;
+    height: 60px;
+    width: 10%;
+}
+
+    #shifttable tr td div {
+        border-bottom: 1px solid gray;
+        height: 60px;
+    }
+
+        #shifttable tr td div button {
+            font-size: 13px;
+            font-weight: 400;
+        }
+
+#dayshiftheader tr th {
+    border: 1px solid white;
+    color: white;
+    font-weight: 600;
+    background-color: #424242f2;
+    border-bottom-color: gray;
+    font-size: 12px;
+    text-align: center;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    width: 18px;
+}
+
+#weekheader tr th {
+    border: 1px solid white;
+    color: white;
+    font-weight: 600;
+    background-color: #424242f2;
+    border-bottom-color: gray;
+    text-align: center;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    width: 18px;
+}
+
+#dayshiftbody tr td {
+    border: 1px solid gray;
+    height: 30px;
+    font-size: 10px;
+}
+.activetwo {
+    background-color: skyblue;
+    color: white;
+}
+.schedulereq tr td {
+    height: 50px;
+    width: 600px;
+   
+}
+.schedulereq tr{
+    border-bottom:1px solid black;
+}
+.schedulereq tr th {
+    height: 50px;
+    width: 600px;
+}
+.checkboxth{
+    height:30px !important;
+    width:50px !important;
+   
+}
+.vendortable tr{
+    border-bottom:1px solid grey;
+}
+.searchtable tr th {
+    height: 70px;
+    width: 150px;
+    
+}
+.searchtable tr td {
+    height: 70px;
+    width: 150px;
+   
+  
+}
+.searchtable tr .email {
+    height: 70px;
+    width: 40px;
+}
+
+.searchtable tr {
+    border-bottom: 1px solid grey;
+}

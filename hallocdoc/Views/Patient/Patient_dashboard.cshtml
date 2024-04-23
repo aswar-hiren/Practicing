@@ -235,17 +235,17 @@ color:skyblue;
                                 <div>
                                     <div class="row">
                                         <div class="form-floating mb-3 col-12 col-sm-6">
-                                            <input asp-for="@Model.PatientProfile.FirstName" value="@Model.User.Firstname" type="text" class="form-control bg-transparent" id="floatingInput" placeholder="First Name" required>
+                                            <input asp-for="@Model.PatientProfile.FirstName" value="@Model.User.Firstname" type="text" class="form-control bg-transparent" id="floatingInput" placeholder="First Name"  disabled>
                                             <label for="floatingInput" class="ms-2 ">First Name</label>
                                             <div> <span asp-validation-for="@Model.PatientProfile.FirstName" class="text-danger"></span> </div>
                                         </div>
                                         <div class="form-floating mb-3 col-12 col-sm-6">
-                                            <input asp-for="@Model.PatientProfile.LastName" value="@Model.User.Lastname" type="text" class="form-control bg-transparent" id="floatingInput" placeholder="Last Name" required>
+                                            <input asp-for="@Model.PatientProfile.LastName" value="@Model.User.Lastname" type="text" class="form-control bg-transparent" id="floatingInput" placeholder="Last Name"  disabled>
                                             <label for="floatingInput" class="ms-2 ">Last Name</label>
                                             <div> <span asp-validation-for="@Model.PatientProfile.LastName" class="text-danger"></span> </div>
                                         </div>
                                         <div class="form-floating mb-3 col-12 col-sm-6">
-                                            <input asp-for="@Model.PatientProfile.BirthDate" value="@Model.User.Createddate" type="date" class="form-control bg-transparent" id="floatingInput" placeholder="Date of Birth" required>
+                                            <input asp-for="@Model.PatientProfile.BirthDate" value="@Model.User.Createddate" type="date" class="form-control bg-transparent" id="floatingInput" placeholder="Date of Birth" disabled>
                                             <label for="floatingInput" class="ms-2 ">Date of Birth</label>
                                             <div> <span asp-validation-for="@Model.PatientProfile.BirthDate" class="text-danger"></span> </div>
                                         </div>
@@ -270,12 +270,12 @@ color:skyblue;
                                             </div>
                                         </div>
                                         <div class="form-floating mb-3 col-12 col-sm-4">
-                                            <input asp-for="@Model.PatientProfile.PhoneNumber" value="@Model.User.Mobile" type="tel" class="phone form-control bg-transparent" id="floatingInput" placeholder="" required />
+                                            <input asp-for="@Model.PatientProfile.PhoneNumber" value="@Model.User.Mobile" type="tel" class="phone form-control bg-transparent" id="floatingInput" placeholder="" disabled />
                                             <label for="floatingInput">Phone Number</label>
                                             <div> <span asp-validation-for="@Model.PatientProfile.PhoneNumber" class="text-danger"></span> </div>
                                         </div>
                                         <div class="form-floating mb-3 col-12 col-sm-6">
-                                            <input asp-for="@Model.PatientProfile.Email" type="email" value="@Model.User.Email" class="form-control bg-transparent" id="floatingInput" placeholder="Email Address" required>
+                                            <input asp-for="@Model.PatientProfile.Email" type="email" value="@Model.User.Email" class="form-control bg-transparent" id="floatingInput" placeholder="Email Address" disabled>
                                             <label for="floatingInput" class="ms-2 ">Email Address</label>
                                             <div> <span asp-validation-for="@Model.PatientProfile.Email" class="text-danger"></span> </div>
                                         </div>
@@ -288,22 +288,22 @@ color:skyblue;
                                 <div>
                                     <div class="row">
                                         <div class="form-floating mb-3 col-12 col-sm-6">
-                                            <input asp-for="@Model.PatientProfile.Street" type="text" value="@Model.User.Street" class="form-control bg-transparent" id="floatingInput" placeholder="Street" required>
+                                            <input asp-for="@Model.PatientProfile.Street" type="text" value="@Model.User.Street" class="form-control bg-transparent" id="floatingInput" placeholder="Street" disabled>
                                             <label for="floatingInput" class="ms-2 ">Street</label>
                                             <div> <span asp-validation-for="@Model.PatientProfile.Street" class="text-danger"></span> </div>
                                         </div>
                                         <div class="form-floating mb-3 col-12 col-sm-6">
-                                            <input asp-for="@Model.PatientProfile.City" type="text" value="@Model.User.City" class="form-control bg-transparent" id="floatingInput" placeholder="City" required>
+                                            <input asp-for="@Model.PatientProfile.City" type="text" value="@Model.User.City" class="form-control bg-transparent" id="floatingInput" placeholder="City" disabled>
                                             <label for="floatingInput" class="ms-2 ">City</label>
                                             <div> <span asp-validation-for="@Model.PatientProfile.City" class="text-danger"></span> </div>
                                         </div>
                                         <div class="form-floating mb-3 col-12 col-sm-6">
-                                            <input asp-for="@Model.PatientProfile.State" type="text" value="@Model.User.State" class="form-control bg-transparent" id="floatingInput" placeholder="State" required>
+                                            <input asp-for="@Model.PatientProfile.State" type="text" value="@Model.User.State" class="form-control bg-transparent" id="floatingInput" placeholder="State" disabled>
                                             <label for="floatingInput" class="ms-2 ">State</label>
                                             <div> <span asp-validation-for="@Model.PatientProfile.State" class="text-danger"></span> </div>
                                         </div>
                                         <div class="form-floating mb-3 col-12 col-sm-4">
-                                            <input asp-for="@Model.PatientProfile.Zipcode" type="text" value="@Model.User.Zipcode" class="form-control bg-transparent" id="floatingInput" placeholder="Zipcode" required>
+                                            <input asp-for="@Model.PatientProfile.Zipcode" type="text" value="@Model.User.Zipcode" class="form-control bg-transparent" id="floatingInput" placeholder="Zipcode" disabled>
                                             <label for="floatingInput" class="ms-2 ">Zipcode</label>
                                             <div> <span asp-validation-for="@Model.PatientProfile.Zipcode" class="text-danger"></span> </div>
                                         </div>
@@ -323,7 +323,7 @@ color:skyblue;
 
                                 <button type="button" id="editBtn" class="btn btn-info text-white EditBtn" onclick="enableFields()">Edit </button>
 
-                                <button type="submit" id="submitBtn" class="btn btn-info text-white EditBtn">Submit </button>
+                                <button type="submit" id="submitBtn" class="btn btn-info text-white EditBtn  ">Submit </button>
 
                                 <button type="button" id="cancelBtn" class="btn btn-outline-info EditBtn" onclick="disableFields()">Cancel</button>
 
@@ -412,7 +412,7 @@ color:skyblue;
 
             // Hide the submit and cancel buttons, show the edit button
             document.getElementById('submitBtn').style.display = 'none';
-            document.getElementById('cancelBtn').style.display = 'none';
+            document.getElementById('cancelBtn').style.display = 'block';
             document.getElementById('editBtn').style.display = 'block';
 
         }
@@ -428,7 +428,7 @@ color:skyblue;
             document.getElementById('cancelBtn').style.display = 'block';
             document.getElementById('editBtn').style.display = 'none';
         }
-        disableFields();
+        
         function Pagefile(page, pageSize) {
             debugger;
             console.log("pagination");

@@ -85,7 +85,7 @@
                                         <button class="bg-white border-white shadow-none w-100" onclick="sendagreementmodel('@item.Request.Requestid','@item.Request.Requesttypeid')"><a class=""><i class="bi bi-send me-2"></i>Send AgreeMent</a></button>
                                         <button class="bg-white border-white shadow-none w-100" onclick="clearmodel('@item.Request.Requestid')"><a class=""><i class="bi bi-x-circle me-2"></i>Clear Case</a></button>
                                         <button class="bg-white border-white shadow-none w-100"><a class="" asp-action="ViewNotes" asp-route-reqid=@item.Request.Requestid><i class="bi bi-journals me-2"></i>View Notes</a></button>
-                                        <button class="bg-white border-white shadow-none w-100" onclick="transfermodel('@item.Request.Requestid')"><a class=""><i class="bi bi-x-circle me-2"></i>Transfer</a></button>
+                                        <button class="bg-white border-white shadow-none w-100 p-2" onclick="transfermodel('@item.Request.Requestid')"><a class=""><i class="bi bi-x-circle me-2"></i>Transfer</a></button>
                                         <button class="bg-white border-white shadow-none w-100"><a class=""><i class="bi bi-envelope me-2"></i>Email</a></button>
                                         <button class="bg-white border-white shadow-none w-100"><a class="" asp-action="viewUploads" asp-route-reqclientid=@item.Requestclientid asp-route-requestid=@item.Request.Requestid><i class="bi-journals me-2"></i>View Uploads</a></button>
                                     </ul>

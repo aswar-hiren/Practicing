@@ -58,6 +58,70 @@
         </tbody>
     </table>
 </div>
+
+
+<div class="d-sm-block d-md-block d-lg-none d-xl-none">
+
+    <div class="accordion " id="accordionExample">
+        @{
+            Dictionary<int, string> myHashMap = new Dictionary<int, string>()
+        {
+        {1,"Patient"},
+        {2,"Family/Friend"},
+        {3,"Concierge"},
+        {4,"Business"},
+        {5,"VIP"},
+
+        };
+        }
+        @{
+            foreach (var client in Model.clients)
+            {
+                <div class="accordion-item">
+                    <h2 class="accordion-header">
+                        <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#one_@client.Requestid" aria-expanded="true" aria-controls="one_@client.Request.Requestid">
+                            <div class="d-flex flex-column w-100">
+                                <div class="row">
+                                    <div class="col-6">
+                                        <p>@client.Firstname,@client.Lastname</p>
+                                        <p class="fs-6">MDS23143FDSF</p>
+                                    </div>
+
+                                </div>
+
+                            </div>
+                        </button>
+                    </h2>
+                    <div id="one_@client.Request.Requestid" class="accordion-collapse collapse" data-bs-parent="#accordionExample">
+
+                        <div class="accordion-body" style="background:##E0FFFF">
+                            <p class="mb-0"><i class="bi bi-calendar3 me-2 border rounded-circle  border-info p-1 "></i>Created Date: @client.Request.Createddate </p>
+                            <p class="mb-0 mt-3"><i class="bi bi-envelope me-2 border rounded-circle  border-info p-1 "></i>Email: @client.Email</p>
+                            <p class="mb-0"><i class="bi bi-calendar3 me-2 border rounded-circle  border-info p-1 "></i>Concluded Date: ---- </p>
+
+                            <p class="mb-0 mt-3"><i class="bi bi-calendar3 me-2 border rounded-circle  border-info p-1 "></i>Status: @client.Request.Status</p>
+
+                            <div class="row mt-3">
+                                <div class="col-10 mx-auto">
+                                    <div class="d-flex flex-column">
+                                        <a class="btn btn-outline-success float-end me-3" asp-action="ViewCase" asp-route-reqclientid="@client.Requestclientid" asp-route-type="1">View Case</a>
+
+                                        @{
+                                            var count = client.Request.Requestwisefiles.Count;
+                                            <a class="btn btn-outline-success  float-end me-3" asp-action="ViewUploads" asp-route-reqclientid="@client.Requestclientid" asp-route-requestid="@client.Requestid" asp-route-type="1"> Document @count</a>
+                                        }
+
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            }
+        }
+    </div>
+</div>
 <div class=" @(Model.total == 0 ? "d-none" : "")">
     <nav aria-label="Page navigation" class="p-4 d-flex justify-content-between" ">
         <span>Page @Model.CurrentPage of @Model.TotalPages  </span>

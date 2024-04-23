@@ -38,7 +38,19 @@
                             <td>@item.Firstname</td>
                             <td>@item.BirthDate</td>
                             <td>@item.City</td>
-                            <td>----</td>
+                            @{
+                                if(item.Request.Physician != null)
+                                {
+                                    <td>
+                                        @item.Request.Physician.Firstname
+                                    </td>
+                                }
+                                else
+                                {
+                                    <td></td>
+                                }
+                            }
+                            
                             <td>@item.Request.Createddate.Date</td>
                             <td>@item.City</td>
                             <td>Need Consult</td>

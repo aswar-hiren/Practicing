@@ -19,7 +19,7 @@
                     <p class="mb-3 mt-3 text-dark"> Patient Name : <span class="text-info" id="patientName">Test Test </span></p>
 
                     <textarea asp-for="TransNotes" rows="5" class="col-12 form-control p-1" placeholder="please provide a brief explanation for your cancelation" style="font-size:medium"></textarea>
-
+                                   <div> <span asp-validation-for="TransNotes" class="text-danger"></span></div>
                 </div>
                 <div class="modal-footer">
                     <button type="submit" class="btn btn-info text-white">Confirm</button>
@@ -29,3 +29,5 @@
         </div>
     </div>
 </div>
+    <script src="~/lib/jquery-validation/dist/jquery.validate.min.js" ></script>
+<script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"></script>

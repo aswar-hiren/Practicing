@@ -179,9 +179,24 @@ namespace hallocdoc.Controllers
         public IActionResult TransferCase(int reqid, int phyid, string textnote)
         {
             RequestListAdminDash requestListAdminDash = new RequestListAdminDash();
-            _adminrequest.TransferCaseReq(reqid, phyid, textnote);
-            requestListAdminDash = _adminrequest.getallrequest(0);
-            return RedirectToAction("AdminDashBoard");
+            try
+            {
+                if (reqid == null || phyid == 0 || textnote == null)
+                {
+                    throw new Exception("Fill All The Details");
+                }
+                _adminrequest.TransferCaseReq(reqid, phyid, textnote);
+                requestListAdminDash = _adminrequest.getallrequest(0);
+                TempData["success"] = "Tranferd succesfully";
+                return RedirectToAction("AdminDashBoard");
+            }
+            catch (Exception e)
+            {
+                TempData["error"] = e.Message;
+                return RedirectToAction("AdminDashBoard");
+
+            }
+        
         }
 
         [HttpPost]

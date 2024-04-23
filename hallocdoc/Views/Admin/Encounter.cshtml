@@ -35,7 +35,7 @@
                         <div class="col-sm-6 mb-3">
 
                             <div class="form-floating ">
-                                <input id="firstname" asp-for="firstName" value="@Model.firstName" type="text" class="form-control" disabled>
+                                <input id="firstname" asp-for="firstName" value="@Model.firstName" type="text" class="form-control" >
                                 <label for="firstname"> First Name</label>
                                 <span asp-validation-for="firstName" class="text-danger"></span>
                             </div>
@@ -44,7 +44,7 @@
                         <div class="col-sm-6 mb-3">
 
                             <div class="form-floating ">
-                                <input id="lastname" asp-for="lastName" value="@Model.lastName" type="text" class="form-control"  disabled>
+                                <input id="lastname" asp-for="lastName" value="@Model.lastName" type="text" class="form-control"  >
                                 <label for="lastname"> Last Name</label>
                                 <span asp-validation-for="lastName" class="text-danger"></span>
                             </div>
@@ -52,7 +52,7 @@
 
                         <div class=" mb-3">
                             <div class="form-floating">
-                                <input id="location" asp-for="Location" value="@Model.Location" type="text" class="form-control"  disabled>
+                                <input id="location" asp-for="Location" value="@Model.Location" type="text" class="form-control"  >
                                 <label for="location"> Location</label>
                                 <span asp-validation-for="Location" class="text-danger"></span>
                             </div>
@@ -60,7 +60,7 @@
 
                         <div class="col-sm-6 mb-3">
                             <div class="form-floating ">
-                                <input  asp-for="birthDate" value="@Model.birthDate" id="dob" class="form-control"  disabled>
+                                <input  asp-for="birthDate" value="@Model.birthDate" id="dob" class="form-control"  >
                                 <label for="dob"> Date of Birth</label>
                                 <span asp-validation-for="birthDate" class="text-danger"></span>
                             </div>

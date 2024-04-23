@@ -25,9 +25,26 @@
                     <div class="d-flex flex-column mt-1  px-3 align-items-center">
                         <h5 style="margin:0"> Transfer Notes</h5>
 
-                      
 
-                        <p style="margin:0">Admin Transfered To </p>
+
+
+                        @{
+                            if (Model.Requeststatuslog != null)
+                            {
+                                <p style="margin:0"> @Model.Requeststatuslog.Notes </p>
+
+                                if (Model.Requeststatuslog.Physician != null)
+                                {
+                                    <p> Admin transfer to @Model.Requeststatuslog.Physician.Firstname</p>
+                                }
+
+
+                            }
+                            else
+                            {
+                                <p style="margin:0"> --- </p>
+                            }
+                        }
 
                     </div>
                 </div>

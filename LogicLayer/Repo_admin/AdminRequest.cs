@@ -306,7 +306,7 @@ namespace LogicLayer.Repo_admin
 		{
 			RequestListAdminDash requestListAdminDash = new RequestListAdminDash();
 			requestListAdminDash.RequestNotes = _context.Requestnotes.Where(rn => rn.Requestid == reqid).FirstOrDefault();
-			requestListAdminDash.Requeststatuslog = _context.Requeststatuslogs.Include(rc => rc.Physician).Where(req => req.Requestid == reqid && req.Status == 2).OrderByDescending(rc => rc.Createddate).FirstOrDefault();
+			requestListAdminDash.Requeststatuslog = _context.Requeststatuslogs.Include(rc => rc.Physician).Where(req => req.Requestid == reqid).OrderByDescending(rc => rc.Createddate).FirstOrDefault();
 			return requestListAdminDash;
 		}
 		public void UpdateStatusAndNote(int reqid, CancelModel model)
@@ -390,7 +390,7 @@ namespace LogicLayer.Repo_admin
 			{
 				Requestid = reqid,
 				Request = request,
-				Status = 2,
+				Status = 1,
 				Notes = textnote,
 				Createddate = DateTime.Now,
 				Transtophysicianid = phyid,
@@ -402,7 +402,7 @@ namespace LogicLayer.Repo_admin
 
 			request.Physicianid = phyid;
 			request.Physician = phy;
-			request.Status = 2;
+			request.Status = 1;
 			_context.SaveChanges();
 		}
 		public void BlockRequest(int reqid, BlockView model)

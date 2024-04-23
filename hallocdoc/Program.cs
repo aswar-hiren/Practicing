@@ -1,9 +1,8 @@
 
 using DataLayer.DataContext;
-using DataLayer.Models;
-using DataLayer.ViewModels;
+
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Options;
+
 using LogicLayer.Interface_patient;
 using LogicLayer.Repositary_patient;
 using LogicLayer.Repo_admin;

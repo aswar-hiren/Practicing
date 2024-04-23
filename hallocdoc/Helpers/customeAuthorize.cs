@@ -1,10 +1,12 @@
-﻿
-
-using DataLayer.DataContext;
-using Microsoft.AspNetCore.Mvc.Filters;
+﻿using DataLayer.DataContext;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Filters;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
+//using Microsoft.AspNetCore.Mvc.Filters;
+//using Microsoft.AspNetCore.Mvc;
+//using System.IdentityModel.Tokens.Jwt;
+//using System.Security.Claims;
 
 
 namespace hallocdoc.Helpers

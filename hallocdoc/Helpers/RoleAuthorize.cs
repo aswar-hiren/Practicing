@@ -28,7 +28,6 @@ namespace HalloDoc.Auth
 
             if (Role.Any(u => u.Menuid == _menuId))
             {
-
                 flag = true;
             }
 

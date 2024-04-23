@@ -41,7 +41,7 @@ namespace hallocdoc.Controllers
         {
             return View();
         }
-        [RoleAuthorize(6)]
+        //[RoleAuthorize(6)]
         public IActionResult MainPage()
         {
             RequestListAdminDash requestListAdminDash = new RequestListAdminDash();
@@ -878,7 +878,7 @@ namespace hallocdoc.Controllers
             }
             
         }
-        [RoleAuthorize(7)]
+        //[RoleAuthorize(7)]
         public IActionResult Access()
         {
             var details = _adminrequest.GetAccessPagevm();

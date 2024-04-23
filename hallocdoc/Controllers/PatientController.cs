@@ -21,7 +21,7 @@ namespace hallocdoc.Controllers
         private readonly Microsoft.AspNetCore.Hosting.IHostingEnvironment hostingEnvironment;
         private readonly IPatientLogin _PatientLogin;
         private readonly IPatientRequest _PatientRequest;
-        private readonly  IFamilyFriend _FamilyFriend;
+        private readonly IFamilyFriend _FamilyFriend;
         private readonly IBusiness _Business;
         private readonly IConcierge _Concierge;
         private readonly IPatientDashBoard _patientDashBoard;

@@ -13,6 +13,7 @@ using System.Data;
 using System.IO.Compression;
 using LogicLayer.Interface_patient;
 using HalloDoc.Auth;
+using LogicLayer.Repositary_patient;
 
 namespace hallocdoc.Controllers
 {
@@ -22,13 +23,62 @@ namespace hallocdoc.Controllers
         private readonly IAdminRequest _adminrequest;
         private readonly Microsoft.AspNetCore.Hosting.IHostingEnvironment _hostingEnvironment;
         private readonly IProviderPanel _Provider;
+        private readonly IPatientRequest _PatientRequest;
         private readonly HellodocPrjContext _context;
-        public ProviderController(IAdminRequest adminrequest, HellodocPrjContext context, IProviderPanel providerPanel, Microsoft.AspNetCore.Hosting.IHostingEnvironment hostingEnvironment)
+        public ProviderController(IAdminRequest adminrequest, IPatientRequest patientRequest, HellodocPrjContext context, IProviderPanel providerPanel, Microsoft.AspNetCore.Hosting.IHostingEnvironment hostingEnvironment)
         {
             _adminrequest = adminrequest;
             _Provider = providerPanel;
             _hostingEnvironment = hostingEnvironment;
+            _PatientRequest = patientRequest;
             _context = context;
+        }
+        public IActionResult sendmodel()
+        {
+            return PartialView("SendLink");
+        }
+        public IActionResult SendLinkAdminDetails(SendLinkViewModel model)
+        {
+            Request request = _adminrequest.GetRequest(model);
+            var token = _adminrequest.GenerateJwtToken("this is my custom Secret key for authentication", "localhost", "http://localhost:5202/", request.Requestid, 1);
+            var resetLink = "<a href=" + Url.Action("submitreqtype", "Patient", new { token = token }, "http") + ">Request For Patient</a>";
+            var subject = "Request For Patient";
+            var body = "Hi" + "USER" + "Click on link below to submit request" + resetLink;
+
+            string data = _adminrequest.SendEmail("al", body, subject, model.email, request.Requestid);
+            if (data == "true")
+            {
+                TempData["success"] = "Mail Send Succesfully";
+                return RedirectToAction("ProviderDashBoard");
+            }
+            else
+            {
+                TempData["error"] = "There is no such mail exist";
+                return RedirectToAction("ProviderDashBoard");
+            }
+
+        }
+        public IActionResult adminCreateRequestt()
+        {
+            return View();
+        }
+        public IActionResult PatientInfoPage(PatientInfo model)
+        {
+            try
+            {
+
+                var userid = _PatientRequest.InsertPatientRequestData(model);
+                HttpContext.Session.SetInt32("userid", userid);
+                TempData["success"] = "Request Insert Successfully";
+                return RedirectToAction("ProviderDashBoard", "Provider");
+            }
+            catch (Exception)
+            {
+                TempData["error"] = "Error while Request ";
+                return RedirectToAction("adminCreateRequest", "Provider");
+            }
+
+
         }
         [RoleAuthorize(25)]
         public IActionResult ProviderDashBoard()
@@ -82,7 +132,9 @@ namespace hallocdoc.Controllers
             {
                 try
                 {
+                    _Provider.AddAdminNote(reqid, model);
                     TempData["success"] = "Note Added Successfully";
+               
                 }
                 catch (Exception)
                 {
@@ -386,6 +438,7 @@ namespace hallocdoc.Controllers
         public IActionResult EncounterForm(int reqclientid, int reqid)
         {
             EncounterViewModel encounterViewModel = new EncounterViewModel();
+            encounterViewModel = _adminrequest.getdetails(reqclientid, reqid);
             return View(encounterViewModel);
         }
         public IActionResult PostEncounterData(int reqid, EncounterViewModel model)
@@ -636,15 +689,16 @@ namespace hallocdoc.Controllers
         {
             try
             {
+              
                 _Provider.PostConcludeData(reqid, model);
                 TempData["success"] = "Request Moved To Closed";
                 return RedirectToAction("ProviderDashBoard");
             }
-            catch (Exception)
+            catch (Exception e)
             {
 
 
-
+                TempData["error"] = e.Message;
                 return RedirectToAction("ConcludeCare", new { reqId = reqid });
             }
 

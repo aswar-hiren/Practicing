@@ -6,7 +6,7 @@
 <div id="newcon"></div>
 
 <div class="mainDivboard m-0 p-0">
-    <Partial name="_ProviderHeader" /> 
+    <Partial name="_ProviderHeader"/> 
     <div id="cancel"></div>
     <div class="mx-4 mt-4">
 
@@ -362,7 +362,7 @@
     function sendLinkModel() {
         console.log("all");
         $.ajax({
-            url: "/Admin/sendmodel",
+            url: "/Provider/sendmodel",
             type: "POST",
             success: function (data) {
                 $("#newcon").html(data);

@@ -82,8 +82,9 @@
                     <p style="font-size:16px;" class="mt-4 ms-2">Provider Notes</p>
                     <div>
                         <div class="form-floating mb-3 mx-2">
-                            <textarea class="form-control" placeholder="Provider Notes"
+                            <textarea class="form-control" placeholder="Provider Notes" asp-for="notes"
                                       id="floatingTextarea2" style="height: 100px"></textarea>
+                            <div> <span asp-validation-for="notes"class="text-danger" ></span></div>
                             <label for="floatingTextarea2" class="">
                                 Provider Notes
                             </label>
@@ -102,6 +103,9 @@
             </div>
         </div>
 </div>
+
+<script src="~/lib/jquery-validation/dist/jquery.validate.min.js"></script>
+<script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"></script>
 <script>
 
     document.getElementById('uploadButton').addEventListener('click', function () {

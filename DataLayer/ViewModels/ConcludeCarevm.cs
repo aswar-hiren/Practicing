@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Http;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -15,5 +16,7 @@ namespace DataLayer.ViewModels
 
         public int reqid { get; set; }
         public Encounter encounter { get; set; }
+        [Required]
+        public string notes { get; set; }
     }
 }

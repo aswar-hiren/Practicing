@@ -442,17 +442,34 @@ namespace LogicLayer.Repo_Provider
         public void PostConcludeData(int reqid,ConcludeCarevm model)
         {
             Request request = _context.Requests.Where(r => r.Requestid == reqid).FirstOrDefault();
-            Requeststatuslog requeststatuslog = new Requeststatuslog
+            Encounter encounter = _context.Encounters.Where(en=>en.Requestid==reqid).FirstOrDefault();
+            try
+            {  if(request.IsFinalized.Get(0) != true)
+                {
+                    throw new Exception("Finilize The Form");
+                }
+            if(encounter.Isreport.Get(0)!= true)
+                {
+                    throw new Exception("Upload the Report");
+                }
+                Requeststatuslog requeststatuslog = new Requeststatuslog
+                {
+                    Requestid = reqid,
+                    Request = request,
+                    Status = 8,
+                    Createddate = DateTime.Now,
+                };
+                _context.Requeststatuslogs.Add(requeststatuslog);
+                _context.SaveChanges();
+                request!.Status = 8;
+                _context.SaveChanges();
+            }
+            catch (Exception e)
             {
-                Requestid = reqid,
-                Request = request,
-                Status = 8,
-                Createddate = DateTime.Now,
-            };
-            _context.Requeststatuslogs.Add(requeststatuslog);
-            _context.SaveChanges();
-            request!.Status = 8;
-            _context.SaveChanges();
+
+                throw new Exception(e.Message);
+            }
+          
         
           
           

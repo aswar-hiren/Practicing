@@ -185,8 +185,6 @@
 
 </div>
 
-
-
 <div class="d-sm-block d-md-block d-lg-none d-xl-none">
     <div class="accordion " id="accordionExample">
 
@@ -225,7 +223,7 @@
             {
                 <div class="accordion-item">
                     <h2 class="accordion-header">
-                        <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#one_@client.Request.Requestid" aria-expanded="true" aria-controls="one_@client.Request.Requestid">
+                        <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#one_@client.Requestid" aria-expanded="true" aria-controls="one_@client.Requestid">
                             <div class="d-flex flex-column w-100">
                                 <div class="row">
                                     <div class="col-6">
@@ -262,20 +260,117 @@
                             <p class="mb-0 mt-3"><i class="bi bi-calendar3 me-2 border rounded-circle  border-info p-1 "></i>Requestor: @client.Request.Firstname ,@client.Request.Lastname</p>
 
                             <div class="row mt-3">
-                                <div class="col-6">
-                                    <div class="d-flex flex-column">
-                                        <button data-bs-toggle="modal" onclick="assignmodel('@client.Request.Requestid')" data-bs-target="#AssignCaseRes" class="mt-2 btn rounded-pill text-white" style="background:#943DB8">Assign Case</button>
-                                        <button class="mt-2 rounded-pill text-white p-1" style="background:#228B22">  <a asp-action="ViewNotes" asp-route-reqid=@client.Request.Requestid>View Notes</a></button>
-                                        <button class="mt-2 btn rounded-pill text-white" style="background:#228B22">Email</button>
-                                    </div>
-                                </div>
-                                <div class="col-6">
-                                    <div class="d-flex flex-column">
-                                        <button onclick="cancelmodel('@client.Request.Requestid','@client.Firstname')" class="mt-2 btn rounded-pill text-white" style="background:#E42929">Cancle Case</button>
-                                        <button onclick="blockmodel('@client.Request.Requestid','@client.Firstname')" class="mt-2 btn rounded-pill text-white" style="background:#E42929">Block Case</button>
+                                @{
+                                    if (client.Request.Status == 1)
+                                    {
+                                        <div class="col-6">
+                                            <div class="d-flex flex-column">
+                                                <button data-bs-toggle="modal" class="mt-2 btn rounded-pill text-white" style="background:#943DB8"><a asp-action="acceptreq" asp-route-reqid="@client.Requestid"> Accept</a></button>
+                                                <button class="mt-2 rounded-pill text-white p-1" style="background:#228B22">  <a asp-action="ViewNotes" asp-route-reqid=@client.Request.Requestid>View Notes</a></button>
 
-                                    </div>
-                                </div>
+                                            </div>
+                                        </div>
+                                    }
+                                    if (client.Request.Status == 2)
+                                    {
+                                        <div class="col-6">
+                                            <div class="d-flex flex-column">
+
+                                                <button class="mt-2 btn rounded-pill text-white" onclick="sendagreementmodel('@client.Request.Requestid','@client.Request.Requesttypeid')" style="background-color:orange">Send AgreeMent</button>
+                                                <button class="mt-2 btn rounded-pill text-white" style="background:#228B22" onclick="transfermodel('@client.Request.Requestid')">Transfer</button>
+
+
+
+                                            </div>
+                                        </div>
+                                        <div class="col-6">
+                                            <div class="d-flex flex-column">
+                                                <button class="mt-2 btn rounded-pill text-white" style="background:#228B22"> <a asp-action="ViewNotes" asp-route-reqid=@client.Request.Requestid>View Notes</a> </button>
+                                                <button class="mt-2 btn rounded-pill text-white" style="background:#228B22"> <a asp-action="viewUploads" asp-route-reqclientid=@client.Requestclientid asp-route-requestid=@client.Request.Requestid>View Uploads</a> </button>
+
+
+
+                                            </div>
+                                        </div>
+                                    }
+                                    if (client.Request.Status == 4 || client.Request.Status == 5)
+                                    {
+                                        <div class="col-6">
+                                            <div class="d-flex flex-column">
+                                                <button class="mt-2 btn rounded-pill text-white" style="background-color:orange;">Doctors Notes</button>
+                                                @if ((client.Request.IsFinalized!.Get(0) == false && client.Request.Status == 4))
+                                                {
+                                                    <button class="mt-2 btn rounded-pill text-white" style="background:#228B22" onclick="Encountermodel('@client.Requestid','@client.Requestclientid')"><a class=""><i class="bi bi-ban me-2"></i>Encounter</a></button>
+                                                }
+                                                else if ((client.Request.IsFinalized!.Get(0) == false && client.Request.Status == 5))
+                                                {
+                                                    <button class="mt-2 btn rounded-pill text-white" style="background:#228B22"><a class="" asp-action="EncounterForm" asp-route-reqclientid=@client.Requestclientid asp-route-reqid=@client.Request.Requestid><i class="bi bi-ban me-2"></i>Encounter</a></button>
+                                                }
+                                                else
+                                                {
+                                                    <button class="mt-2 btn rounded-pill text-white" style="background:#228B22" onclick="EncounterModelDownload('@client.Requestid')"><a class="btn dropdown-item finalizeForm"><i class="bi bi-journal-text me-2"></i> Encounter</a></button>
+
+                                                }
+
+                                                <button class="mt-2 btn rounded-pill text-white" style="background:#228B22"><a class="" asp-action="Orders" asp-route-reqid=@client.Request.Requestid> Orders </a></button>
+
+                                            </div>
+                                        </div>
+                                        <div class="col-6">
+                                            <div class="d-flex flex-column">
+
+                                                <button class="mt-2 btn rounded-pill text-white" style="background:#228B22"><a asp-action="ViewNotes" asp-route-reqid=@client.Request.Requestid>View Notes</a></button>
+                                                <button class="mt-2 btn rounded-pill text-white" style="background:#228B22"> <a asp-action="viewUploads" asp-route-reqclientid=@client.Requestclientid asp-route-requestid=@client.Request.Requestid>View Uploads</a></button>
+                                                @{
+                                                    if (client.Request.Status == 5 && ViewBag.state == "Active")
+                                                    {
+                                                        <button class="mt-2 btn rounded-pill text-white" style="background:orange"> <a asp-action="Housecall" asp-route-reqid="@client.Requestid" class="p-2 me-2 rounded-2">House Call</a> </button>
+                                                    }
+                                                    else
+                                                    {
+                                                        <div></div>
+                                                    }
+                                                }
+
+
+                                            </div>
+                                        </div>
+                                    }
+                                    if (client.Request.Status == 6)
+                                    {
+
+                                        <div class="col-6">
+                                            <div class="d-flex flex-column">
+                                                <button class="mt-2 btn rounded-pill text-white" style="background-color:orange;"><a class="" asp-action="ConcludeCare" asp-route-reqId=@client.Request.Requestid><i class="bi bi-border-middle me-2"></i>Conclude Care</a></button>
+
+                                                @if ((client.Request.IsFinalized!.Get(0) == false))
+                                                {
+                                                    <button class="mt-2 btn rounded-pill text-white" style="background:#228B22"><a class="" asp-action="EncounterForm" asp-route-reqclientid=@client.Requestclientid asp-route-reqid=@client.Request.Requestid><i class="bi bi-ban me-2"></i>Encounter</a></button>
+                                                }
+                                                else
+                                                {
+                                                    <button class="mt-2 btn rounded-pill text-white" style="background:#228B22" onclick="EncounterModelDownload('@client.Requestid')"><a class="btn dropdown-item finalizeForm"><i class="bi bi-journal-text me-2"></i> Encounter</a></button>
+
+                                                }
+
+                                                <button class="mt-2 btn rounded-pill text-white" style="background:#228B22"><a class="" asp-action="Orders" asp-route-reqid=@client.Request.Requestid> Orders </a></button>
+
+                                            </div>
+                                        </div>
+                                        <div class="col-6">
+                                            <div class="d-flex flex-column">
+
+                                                <button class="mt-2 btn rounded-pill text-white" style="background:#228B22"><a asp-action="ViewNotes" asp-route-reqid=@client.Request.Requestid>View Notes</a></button>
+                                                <button class="mt-2 btn rounded-pill text-white" style="background:#228B22"> <a asp-action="viewUploads" asp-route-reqclientid=@client.Requestclientid asp-route-requestid=@client.Request.Requestid>View Uploads</a></button>
+
+
+
+                                            </div>
+                                        </div>
+                                    }
+                                }
+
+
                             </div>
                         </div>
                     </div>
@@ -285,7 +380,8 @@
 
     </div>
 
-</div>
+
+
 <div class=" @(Model.total == 0 ? "d-none" : "")">
     <nav aria-label="Page navigation" class="p-4 d-flex justify-content-between" ">
         <span>Page @Model.CurrentPage of @Model.TotalPages  </span>

@@ -1,0 +1,15 @@
+﻿@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@using DataLayer.ViewModel
+@model IEnumerable<uservm>
+
+<div class="text-center">
+    @{
+        foreach (var item in Model)
+        {
+            <p> @item.lastname</p>
+           <p> @item.firstname</p>
+        }
+    }
+</div>

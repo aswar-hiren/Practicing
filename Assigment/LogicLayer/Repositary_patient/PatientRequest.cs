@@ -43,7 +43,7 @@ namespace LogicLayer.Repositary_patient
         {
          
             try
-            { if(model.Gender == null || model.cityid== null)
+            { if(model.Gender == null || model.cityid== null || model.birthDate==null)
                 {
                     throw new Exception("Select The Gender");
                 }
@@ -78,6 +78,10 @@ namespace LogicLayer.Repositary_patient
                 if (model.Gender == null || model.cityid == null)
                 {
                     throw new Exception("Select The Gender");
+                }
+                if(model.birthDate== null)
+                {
+                    throw new Exception("Select The Birthdate");
                 }
                 var city = _context.Cities.Where(c => c.CityId == model.cityid).FirstOrDefault();
                 var user = _context.Users.FirstOrDefault(u => u.Userid == model.id);

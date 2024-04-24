@@ -1,13 +1,10 @@
 
 using DataLayer.DataContext;
-
 using Microsoft.EntityFrameworkCore;
-
 using LogicLayer.Interface_patient;
 using LogicLayer.Repositary_patient;
 using LogicLayer.Repo_admin;
 using LogicLayer.Interface_Admin;
-
 using LogicLayer.Repo_Provider;
 using LogicLayer.Interface_Provider;
 

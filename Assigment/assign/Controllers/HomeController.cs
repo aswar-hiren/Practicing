@@ -1,6 +1,8 @@
-﻿using assign.Models;
+﻿using DataLayer.Models;
 using DataLayer.DataContext;
 using DataLayer.ViewModel;
+using DataLayer.ViewModels;
+using LogicLayer.Interface_patient;
 using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
 
@@ -10,11 +12,13 @@ namespace assign.Controllers
     {
         private readonly ILogger<HomeController> _logger;
         private readonly HellodocPrjContext _context;
+        private readonly IPatientRequest _PatientRequest;
 
-        public HomeController(ILogger<HomeController> logger,HellodocPrjContext context)
+        public HomeController(ILogger<HomeController> logger,HellodocPrjContext context,IPatientRequest patientRequest)
         {
             _logger = logger;
             _context = context;
+            _PatientRequest = patientRequest;
         }
 
         public IActionResult Index()
@@ -28,6 +32,28 @@ namespace assign.Controllers
             }).Where(x=>x.firstname=="dvsg").ToList();
             return View(temp);
          
+        }
+        public IActionResult PatientInfo()
+        {
+            return View();
+        }
+        [HttpPost]
+        public IActionResult PatientInfoPage(PatientInfo model)
+        {
+            try
+            {
+                 _PatientRequest.InsertPatientRequestData(model);
+             
+                return RedirectToAction("Index", "Home");
+            }
+            catch (Exception)
+            {
+
+                TempData["error"] = "Error while Request ";
+                return RedirectToAction("Index", "Home");
+            }
+
+
         }
 
         public IActionResult Privacy()

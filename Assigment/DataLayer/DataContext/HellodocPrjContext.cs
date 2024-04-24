@@ -30,9 +30,7 @@ public partial class HellodocPrjContext : DbContext
 
             entity.ToTable("user");
 
-            entity.Property(e => e.Userid)
-                .ValueGeneratedNever()
-                .HasColumnName("userid");
+            entity.Property(e => e.Userid).HasColumnName("userid");
             entity.Property(e => e.Firstname)
                 .HasColumnType("character varying")
                 .HasColumnName("firstname");

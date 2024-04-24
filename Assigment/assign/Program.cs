@@ -1,5 +1,7 @@
 
 using DataLayer.DataContext;
+using LogicLayer.Interface_patient;
+using LogicLayer.Repositary_patient;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -13,6 +15,7 @@ builder.Services.AddControllersWithViews();
 var provider = builder.Services.BuildServiceProvider();
 var config = provider.GetRequiredService<IConfiguration>();
 builder.Services.AddDbContext<HellodocPrjContext>(item => item.UseNpgsql(config.GetConnectionString("dbcs")));
+builder.Services.AddScoped<IPatientRequest, PatientRequest>();
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -32,6 +35,6 @@ app.UseAuthorization();
 
 app.MapControllerRoute(
     name: "default",
-    pattern: "{controller=Home}/{action=Index}/{id?}");
+    pattern: "{controller=Home}/{action=PatientInfo}/{id?}");
 
 app.Run();

@@ -13,6 +13,7 @@ namespace DataLayer.ViewModel
        
         public string search {  get; set; }
         public int id { get; set; }
+        public DateTime? birthDate { get; set; }
         public List<User> user { get; set; }
         [Required] 
         public string firstName { get; set; }

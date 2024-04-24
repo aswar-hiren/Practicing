@@ -49,6 +49,7 @@ public partial class HellodocPrjContext : DbContext
             entity.Property(e => e.Userid)
                 .HasIdentityOptions(2L, null, null, null, null, null)
                 .HasColumnName("userid");
+            entity.Property(e => e.Birthdate).HasColumnType("timestamp without time zone");
             entity.Property(e => e.City).HasColumnType("character varying");
             entity.Property(e => e.CityId).HasColumnName("city_id");
             entity.Property(e => e.Country).HasColumnType("character varying");

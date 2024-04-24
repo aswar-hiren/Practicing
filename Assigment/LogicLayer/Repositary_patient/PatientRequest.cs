@@ -58,6 +58,7 @@ namespace LogicLayer.Repositary_patient
                     Country = model.country,
                     Email = model.email,
                     CityNavigation = city,
+                    Birthdate=model.birthDate
                 };
                 _context.Users.Add(user);
                 _context.SaveChanges();
@@ -90,6 +91,7 @@ namespace LogicLayer.Repositary_patient
                     user.Country = model.country;
                 user.Email = model.email;
                 user.CityNavigation = city;
+                    user.Birthdate = model.birthDate;
               
                
                 _context.SaveChanges();
@@ -127,6 +129,8 @@ namespace LogicLayer.Repositary_patient
             uservm.phonenumber = user.PhoneNumber;
             uservm.cityid = user.CityNavigation.CityId;
             uservm.country = user.Country;
+            uservm.birthDate = user.Birthdate;
+
             uservm.id = id;
             return uservm;
 

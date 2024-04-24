@@ -25,5 +25,7 @@ public partial class User
 
     public string? Country { get; set; }
 
+    public DateTime? Birthdate { get; set; }
+
     public virtual City? CityNavigation { get; set; }
 }

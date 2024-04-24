@@ -28,14 +28,14 @@ namespace LogicLayer.Repositary_patient
             if (search == null)
             {
                 uservm providervm = new uservm();
-                providervm.user = _context.Users.Include(u => u.CityNavigation).ToList();
+                providervm.user = _context.Users.Include(u => u.CityNavigation).OrderBy(u => u.Userid).ToList();
                 return providervm;
             }
             else
             {
                 uservm providervm = new uservm();
               
-                providervm.user = _context.Users.Include(us => us.CityNavigation).Where(us => us.FirstName.ToLower().Contains(search.ToLower())).ToList();
+                providervm.user = _context.Users.Include(us => us.CityNavigation).Where(us => us.FirstName.ToLower().Contains(search.ToLower())).OrderBy(u=>u.Userid).ToList();
                 return providervm;
             }
         }
@@ -81,8 +81,7 @@ namespace LogicLayer.Repositary_patient
                 }
                 var city = _context.Cities.Where(c => c.CityId == model.cityid).FirstOrDefault();
                 var user = _context.Users.FirstOrDefault(u => u.Userid == model.id);
-                if (user == null)
-                {
+            
                      user.FirstName = model.firstName;
                 user.LastName = model.lastName;
                 user.PhoneNumber = model.phonenumber;
@@ -93,9 +92,9 @@ namespace LogicLayer.Repositary_patient
                 user.CityNavigation = city;
                     user.Birthdate = model.birthDate;
               
-               
+               _context.Update(user);
                 _context.SaveChanges();
-                }
+               
                
             }
             catch (Exception ex)

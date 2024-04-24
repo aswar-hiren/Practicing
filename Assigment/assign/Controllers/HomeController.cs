@@ -57,6 +57,8 @@ namespace assign.Controllers
                 if (model.id != 0)
                 {
                     _PatientRequest.Updateuser(model);
+                    TempData["success"] = "User Updated";
+                    return RedirectToAction("Index");
                 }
                 _PatientRequest.Adduser(model);
                 TempData["success"] = "User Created";

@@ -1,15 +1,113 @@
 ﻿@{
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
-@using DataLayer.ViewModel
-@model IEnumerable<uservm>
+@model DataLayer.ViewModel.uservm;
 
-<div class="text-center">
-    @{
-        foreach (var item in Model)
-        {
-            <p> @item.lastname</p>
-           <p> @item.firstname</p>
-        }
-    }
+<Partial name="_navbar" />
+<Partial name="_Notification" />
+
+<div class=" min-vh-100 d-flex flex-column mt-5">
+    <div id="closecon"></div>
+    <div class="container-fluid">
+  
+        <div class="d-flex flex-column">
+         
+            <div>
+                <input placeholder="Search" class="p-2 w-100 " onblur="GetData()" id="search" />
+            </div>
+
+             
+            <div id="providerContent">
+            </div>
+
+        </div>
+    </div>
 </div>
+</div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+<script>
+    var searchdata;
+    var page;
+    var pageSize;
+
+    $(document).ready(function () {
+        console.log("data");
+        $.ajax({
+            url: "/Home/usertable",
+            type: "POST",
+            data: { search: searchdata,page:1,pageSize:7 },
+            dataType: "html",
+            success: function (data) {
+                $("#providerContent").html(data);
+                page = 1;
+                pageSize = 7;
+            },
+            error: function (error) {
+
+                $("#providerContent").html('An error has occurred');
+            }
+        });
+
+
+
+    });
+    function Pagefile(pageno, pageSizeno) {
+        $.ajax({
+            url: "/Home/usertable",
+            type: "POST",
+            data: { search: searchdata, page: pageno, pageSize: pageSizeno },
+            dataType: "html",
+            success: function (data) {
+                $("#providerContent").html(data);
+                page = pageno;
+                pageSize = pageSizeno;
+
+            },
+            error: function (error) {
+
+                $("#providerContent").html('An error has occurred');
+            }
+        });
+
+    }
+    function GetData() {
+        console.log("data");
+        searchdata = $('#search').val().trim();
+        console.log(searchdata);
+        page = 1;
+        AjaxAll();
+    };
+
+    function AjaxAll() {
+        console.log("ajx");
+        $.ajax({
+            url: "/Home/usertable",
+            type: "POST",
+            data: { search: searchdata, page: page, pageSize: pageSize },
+            dataType: "html",
+            success: function (data) {
+                $("#providerContent").html(data);
+
+            },
+            error: function (error) {
+
+                $("#providerContent").html('An error has occurred');
+            }
+        });
+    }
+    function clearmodel(userid) {
+        console.log("all");
+        $.ajax({
+            url: "/Home/Model",
+            type: "POST",
+            data: {id:userid},
+            success: function (data) {
+                $("#closecon").html(data);
+                $("#CreateShiftModal").modal('show');
+            },
+            error: function (e) {
+                console.log(e);
+            }
+        });
+    };
+</script>

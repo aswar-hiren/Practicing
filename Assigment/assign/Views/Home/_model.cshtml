@@ -1,0 +1,106 @@
+﻿@model DataLayer.ViewModel.uservm;
+<div class="modal fade" id="CreateShiftModal" tabindex="-1" aria-labelledby="CreateShiftModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" style="width:1250px;">
+        <div class="modal-content">
+            <div class="modal-header text-white" style="background-color:#572549">
+                <h1 class="modal-title fs-5" id="CreateShiftModalLabel">User From</h1>
+                <button type="button" class="btn-close text-white" data-bs-dismiss="modal" aria-label="Close" style="color:white;"></button>
+            </div>
+            <form id="CreateShiftForm" asp-action="CreateUser" asp-controller="Home" method="post">
+                <div class="modal-body">
+                    <div class="col">
+                        <input hidden asp-for="@Model.id" />
+                        <div class="row mb-2">
+                            <div class="form-floating col-6">
+                                <input type="text" class="form-control" asp-for="firstName" placeholder="Firstname">
+                                <label>FirstName</label>
+                                <div> <span asp-validation-for="firstName" class="text-danger"></span></div>
+                            </div>
+                            <div class="form-floating col-6">
+                                <input type="text" class="form-control" asp-for="lastName" placeholder="Lastname">
+                                <label>Lastname</label>
+                                <div> <span asp-validation-for="lastName" class="text-danger"></span></div>
+                            </div>
+                        </div>
+                        <div class="row mb-2">
+                            <div class="form-floating col-6">
+                                <input type="text" class="form-control" asp-for="email" placeholder="Firstname">
+                                <label>Email</label>
+                                <div> <span asp-validation-for="email" class="text-danger"></span></div>
+                            </div>
+                            <div class="form-floating col-6">
+                                <input type="date" class="form-control" asp-for="lastName" placeholder="Lastname">
+                                <label>Date Of Birth</label>
+                            
+                            </div>
+                        </div>
+                        <div class="row mb-2">
+                            <div class="col-6">
+                                Gender
+                                <div class="form-check form-check-inline">
+                                    <input class="form-check-input" type="radio" name="Gender" id="inlineRadio1" value="male" @(Model.Gender=="male" ? "checked" : "")>
+                                    <label class="form-check-label" for="inlineRadio1">Male</label>
+                                </div>
+                                <div> <span asp-validation-for="Gender" class="text-danger"></span></div>
+                                <div class="form-check form-check-inline">
+                                    <input class="form-check-input" type="radio" name="Gender" id="inlineRadio2" value="female" @(Model.Gender == "female" ? "checked" : "")>
+                                    <label class="form-check-label" for="inlineRadio2">female</label>
+                                </div>
+                                <div class="form-check form-check-inline">
+                                    <input class="form-check-input" type="radio" name="Gender" id="inlineRadio3" value="other" @(Model.Gender == "other" ? "checked" : "")>
+                                    <label class="form-check-label" for="inlineRadio3">Other</label>
+                                </div>
+                            </div>
+                            <div class="form-floating col-6">
+                                <input type="text" class="form-control" asp-for="phonenumber" placeholder="Lastname">
+                                <label>Phone Number</label>
+                            </div>
+                        </div>
+                        <div class="row mb-2">
+                            <div class="form-floating col-6 ">
+                                <select id="RegionTable" asp-for="country" class="w-100 border-none p-3">
+
+                                    <option disabled selected>Country</option>
+
+
+                                    <option value="India">India</option>
+
+
+                                </select>
+                                <div> <span asp-validation-for="country" class="text-danger"></span></div>
+                            </div>
+                            <div class="form-floating col-6 ">
+                                <select id="RegionTable" asp-for="cityid" class="w-100 border-none p-3">
+                                    @{
+                                        <option disabled selected>City</option>
+                                        foreach (var item in Model.Citylist)
+                                        {
+                                          
+
+
+                                            <option value="@item.CityId">@item.CityName</option>
+                                        }
+                                    }
+                                    <div> <span asp-validation-for="cityid" class="text-danger"></span></div>
+
+
+
+                                </select>
+                            </div>
+                        </div>
+
+
+
+
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-info text-white" id="submitCreateShift">Save</button>
+                    <button type="button" class="btn btn-outline-info" data-bs-dismiss="modal">Cancel</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+<script src="~/lib/jquery-validation/dist/jquery.validate.min.js"></script>
+<script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"></script>

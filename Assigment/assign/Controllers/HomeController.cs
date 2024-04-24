@@ -5,6 +5,7 @@ using DataLayer.ViewModels;
 using LogicLayer.Interface_patient;
 using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
+using Microsoft.AspNetCore.Mvc.RazorPages;
 
 namespace assign.Controllers
 {
@@ -14,7 +15,7 @@ namespace assign.Controllers
         private readonly HellodocPrjContext _context;
         private readonly IPatientRequest _PatientRequest;
 
-        public HomeController(ILogger<HomeController> logger,HellodocPrjContext context,IPatientRequest patientRequest)
+        public HomeController(ILogger<HomeController> logger, HellodocPrjContext context, IPatientRequest patientRequest)
         {
             _logger = logger;
             _context = context;
@@ -22,36 +23,67 @@ namespace assign.Controllers
         }
 
         public IActionResult Index()
-        { 
-
-           var data =_context.Users.ToList();
-           var temp= data.Select(x => new uservm()
-            {
-                firstname = x.Firstname,
-                lastname=x.Lastname
-            }).Where(x=>x.firstname=="dvsg").ToList();
-            return View(temp);
-         
-        }
-        public IActionResult PatientInfo()
         {
+
+
             return View();
+
         }
-        [HttpPost]
-        public IActionResult PatientInfoPage(PatientInfo model)
+        public IActionResult deleteuser(int userid)
         {
             try
             {
-                 _PatientRequest.InsertPatientRequestData(model);
-             
-                return RedirectToAction("Index", "Home");
+                _PatientRequest.Userdelete(userid);
+                TempData["success"] = "Deleted";
+                return RedirectToAction("Index");
             }
             catch (Exception)
             {
 
-                TempData["error"] = "Error while Request ";
-                return RedirectToAction("Index", "Home");
+                TempData["error"] = "Error";
+                return RedirectToAction("Index");
             }
+
+
+        }
+
+        public IActionResult usertable(string search, int page, int pageSize)
+        {
+            uservm uservm = new uservm();
+            uservm = _PatientRequest.getUserDat(search);
+            uservm.paginatedRequest = uservm.user.Skip((page - 1) * pageSize).Take(pageSize);
+            uservm.CurrentPage = page;
+            uservm.PageSize = pageSize;
+            uservm.TotalPages = Math.Ceiling((double)uservm.user.Count / pageSize);
+            uservm.total = uservm.user.Count;
+            return View(uservm);
+        }
+        public IActionResult Model(int id)
+        {
+            uservm uservm = new uservm();
+            if (id != 0) { uservm = _PatientRequest.getUser(id);  }
+
+            uservm.Citylist = _PatientRequest.getcity();
+            return PartialView("_model", uservm);
+        }
+        public IActionResult CreateUser(uservm model)
+        {
+            try
+            {
+                if(model.id != 0) { 
+                    _PatientRequest.Updateuser(model);
+                }
+                _PatientRequest.Adduser(model);
+                TempData["success"] = "User Created";
+                return RedirectToAction("Index");
+            }
+            catch (Exception ex)
+            {
+                TempData["error"] = ex.Message;
+                return RedirectToAction("Index");
+
+            }
+
 
 
         }

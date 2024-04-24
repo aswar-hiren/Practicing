@@ -558,9 +558,10 @@ opacity: 1;
 }
 .schedulereq tr td {
     height: 50px;
-    width: 600px;
+    width: 20px;
    
 }
+
 .schedulereq tr{
     border-bottom:1px solid black;
 }

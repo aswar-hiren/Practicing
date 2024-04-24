@@ -1,4 +1,5 @@
 ﻿using DataLayer.Models;
+using DataLayer.ViewModel;
 using DataLayer.ViewModels;
 using System;
 using System.Collections.Generic;
@@ -10,6 +11,11 @@ namespace LogicLayer.Interface_patient
 {
     public  interface IPatientRequest
     {
-       public void InsertPatientRequestData(PatientInfo model );
+        public uservm getUserDat(string search);
+        public void Adduser(uservm model);
+        public List<City> getcity();
+        public void Userdelete(int id);
+        public uservm getUser(int id);
+        public void Updateuser(uservm model);
     }
 }

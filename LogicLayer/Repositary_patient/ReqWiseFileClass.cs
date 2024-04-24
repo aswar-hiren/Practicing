@@ -1,12 +1,7 @@
 ﻿using DataLayer.DataContext;
 using DataLayer.Models;
 using LogicLayer.Interface_patient;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using static Microsoft.AspNetCore.Hosting.Internal.HostingApplication;
+
 
 namespace LogicLayer.Repositary_patient
 {

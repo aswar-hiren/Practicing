@@ -29,6 +29,49 @@ namespace assign.Controllers
             return View();
 
         }
+
+
+        public IActionResult usertable(string search, int page, int pageSize)
+        {
+            uservm uservm = new uservm();
+            uservm = _PatientRequest.getUserDat(search);
+            uservm.paginatedRequest = uservm.user.Skip((page - 1) * pageSize).Take(pageSize);
+            uservm.CurrentPage = page;
+            uservm.PageSize = pageSize;
+            uservm.TotalPages = Math.Ceiling((double)uservm.user.Count / pageSize);
+            uservm.total = uservm.user.Count;
+            return View(uservm);
+        }
+        public IActionResult Model(int id)
+        {
+            uservm uservm = new uservm();
+            if (id != 0) { uservm = _PatientRequest.getUser(id); }
+
+            uservm.Citylist = _PatientRequest.getcity();
+            return PartialView("_model", uservm);
+        }
+        public IActionResult CreateUser(uservm model)
+        {
+            try
+            {
+                if (model.id != 0)
+                {
+                    _PatientRequest.Updateuser(model);
+                }
+                _PatientRequest.Adduser(model);
+                TempData["success"] = "User Created";
+                return RedirectToAction("Index");
+            }
+            catch (Exception ex)
+            {
+                TempData["error"] = ex.Message;
+                return RedirectToAction("Index");
+
+            }
+
+
+
+        }
         public IActionResult deleteuser(int userid)
         {
             try
@@ -46,48 +89,6 @@ namespace assign.Controllers
 
 
         }
-
-        public IActionResult usertable(string search, int page, int pageSize)
-        {
-            uservm uservm = new uservm();
-            uservm = _PatientRequest.getUserDat(search);
-            uservm.paginatedRequest = uservm.user.Skip((page - 1) * pageSize).Take(pageSize);
-            uservm.CurrentPage = page;
-            uservm.PageSize = pageSize;
-            uservm.TotalPages = Math.Ceiling((double)uservm.user.Count / pageSize);
-            uservm.total = uservm.user.Count;
-            return View(uservm);
-        }
-        public IActionResult Model(int id)
-        {
-            uservm uservm = new uservm();
-            if (id != 0) { uservm = _PatientRequest.getUser(id);  }
-
-            uservm.Citylist = _PatientRequest.getcity();
-            return PartialView("_model", uservm);
-        }
-        public IActionResult CreateUser(uservm model)
-        {
-            try
-            {
-                if(model.id != 0) { 
-                    _PatientRequest.Updateuser(model);
-                }
-                _PatientRequest.Adduser(model);
-                TempData["success"] = "User Created";
-                return RedirectToAction("Index");
-            }
-            catch (Exception ex)
-            {
-                TempData["error"] = ex.Message;
-                return RedirectToAction("Index");
-
-            }
-
-
-
-        }
-
         public IActionResult Privacy()
         {
             return View();

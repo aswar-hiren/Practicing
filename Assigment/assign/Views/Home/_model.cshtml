@@ -1,13 +1,13 @@
 ﻿@model DataLayer.ViewModel.uservm;
 <div class="modal fade" id="CreateShiftModal" tabindex="-1" aria-labelledby="CreateShiftModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered" style="width:1250px;">
+    <div class="modal-dialog modal-dialog-centered modal-lg" style="width:1250px;">
         <div class="modal-content">
             <div class="modal-header text-white" style="background-color:#572549">
-                <h1 class="modal-title fs-5" id="CreateShiftModalLabel">User From</h1>
-                <button type="button" class="btn-close text-white" data-bs-dismiss="modal" aria-label="Close" style="color:white;"></button>
+                <h1 class="modal-title fs-5" id="CreateShiftModalLabel">User Form</h1>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <form id="CreateShiftForm" asp-action="CreateUser" asp-controller="Home" method="post">
-                <div class="modal-body">
+                <div class="modal-body" >
                     <div class="col">
                         <input hidden asp-for="@Model.id" />
                         <div class="row mb-2">
@@ -42,7 +42,7 @@
                                     <input class="form-check-input" type="radio" name="Gender" id="inlineRadio1" value="male" @(Model.Gender=="male" ? "checked" : "")>
                                     <label class="form-check-label" for="inlineRadio1">Male</label>
                                 </div>
-                                <div> <span asp-validation-for="Gender" class="text-danger"></span></div>
+                            
                                 <div class="form-check form-check-inline">
                                     <input class="form-check-input" type="radio" name="Gender" id="inlineRadio2" value="female" @(Model.Gender == "female" ? "checked" : "")>
                                     <label class="form-check-label" for="inlineRadio2">female</label>
@@ -55,6 +55,7 @@
                             <div class="form-floating col-6">
                                 <input type="text" class="form-control" asp-for="phonenumber" placeholder="Lastname">
                                 <label>Phone Number</label>
+                                <div> <span asp-validation-for="phonenumber" class="text-danger"></span></div>
                             </div>
                         </div>
                         <div class="row mb-2">
@@ -96,8 +97,8 @@
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button type="submit" class="btn btn-info text-white" id="submitCreateShift">Save</button>
-                    <button type="button" class="btn btn-outline-info" data-bs-dismiss="modal">Cancel</button>
+                    <button type="submit" class="btn text-white "  style="background-color:#572549" id="submitCreateShift">Save</button>
+                    <button type="button" class="btn  fw-bolder " style="border:1px solid #572549; color:#572549" data-bs-dismiss="modal">Cancel</button>
                 </div>
             </form>
         </div>

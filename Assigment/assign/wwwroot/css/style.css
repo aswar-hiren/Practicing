@@ -561,7 +561,10 @@ opacity: 1;
     width: 20px;
    
 }
-
+.modal-ku {
+    width: 750px;
+    margin: auto;
+}
 .schedulereq tr{
     border-bottom:1px solid black;
 }

@@ -35,12 +35,12 @@
         $.ajax({
             url: "/Home/usertable",
             type: "POST",
-            data: { search: searchdata,page:1,pageSize:7 },
+            data: { search: searchdata,page:1,pageSize:11 },
             dataType: "html",
             success: function (data) {
                 $("#providerContent").html(data);
                 page = 1;
-                pageSize = 7;
+                pageSize = 11;
             },
             error: function (error) {
 

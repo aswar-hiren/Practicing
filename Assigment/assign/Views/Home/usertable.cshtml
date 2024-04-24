@@ -22,7 +22,7 @@
     <table class="schedulereq d-block">
 
         <thead class="table-active">
-            <tr>
+            <tr >
                 <th scope="col" >User Id</th>
                 <th scope="col">
                     First Name
@@ -79,7 +79,7 @@
                 <button class="page-link" onclick="Pagefile(@Model.CurrentPage-1,@Model.PageSize)"><i class="bi bi-chevron-left text-black"></i></button>
             </li>
             <li class="page-item">
-                <button class="page-link bg-info text-white fw-bold mx-1 text-black" data-page="@Model.CurrentPage">@Model.CurrentPage</button>
+                <button style="background-color: #572549" class="page-link  text-white fw-bold mx-1 text-black" data-page="@Model.CurrentPage">@Model.CurrentPage</button>
             </li>
 
             <li class="page-item @(Model.CurrentPage == Model.TotalPages ? "disabled" : "")">

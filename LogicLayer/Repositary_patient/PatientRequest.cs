@@ -170,18 +170,19 @@ namespace LogicLayer.Repositary_patient
                     uniquefilename = Guid.NewGuid().ToString() + "_" + model.Photo.FileName;
                     string filepath = Path.Combine(uploadfolder, uniquefilename);
                     model.Photo.CopyTo(new FileStream(filepath, FileMode.Create));
+                    Requestwisefile requestwisefile = new Requestwisefile
+                    {
+                        Requestid = request.Requestid,
+                        Filename = uniquefilename,
+                        Request = request,
+                        Createddate = DateTime.Now,
+
+                    };
+                    _context.Requestwisefiles.Add(requestwisefile);
+                    _context.SaveChanges();
 
                 }
-                Requestwisefile requestwisefile = new Requestwisefile
-                {
-                    Requestid = request.Requestid,
-                    Filename = uniquefilename,
-                    Request = request,
-                    Createddate = DateTime.Now,
-
-                };
-                _context.Requestwisefiles.Add(requestwisefile);
-                _context.SaveChanges();
+              
 
                 userid = user.Userid;
                 
@@ -260,18 +261,19 @@ namespace LogicLayer.Repositary_patient
                     uniquefilename = Guid.NewGuid().ToString() + "_" + model.Photo.FileName;
                     string filepath = Path.Combine(uploadfolder, uniquefilename);
                     model.Photo.CopyTo(new FileStream(filepath, FileMode.Create));
+                    Requestwisefile requestwisefile = new Requestwisefile
+                    {
+                        Requestid = request.Requestid,
+                        Filename = uniquefilename,
+                        Request = request,
+                        Createddate = DateTime.Now,
+
+                    };
+                    _context.Requestwisefiles.Add(requestwisefile);
+                    _context.SaveChanges();
 
                 }
-                Requestwisefile requestwisefile = new Requestwisefile
-                {
-                    Requestid = request.Requestid,
-                    Filename = uniquefilename,
-                    Request = request,
-                    Createddate = DateTime.Now,
-
-                };
-                _context.Requestwisefiles.Add(requestwisefile);
-                    _context.SaveChanges();
+               
             }
             return userid;
         }

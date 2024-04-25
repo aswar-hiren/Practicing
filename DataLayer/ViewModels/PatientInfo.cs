@@ -12,7 +12,11 @@ public partial class PatientInfo
     [Required]
     public string Details { get; set; }
     [Required]
+    [RegularExpression(@"^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[a-zA-Z]).{8,}$", ErrorMessage = "Please enter Minimum eight characters, at least one letter and one number.")]
+
     public string PasswordHash { get; set; }
+    [Required]
+    public string cPasswordHash { get; set; }
     [Required]
     public string LastName { get; set; }
     [Required]
@@ -41,4 +45,5 @@ public partial class PatientInfo
     public IFormFile
          Photo
     { get; set; }
+  
 }

@@ -16,6 +16,7 @@ namespace DataLayer.ViewModels
         public List<Adminregion> adminRegions { get; set; }
 
         [Required]
+        [RegularExpression(@"^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[a-zA-Z]).{8,}$", ErrorMessage = "Please enter Minimum eight characters, at least one letter and one number.")]
         public string Password { get; set; }
         [Required]
         public int RoleId { get; set; }

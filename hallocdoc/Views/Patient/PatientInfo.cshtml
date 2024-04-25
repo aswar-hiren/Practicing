@@ -110,9 +110,9 @@
                         </div>
                         <div class="col-sm-6">
                         <div class="form-floating mb-3  passfield" id="passwordFields2">
-                            <input type="password" asp-for="PasswordHash" class="form-control" id="" placeholder="name@example.com">
+                            <input type="password" asp-for="cPasswordHash" class="form-control" id="" placeholder="name@example.com">
                             <label for="">Confirm Password</label>
-                            <span asp-validation-for="PasswordHash" class="text-danger"></span>
+                            <span asp-validation-for="cPasswordHash" class="text-danger"></span>
                         </div>
                         </div>
                     </div>
@@ -181,12 +181,12 @@
 
                     </div>
                     <div class="row m-3">
-                        <h3 class="">(Optional) Upload Photo Or Document</h3>
+                        <h3 class="">Upload Photo Or Document</h3>
                     </div>
                     <div class="row m-2 p-2">
                         <div class="rounded-1 border-1 d-flex justify-content-between mb-5  ">
                             <div class="col">
-                                <input type="file" class="form-control py-3"  placeholder="Select File" aria-label="Username" asp-for="Photo">
+                                <input type="file" class="form-control py-3"  placeholder="Select File" aria-label="Username" asp-for="Photo" >
                             </div>
 
                             <button type="submit" class="text-info border-2 border-info py-2  bg-info text-white"><i class="bi bi-cloud-arrow-down text-white px-1 d-block d-sm-block d-md-block d-lg-none d-xl-none  "></i> <span class="d-none d-sm-none d-md-none d-lg-block d-xl-block "> Uploads</span> </button>

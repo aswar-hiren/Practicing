@@ -80,7 +80,7 @@ namespace hallocdoc.Controllers
                 catch (Exception)
                 {
 
-                    TempData["error"] = "Error WHile Send Mail  ";
+                    TempData["error"] = "Error WHile Send Mail";
                     return RedirectToAction("PatientLoginPage");
                 }
              
@@ -233,16 +233,23 @@ namespace hallocdoc.Controllers
         {
             try
             {
+                if(model.PasswordHash != null)
+                {
+                   if(model.PasswordHash != model.cPasswordHash)
+                    {
+                        throw new Exception("Password Not Matched");
+                    }
+                }
                 var userid = _PatientRequest.InsertPatientRequestData(model);
                 HttpContext.Session.SetInt32("userid", userid);
                 TempData["success"] = "Request Insert Successfully";
                 return RedirectToAction("Index", "Home");
             }
-            catch (Exception)
+            catch (Exception ex)
             {
 
-                TempData["error"] = "Error while Request ";
-                return RedirectToAction("Index", "Home");
+                TempData["error"] = ex.Message;
+                return RedirectToAction("PatientInfo");
             }
           
 
@@ -333,15 +340,19 @@ namespace hallocdoc.Controllers
         public IActionResult CreatePatientData(CreatePatientModel model)
         {
             try
-            {
+            {   if(model.passwordhash != model.confirmpass)
+                {
+                    throw new Exception("Password Not Matched");
+                }
+
                 _createPatientReq.AddPatient(model);
                 TempData["success"] = "Added Successfully";
                 return RedirectToAction("CreatePatient");
             }
-            catch (Exception)
+            catch (Exception ex)
             {
 
-                TempData["error"] = "Error While Added ";
+                TempData["error"] = ex.Message;
                 return RedirectToAction("CreatePatient");
             }
           

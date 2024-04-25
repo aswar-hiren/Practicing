@@ -26,6 +26,10 @@ namespace LogicLayer.Repositary_patient
         public void AddPatient(CreatePatientModel model)
         {
              var aspnetuser=_context.Aspnetusers.Where(u=>u.Email==model.Email).FirstOrDefault();
+            if(aspnetuser!=null)
+            {
+                throw new Exception("User Already Exist");
+            }
             if (aspnetuser==null) {
                 var userdata = _context.Requestclients.Where(u => u.Email == model.Email).FirstOrDefault();
                 Aspnetuser aspnetuser1 = new Aspnetuser

@@ -21,9 +21,11 @@ namespace DataLayer.ViewModels
         [Required]
         public int RoleId { get; set; }
         [Required]
+        [RegularExpression(@"^[a-zA-Z]{3,}$", ErrorMessage = "Please enter, at least three letter and only Charcter.")]
         public string Firstname { get; set; }
 
         [Required]
+        [RegularExpression(@"^[a-zA-Z]{3,}$", ErrorMessage = "Please enter, at least three letter and only Charcter.")]
         public string Lastname { get; set; }
 
         [RegularExpression(@"^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,10}$", ErrorMessage = "Your email address is not in a valid format. Example of correct format: joe.example@example.org")]
@@ -38,6 +40,7 @@ namespace DataLayer.ViewModels
         public string MedicalLicense { get; set; }
 
         [Required]
+        [RegularExpression(@"^\d{6,}$", ErrorMessage = "Please enter, at least 6 digits.")]
         public string NpiNumber { get; set; }
 
         public string? Address1 { get; set; }
@@ -45,18 +48,22 @@ namespace DataLayer.ViewModels
         public string? Address2 { get; set; }
 
         [Required]
+        [RegularExpression(@"^[a-zA-Z]{3,}$", ErrorMessage = "Please enter, at least three letter and only Charcter.")]
         public string City { get; set; }
 
         [Required]
         public int RegionId { get; set; }
 
         [Required]
+        [RegularExpression(@"^\d{6,}$", ErrorMessage = "Please enter, at least 6 digits.")]
         public string Zipcode { get; set; }
 
         [Required]
+        [RegularExpression(@"^[a-zA-Z]{3,}$", ErrorMessage = "Please enter, at least three letter and only Charcter.")]
         public string BusinessName { get; set; }
 
         [Required]
+
         public string BusinessWebsite { get; set; }
 
 

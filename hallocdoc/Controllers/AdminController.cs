@@ -16,6 +16,7 @@ using ClosedXML.Excel;
 using Newtonsoft.Json;
 using HalloDoc.Auth;
 using LogicLayer.Repositary_patient;
+using LogicLayer.Interface_Provider;
 
 namespace hallocdoc.Controllers
 {
@@ -28,7 +29,9 @@ namespace hallocdoc.Controllers
         private readonly IAdminRequest _adminrequest;
         private readonly IEmailsender _emailsender;
         private readonly IPatientRequest _PatientRequest;
-        public AdminController(ILogger<HomeController> logger, IPatientRequest patientRequest, IEmailsender emailsender, HellodocPrjContext context, IAdminRequest adminRequest, Microsoft.AspNetCore.Hosting.IHostingEnvironment hostingEnvironment)
+        private readonly IProviderPanel _Provider;
+
+        public AdminController(ILogger<HomeController> logger, IProviderPanel providerPanel, IPatientRequest patientRequest, IEmailsender emailsender, HellodocPrjContext context, IAdminRequest adminRequest, Microsoft.AspNetCore.Hosting.IHostingEnvironment hostingEnvironment)
         {
             this.hostingEnvironment = hostingEnvironment;
             _logger = logger;
@@ -36,6 +39,7 @@ namespace hallocdoc.Controllers
             _adminrequest = adminRequest;
             _emailsender = emailsender;
             _PatientRequest = patientRequest;
+            _Provider = providerPanel;
         }
         public IActionResult AccessPage()
         {
@@ -80,6 +84,30 @@ namespace hallocdoc.Controllers
           editProvidervm = _adminrequest.getphysician(phyid);
           //ViewBag.username = editProvidervm.Firstname + " " + editProvidervm.Lastname;
           return View("EditProvider",editProvidervm);
+
+        }
+        public IActionResult DownloadPro(int reqid)
+        {
+            var encounter = _Provider.Getencounter(reqid);
+            var filepath = Path.Combine(hostingEnvironment.WebRootPath, "Report", encounter.Report);
+            return File(System.IO.File.ReadAllBytes(filepath), "multipart/form-data", System.IO.Path.GetFileName(filepath));
+        }
+        public IActionResult deleteProvider(int phyid)
+        {
+            try
+            {
+                _adminrequest.deletePhy(phyid);
+                TempData["success"] = "Deleted Successfully";
+                return RedirectToAction("Provider");
+            }
+            catch (Exception)
+            {
+
+                TempData["error"] = "Error In Delete";
+                return RedirectToAction("EditProvider" ,new {phyid=phyid});
+            }
+          
+         
 
         }
         public IActionResult New(int page, int pageSize, int requestTypeId, string patientname, int regionId)
@@ -327,7 +355,13 @@ namespace hallocdoc.Controllers
             _context.Physicians.Update(physician);
             _context.SaveChanges();
         }
-        public void EditProviderPhoto(int physicianid, string base64string)        {            var physician = _context.Physicians.FirstOrDefault(u => u.Physicianid == physicianid);            physician.Photo = base64string;            _context.Physicians.Update(physician);            _context.SaveChanges();        }
+        public void EditProviderPhoto(int physicianid, string base64string)
+        {
+            var physician = _context.Physicians.FirstOrDefault(u => u.Physicianid == physicianid);
+            physician.Photo = base64string;
+            _context.Physicians.Update(physician);
+            _context.SaveChanges();
+        }
         public IActionResult SignPad(int phyid)
         {
             editProvidervm editProvidervm = new editProvidervm();
@@ -860,7 +894,8 @@ namespace hallocdoc.Controllers
                 throw;
             }
         }
-        public IActionResult UpdatedNotification(int physicianId, bool isChecked)        {
+        public IActionResult UpdatedNotification(int physicianId, bool isChecked)
+        {
             try
             {
                 _adminrequest.updateNotificationDetails(physicianId, isChecked);
@@ -872,7 +907,9 @@ namespace hallocdoc.Controllers
 
                 TempData["error"] = "Error While Notification Updated";
                 return Json(new { isChecked });
-            }                 }
+            }
+         
+        }
 
         public IActionResult mailsend(string email,string text)
         {
@@ -1019,7 +1056,59 @@ namespace hallocdoc.Controllers
             createShift.Region = _adminrequest.GetRegionForShift();
             return View(createShift);
         }
-            public IActionResult loadshift(string datestring, string sundaystring, string saturdaystring, string shifttype,int regionid)        {            DateTime date = DateTime.Parse(datestring);            DateTime sunday = DateTime.Parse(sundaystring);            DateTime saturday = DateTime.Parse(saturdaystring);            switch (shifttype)            {                case "month":                    MonthShiftModal monthShift = new MonthShiftModal();                    var totalDays = DateTime.DaysInMonth(date.Year, date.Month);                    var firstDayOfMonth = new DateTime(date.Year, date.Month, 1);                    var startDayIndex = (int)firstDayOfMonth.DayOfWeek;                    var dayceiling = (int)Math.Ceiling((float)(totalDays + startDayIndex) / 7);                    monthShift.daysLoop = (int)dayceiling * 7;                    monthShift.daysInMonth = totalDays;                    monthShift.firstDayOfMonth = firstDayOfMonth;                    monthShift.startDayIndex = startDayIndex;                    monthShift.shiftDetailsmodals = _adminrequest.ShiftDetailsmodal(date, sunday, saturday, "month");                    return PartialView("_monthWise", monthShift);                case "week":                    WeekShiftModal weekShift = new WeekShiftModal();                    weekShift.Physicians = _adminrequest.physicians(regionid);                    weekShift.shiftDetailsmodals = _adminrequest.ShiftDetailsmodal(date, sunday, saturday, "week");                    List<int> dlist = new List<int>();                    for (var i = 0; i < 7; i++)                    {                        var date12 = sunday.AddDays(i);                        dlist.Add(date12.Day);                    }                    weekShift.datelist = dlist.ToList();                    weekShift.dayNames = new string[] { "Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat" };                    return PartialView("_weekWise", weekShift);                case "day":                    DayShiftModal dayShift = new DayShiftModal();                    dayShift.Physicians = _adminrequest.physicians(regionid);                    dayShift.shiftDetailsmodals = _adminrequest.ShiftDetailsmodal(date, sunday, saturday, "day");                    dayShift.currentDate= date;                    return PartialView("_DayWise", dayShift);                default:                    return PartialView("_DayWise");            }
+    
+        public IActionResult loadshift(string datestring, string sundaystring, string saturdaystring, string shifttype,int regionid)
+        {
+            DateTime date = DateTime.Parse(datestring);
+            DateTime sunday = DateTime.Parse(sundaystring);
+            DateTime saturday = DateTime.Parse(saturdaystring);
+            switch (shifttype)
+            {
+                case "month":
+
+                    MonthShiftModal monthShift = new MonthShiftModal();
+                    var totalDays = DateTime.DaysInMonth(date.Year, date.Month);
+                    var firstDayOfMonth = new DateTime(date.Year, date.Month, 1);
+                    var startDayIndex = (int)firstDayOfMonth.DayOfWeek;
+                    var dayceiling = (int)Math.Ceiling((float)(totalDays + startDayIndex) / 7);
+                    monthShift.daysLoop = (int)dayceiling * 7;
+                    monthShift.daysInMonth = totalDays;
+                    monthShift.firstDayOfMonth = firstDayOfMonth;
+                    monthShift.startDayIndex = startDayIndex;
+                    monthShift.shiftDetailsmodals = _adminrequest.ShiftDetailsmodal(date, sunday, saturday, "month");
+                    return PartialView("_monthWise", monthShift);
+
+                case "week":
+
+                    WeekShiftModal weekShift = new WeekShiftModal();
+
+                    weekShift.Physicians = _adminrequest.physicians(regionid);
+                    weekShift.shiftDetailsmodals = _adminrequest.ShiftDetailsmodal(date, sunday, saturday, "week");
+
+                    List<int> dlist = new List<int>();
+
+                    for (var i = 0; i < 7; i++)
+                    {
+                        var date12 = sunday.AddDays(i);
+                        dlist.Add(date12.Day);
+                    }
+
+                    weekShift.datelist = dlist.ToList();
+                    weekShift.dayNames = new string[] { "Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat" };
+
+                    return PartialView("_weekWise", weekShift);
+
+                case "day":
+
+                    DayShiftModal dayShift = new DayShiftModal();
+                    dayShift.Physicians = _adminrequest.physicians(regionid);
+                    dayShift.shiftDetailsmodals = _adminrequest.ShiftDetailsmodal(date, sunday, saturday, "day");
+                    dayShift.currentDate= date;
+                    return PartialView("_DayWise", dayShift);
+
+                default:
+                    return PartialView("_DayWise");
+            }
 
         }
         public string GetPhysicianForCreateShift(int RegionId)

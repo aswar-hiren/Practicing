@@ -3,10 +3,24 @@
 }
 @model DataLayer.ViewModels.CloseCaseViewModel;
 
-<Partial name="_navbar" /><div class="bg-body-tertiary">    <div class="container  mx-auto">        <div class="d-flex mt-5 mb-4 justify-content-between ">            <p class="h4 fw-bold"> Close Case</p>            <a asp-controller="Admin" asp-action="MainPage">                <span class="border border-info text-info p-2 rounded-2">                    < Back                </span>            </a>        </div>        <div class="p-4 shadow  rounded">            <div class="bg-white ">                <p class="mb-0">Patient Name</p>                <div class="row justify-content-between">                    <div class="col-lg-4 col-sm-12">                        <p>                            <span class="text-info fs-4">@Model.firstName @Model.lastName</span>                            <span class="text-secondary fs-5">(DCSJCDK132)</span>                        </p>                    </div>                    <div class="col-lg-4 col-sm-12">                        <a class="btn border border-info text-info p-2 rounded-2">                            Create Invoice through QuickLabs                        </a>                    </div>                </div>            </div>            <p class="h5  my-3">Documents</p>            @*TABLE DIV*@            <div class="table-responsive">                <table class="table ">                    <thead class="">                        <tr class="table-secondary">                            <th scope="col" style="width: 50%">                            </th>                            <th scope="col">Upload Date<i class="bi bi-arrow-up"></i></th>                            <th scope="col">Actions</th>                        </tr>                    </thead>                    <tbody class="bg-white">                        @foreach (var item in Model.requestWiseFiles)
-                        {                            <tr>                                <td>@item.Filename</td>                                <td>@item.Createddate.ToString("MMM") @item.Createddate.ToString("dd"), @item.Createddate.ToString("yyyy")</td>                                <td>
-                                    <a class="btn btn-outline-info fw-bold download-btn" asp-action="Downloaddoc" asp-controller="Admin" asp-route-documentid="@item.Requestwisefileid">
-                                        <i class="bi bi-cloud-arrow-down"></i>                                    </a>                                </td>                            </tr>                        }                    </tbody>                </table>            </div>
+<Partial name="_navbar" /><div class="bg-body-tertiary">    <div class="container  mx-auto">        <div class="d-flex mt-5 mb-4 justify-content-between ">            <p class="h4 fw-bold"> Close Case</p>            <a asp-controller="Admin" asp-action="MainPage">                <span class="border border-info text-info p-2 rounded-2">                    < Back                </span>            </a>        </div>        <div class="p-4 shadow  rounded">            <div class="bg-white ">                <p class="mb-0">Patient Name</p>                <div class="row justify-content-between">                    <div class="col-lg-4 col-sm-12">                        <p>                            <span class="text-info fs-4">@Model.firstName @Model.lastName</span>                            <span class="text-secondary fs-5">(DCSJCDK132)</span>                        </p>                    </div>                    <div class="col-lg-4 col-sm-12">                        <a class="btn border border-info text-info p-2 rounded-2">                            Create Invoice through QuickLabs                        </a>                    </div>                </div>            </div>            <p class="h5  my-3">Documents</p>            @*TABLE DIV*@            <div class="table-responsive">                <table class="table ">                    <thead class="">                        <tr class="table-secondary">                            <th scope="col" style="width: 50%">                            </th>                                       <th scope="col">Actions</th>                        </tr>                    </thead>                    <tbody class="bg-white">
+                        @{
+                            if (Model.Encounter == null)
+                            {
+                                <tr></tr>
+                            }
+                            else
+                            {
+                                if (Model.Encounter.Isreport!.Get(0) == true)
+                                {
+                                    <tr>
+                                        <td>@Model.Encounter.Report</td>
+                                        <td><a asp-action="DownloadPro" asp-controller="Admin" asp-route-reqid=@Model.reqId class="btn-white text-info border-1 border-info  rounded-1 p-2"><i class="bi bi-cloud-arrow-down text-info  "></i></a></td>
+                                    </tr>
+                                }
+                            }
+                        }
+                    </tbody>                </table>            </div>
          
             @*FORM*@
             <form class="bg-white p-2 rounded"  asp-action="CloseCaseDetails" asp-route-reqid="@Model.reqId" asp-controller="Admin" id="closecaseform">

@@ -126,7 +126,7 @@
                                 <button type="button"  class="btn btn-info btn btn-info float-end me-3 mb-3 " onclick="assignmodel('@Model.Requestclient.Request.Requestid')" @(Model.Requestclient.Request.Status == 1 ? "" : "disabled")>Assign</button>
                             <button type="submit" class="btn btn-info btn btn-info float-end me-3 mb-3 "> <a asp-action="ViewNotes" asp-route-reqid="@Model.Requestclient.Request.Requestid"> ViewNotes</a></button>
 
-                            <button type="button" class="btn btn-danger float-end mb-3">Cancel</button>
+                            <button type="button" class="btn btn-danger float-end mb-3" @((Model.status==3 || Model.status==7 || Model.status==8) ? "disabled":"")>Cancel</button>
 
 
                         </div>

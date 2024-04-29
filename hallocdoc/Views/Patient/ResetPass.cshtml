@@ -63,7 +63,7 @@
 
 
                             </div>
-                            <span asp-validation-for="pass" class="text-danger " style="font:bolder"></span>
+                            <span asp-validation-for="confirmpass" class="text-danger " style="font:bolder"></span>
                             <div class="input-group mt-3">
 
                                 <input type="password" asp-for="confirmpass" class="form-control" placeholder="Confirm_Password" aria-label="Username"
@@ -108,3 +108,5 @@
 </body>
 
 </html>
+<script src="~/lib/jquery-validation/dist/jquery.validate.min.js"></script>
+<script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"></script>

@@ -5,16 +5,11 @@
 
 <div class=" m-0 p-0" id="allcontent">
     <div id="newcon"></div>
- 
     <Partial name="_navbar" /> 
-
     <div id="home" tabindex="0"> @Html.Partial("AdminDashBoard", Model) </div>
-
 </div>
     <script>
     $(document).ready(function () {
-
-       
         $('#redirectBtn').on('click', function () {
             // Show loader animation
             console.log("load");

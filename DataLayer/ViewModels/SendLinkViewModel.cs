@@ -16,6 +16,8 @@ namespace DataLayer.ViewModels
         [Required]
         public string mobile { get; set; }
         [Required]
+        [RegularExpression(@"^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,10}$", ErrorMessage = "Your email address is not in a valid format. Example of correct format: joe.example@example.org")]
+        [DataType(DataType.EmailAddress)]
         public string email { get; set; }
 
     }

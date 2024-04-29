@@ -113,14 +113,18 @@ namespace hallocdoc.Controllers
             var Aspid = HttpContext.Session.GetString("aspid");
             try
             {
+                if(model.pass != model.confirmpass)
+                {
+                    throw new Exception("Password Not Matched");
+                }
                 _resetPassword.ResetThepass(model, Aspid);
                 TempData["success"] = "password reset successfully";
                 return RedirectToAction("ResetPass", "Patient");
             }
-            catch (Exception)
+            catch (Exception ex)
             {
 
-                TempData["error"] = "Error while password reset ";
+                TempData["error"] = ex.Message;
                 return RedirectToAction("ResetPass", "Patient");
             }
      
@@ -504,7 +508,7 @@ namespace hallocdoc.Controllers
                 var filepath = Path.Combine(hostingEnvironment.WebRootPath, "uploads", filename.Filename);
                 return File(System.IO.File.ReadAllBytes(filepath), "multipart/form-data", System.IO.Path.GetFileName(filepath)); 
         }
-        [CustomAuthorize("user")]
+        [CustomAuthorize("user")]   
         public IActionResult DownLoadAll(viewdocumentmodel model, int requestid, int reqclientid)
         {
 

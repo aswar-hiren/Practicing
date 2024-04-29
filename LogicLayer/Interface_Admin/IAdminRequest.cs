@@ -128,6 +128,7 @@ namespace LogicLayer.Interface_Admin
         public Admin getadminone(string id);
         public List<Region> GetRegionForMd();
         public List<Physician> MdStatusDetails(int regionId);
+        public void deletePhy(int phyid);
 
 
     }

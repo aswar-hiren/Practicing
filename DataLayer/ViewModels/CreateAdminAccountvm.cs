@@ -21,14 +21,19 @@ namespace DataLayer.ViewModels
         public List<Role> Rolelist { get; set; }
 
         [Required]
+        [RegularExpression(@"^[a-zA-Z]{3,}$", ErrorMessage = "Please enter, at least three letter and only Charcter.")]
+
         public string Firstname { get; set; }
 
         [Required]
+        [RegularExpression(@"^[a-zA-Z]{3,}$", ErrorMessage = "Please enter, at least three letter and only Charcter.")]
         public string Lastname { get; set; }
 
         //[RegularExpression(@"^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,10}$", ErrorMessage = "Your email address is not in a valid format. Example of correct format: joe.example@example.org")]
         //[DataType(DataType.EmailAddress)]
         [Required]
+        [RegularExpression(@"^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,10}$", ErrorMessage = "Your email address is not in a valid format. Example of correct format: joe.example@example.org")]
+        [DataType(DataType.EmailAddress)]
         public string Email { get; set; }
 
         [Compare("Email", ErrorMessage = "Email & Confirm Email Should be match")]
@@ -46,13 +51,17 @@ namespace DataLayer.ViewModels
         public int RegionId { get; set; }
 
         [Required]
+        [RegularExpression(@"^[a-zA-Z]{3,}$", ErrorMessage = "Please enter, at least three letter and only Charcter.")]
         public string Address1 { get; set; }
-
+        [Required]
+        [RegularExpression(@"^[a-zA-Z]{3,}$", ErrorMessage = "Please enter, at least three letter and only Charcter.")]
         public string? Address2 { get; set; }
         [Required]
+        [RegularExpression(@"^[a-zA-Z]{3,}$", ErrorMessage = "Please enter, at least three letter and only Charcter.")]
         public string City { get; set; }
 
         [Required]
+        [RegularExpression(@"^\d{6,}$", ErrorMessage = "Please enter, at least 6 digits.")]
         public string Zipcode { get; set; }
 
         [Required(ErrorMessage = "Phone Number Required!")]

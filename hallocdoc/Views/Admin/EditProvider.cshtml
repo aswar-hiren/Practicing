@@ -400,7 +400,7 @@
                 <hr class="mt-2 p-0 text-dark border-3 border-dark fw-bold" />
                 <div class="col-12 d-flex justify-content-end mt-2 gap-2">
                     <button type="submit" class="btn btn-outline-info colorbtn bg-info text-white" id="adminprofileeditbtn2">Save</button>
-                    <button type="button" class="btn btn-outline-danger colorbtn bg-danger text-white" id="adminprofileeditbtn2">Delete Account</button>
+                    <a asp-action="deleteProvider" asp-route-phyid="@Model.phyid" type="button" class="btn btn-outline-danger colorbtn bg-danger text-white" id="adminprofileeditbtn2">Delete Account</a>
                 </div>
             </form>
 

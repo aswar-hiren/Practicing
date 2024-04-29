@@ -18,6 +18,8 @@ namespace DataLayer.ViewModels
         public string email { get; set; }
         public int reqId { get; set; }
         public int reqclientid { get; set; }
+        public int status { get; set; }
+        public Encounter Encounter { get; set; }
         
 
 
